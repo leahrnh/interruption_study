@@ -1,0 +1,66 @@
+h1 {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: #333333;
+}
+
+body {
+    position: absolute;
+    transition: .5s ease;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 14px;
+    color: #333333;
+    background-color: #FFFFFF;
+    background-image: url(img/kitchen/counter.png);
+    background-repeat: no-repeat;
+}
+
+
+button {
+    font-size: 18px;
+    width: 150px;
+    height: 150px;
+}
+
+#fridge {
+    position: absolute;
+    transition: .5s ease;
+    left: 1075px;
+    top: 200px;
+    width: 200px;
+    height: 513px;
+    background-image: url(img/kitchen/fridge.png);
+    background-repeat: no-repeat;
+}
+
+#stove {
+    position: absolute;
+    transition: .5s ease;
+    left: 825px;
+    top: 362px;
+    width: 250px;
+    height: 351px;
+    background-image: url(img/kitchen/stove.png);
+    background-repeat: no-repeat;
+}
+
+#sink {
+    position: absolute;
+    transition: .5s ease;
+    left: 475px;
+    top: 300px;
+    width: 150px;
+    height: 151px;
+    background-image: url(img/kitchen/sink.png);
+    background-repeat: no-repeat;
+}
+
+#test {
+    opacity: 0.1;
+    position: absolute;
+    transition: .5s ease;
+    left: 275px;
+    top: 300px;
+    width: 150px;
+    height: 151px;
+}
