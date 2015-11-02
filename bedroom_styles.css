@@ -1,0 +1,91 @@
+h1 {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: #333333;
+}
+
+body {
+    position: relative;
+    left: 30px;
+    top: 30px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 14px;
+    color: #333333;
+    background-color: #FFFFFF;
+}
+
+
+#picture {
+    position: relative;
+    left: 30px;
+    background: url(img/bedroom.png);
+    width: 1100px;
+    height: 429px;
+
+}
+
+button {
+    font-size: 18px;
+    opacity: 0.0;
+    position: absolute;
+}
+
+button:hover {
+    opacity: 0.6;
+}
+
+#chestleft {
+    left: 65px;
+    top: 120px;
+    width: 145px;
+    height: 260px;
+}
+
+#chestright {
+    left: 890px;
+    top: 120px;
+    width: 145px;
+    height: 260px;
+}
+
+#clock {
+    left: 300px;
+    top: 270px;
+    width: 30px;
+    height: 40px;
+}
+
+#phone {
+    left: 580px;
+    top: 270px;
+    width: 30px;
+    height: 40px;
+}
+
+#bed {
+    left: 340px;
+    top: 220px;
+    width: 230px;
+    height: 180px;
+}
+
+#window {
+    left: 355px;
+    top: 110px;
+    width: 200px;
+    height: 110px;
+}
+
+#mirror {
+    left: 750px;
+    top: 170px;
+    width: 60px;
+    height: 120px;
+}
+
+#luggage {
+    left: 900px;
+    top: 40px;
+    width: 120px;
+    height: 70px;
+}

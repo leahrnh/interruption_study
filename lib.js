@@ -163,7 +163,7 @@ function screenclear() {
 }
 
 function drawsnake() {
-  ctx.fillStyle = "#FFFFFF";
+  ctx.fillStyle = "#00CCFF";
   snake.forEach(function(p) {
     rect(p.x, p.y, dx, dy);
   })
