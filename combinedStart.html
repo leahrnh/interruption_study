@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+
+<title>MTurk Study</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="comboStyles.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="jquery-1.8.2.js"></script>
+<script type="text/javascript" src="lib.js"></script>
+<script type="text/javascript" src="game.js"></script>
+<style type="text/css"></style>
+</head>
+
+
+<body>
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+$("#bedroom_door").click(function() {
+$("#game").hide();
+$("#doors").hide();
+$("#bedroom").show();
+$("#back").show();
+});
+
+$("#kitchen_door").click(function() {
+$("#game").hide();
+$("#doors").hide();
+$("#kitchen").show();
+$("#back").show();
+});
+
+$("#livingroom_door").click(function() {
+$("#game").hide();
+$("#doors").hide();
+$("#livingroom").show();
+$("#back").show();
+});
+
+$("#bathroom_door").click(function() {
+$("#game").hide();
+$("#doors").hide();
+$("#bathroom").show();
+$("#back").show();
+});
+
+$("#back_button").click(function() {
+$("#game").show();
+$("#doors").show();
+$("#back").hide();
+$("#bathroom").hide();
+$("#kitchen").hide();
+$("#livingroom").hide();
+$("#bedroom").hide();
+});
+
+});
+
+</script>
+
+
+
+<div id="game">
+  <p>Play a classic game of Snake to get points.</p>
+  <p>When instructed by the notification system, complete other tasks
+  for alternative <br> sources of points</p>
+  <p>Game rules: Click the square to begin the game. Use arrow keys to
+move the "snake".<br>Try to eat as much "food" as possible without
+  hitting the edges or yourself</p>
+  <canvas id="canvas" width="400" height="400" onclick="gamerun()"
+  style="background-color: black; text-align: center;"></canvas>
+</div>
+
+<div id="doors">
+  <button class="door" id="bedroom_door" onClick="choose(1)">Bedroom</button>
+  <button class="door" id="kitchen_door" onClick="choose(1)">Kitchen</button>
+  <button class="door" id="livingroom_door" onClick="choose(1)">Living Room</button>
+  <button class="door" id="bathroom_door" onClick="choose(1)">Bathroom</button>
+</div>
+
+<div id="back">
+  <button class="backbutton" id="back_button" onClick="choose(1)">Return to game</button>
+</div>
+
+<div id="bedroom"  class="room">
+  <button class="roombutton" id="chestleft" onClick="choose(1)"></button>
+  <button class="roombutton" id="chestright" onClick="choose(1)"></button>
+  <button class="roombutton" id="clock_bedroom" onClick="choose(1)"></button>
+  <button class="roombutton" id="bed" onClick="choose(1)"></button>
+  <button class="roombutton" id="phone_bedroom" onClick="choose(1)"></button>
+  <button class="roombutton" id="window" onClick="choose(1)"></button>
+  <button class="roombutton" id="mirror" onClick="choose(1)"></button>
+  <button class="roombutton" id="luggage" onClick="choose(1)"></button>
+</div>
+
+<div id="kitchen"  class="room">
+  <button class="roombutton" id="dishwasher" onClick="choose(1)"></button>
+  <button class="roombutton" id="stove" onClick="choose(1)"></button>
+  <button class="roombutton" id="cuttingboard" onClick="choose(1)"></button>
+  <button class="roombutton" id="knife" onClick="choose(1)"></button>
+  <button class="roombutton" id="fridge" onClick="choose(1)"></button>
+  <button class="roombutton" id="freezer" onClick="choose(1)"></button>
+  <button class="roombutton" id="flowers" onClick="choose(1)"></button>
+  <button class="roombutton" id="microwave" onClick="choose(1)"></button>
+  <button class="roombutton" id="toaster" onClick="choose(1)"></button>
+  <button class="roombutton" id="kettle" onClick="choose(1)"></button>
+  <button class="roombutton" id="sink" onClick="choose(1)"></button>
+  <button class="roombutton" id="soap" onClick="choose(1)"></button>
+  <button class="roombutton" id="littlepot" onClick="choose(1)"></button>
+  <button class="roombutton" id="bigpot" onClick="choose(1)"></button>
+</div>
+
+<div id="livingroom"  class="room">
+  <button class="roombutton" id="clock_livingroom" onClick="choose(1)"></button>
+  <button class="roombutton" id="phone_livingroom" onClick="choose(1)"></button>
+  <button class="roombutton" id="fire" onClick="choose(1)"></button>
+  <button class="roombutton" id="pictureframe" onClick="choose(1)"></button>
+  <button class="roombutton" id="books" onClick="choose(1)"></button>
+  <button class="roombutton" id="speaker" onClick="choose(1)"></button>
+  <button class="roombutton" id="television" onClick="choose(1)"></button>
+</div>
+
+<div id="bathroom"  class="room">
+  <button class="roombutton" id="toilet" onClick="choose(1)"></button>
+  <button class="roombutton" id="shampoo" onClick="choose(1)"></button>
+  <button class="roombutton" id="bathtub" onClick="choose(1)"></button>
+  <button class="roombutton" id="bathrobe" onClick="choose(1)"></button>
+  <button class="roombutton" id="toothbrush" onClick="choose(1)"></button>
+  <button class="roombutton" id="hairdryer" onClick="choose(1)"></button>
+  <button class="roombutton" id="leftsink" onClick="choose(1)"></button>
+  <button class="roombutton" id="rightsink" onClick="choose(1)"></button>
+  <button class="roombutton" id="pills" onClick="choose(1)"></button>
+</div>
+
+
+
+
+</body></html>
