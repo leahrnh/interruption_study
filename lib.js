@@ -19,6 +19,10 @@ var food;
 
 var id;
 
+//monitor whether game is ongoing, paused, etc
+var inprogress = false;
+var paused = false;
+
 function init() {
   ctx = $('#canvas')[0].getContext("2d");
   WIDTH = $("#canvas").width();

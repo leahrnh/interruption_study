@@ -5,7 +5,7 @@
 
 <title>MTurk Study</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link href="comboStyles.css" rel="stylesheet" type="text/css">
+<link href="styles.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="jquery-1.8.2.js"></script>
 <script type="text/javascript" src="lib.js"></script>
 <script type="text/javascript" src="game.js"></script>
@@ -69,8 +69,11 @@ $("#bedroom").hide();
   <p>When instructed by the notification system, complete other tasks
   for alternative <br> sources of points</p>
   <p>Game rules: Click the square to begin the game. Use arrow keys to
-move the "snake".<br>Try to eat as much "food" as possible without
-  hitting the edges or yourself</p>
+  move the "snake".<br>
+  Try to eat as much "food" as possible without
+  hitting the edges or yourself<br>
+  Click to start, pause, or resume. If you navigate to a different
+  room, the state of the <br>game will persist.</p>
   <canvas id="canvas" width="400" height="400" onclick="gamerun()"
   style="background-color: black; text-align: center;"></canvas>
 </div>
