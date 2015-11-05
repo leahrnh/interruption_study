@@ -13,7 +13,8 @@ var dr = 10;
 var direction;
 
 var snake;
-var size;
+var size = 1;
+var gameScore = 0;
 
 var food;
 
@@ -22,6 +23,15 @@ var id;
 //monitor whether game is ongoing, paused, etc
 var inprogress = false;
 var paused = false;
+
+function setSize(_size) {
+    size = _size;
+    $('#canvas').trigger('updateGameScore', calculateScore(_size));
+}
+
+function calculateScore(num) {
+    return num;
+}
 
 function init() {
   ctx = $('#canvas')[0].getContext("2d");
@@ -32,7 +42,7 @@ function init() {
   newfood();
 
   direction = 0;
-  size = 1;
+  setSize(1);
 
   id = setInterval(step, 100);
 }
@@ -77,17 +87,21 @@ function collision(n) {
 }
 
 function newfood() {
-  var wcells = WIDTH/dx;
-  var hcells = HEIGHT/dy;
+    var wcells = WIDTH/dx;
+    var hcells = HEIGHT/dy;
+    
+    var randomx = Math.floor(Math.random()*wcells);
+    var randomy = Math.floor(Math.random()*hcells);
+    
+    food = Array();
+    food.x = randomx * dx;
+    food.y = randomy * dy;
+    food.r = dr;
+    setSize(size + 1);
+}
 
-  var randomx = Math.floor(Math.random()*wcells);
-  var randomy = Math.floor(Math.random()*hcells);
-
-  food = Array();
-  food.x = randomx * dx;
-  food.y = randomy * dy;
-  food.r = dr;
-  size = size+1;
+function getSize() {
+    return size;
 }
 
 function meal(n) {
@@ -141,9 +155,11 @@ function movesnake() {
 }
 
 function die() {
-  if (id) {
-    clearInterval(id);
-  }
+    if (id) {
+	clearInterval(id);
+	score = score + (size-1);
+	$('#canvas').trigger('updateScore', score);
+    }
 }
 
 function circle(x,y,r) {

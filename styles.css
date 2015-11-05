@@ -28,6 +28,16 @@ body {
     display: none;
 }
 
+#score {
+    position: absolute;
+    left: 330px;
+    top: 20px;
+    color: #FFFFFF;
+    font-size: 15px;
+    padding: 10px 20px 10px 20px;
+    background: #CC0000;
+}
+
 #bedroom {
     display: none;
     background: url(img/bedroom.png);
@@ -87,6 +97,9 @@ body {
 #bathroom_door {
     left: 900px;
     top: 450px;
+}
+
+#score {
 }
 
 
@@ -346,6 +359,13 @@ body {
     top: 250px;
     width: 80px;
     height: 160px;
+}
+
+#toiletbrush {
+    left: 25px;
+    top: 300px;
+    width: 25px;
+    height: 115px;
 }
 
 #shampoo {

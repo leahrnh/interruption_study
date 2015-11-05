@@ -9,6 +9,7 @@
 <script type="text/javascript" src="jquery-1.8.2.js"></script>
 <script type="text/javascript" src="lib.js"></script>
 <script type="text/javascript" src="game.js"></script>
+<script type="text/javascript" src="interruption.js"></script>
 <style type="text/css"></style>
 </head>
 
@@ -18,53 +19,60 @@
 
 <script type="text/javascript">
 
+$(document.body).on('updateGameScore', function (e, size) {
+  $("#size").text("Game Score: " + (size-1));
+});
+
+$(document.body).on('updateScore', function (e, score) {
+  $("#score").text("Total Score: " + score);
+});
+
+tasks();
+
+function showRoom(room) {
+$("#bedroom").toggle(room == 'bedroom');
+$("#kitchen").toggle(room == 'kitchen');
+$("#livingroom").toggle(room == 'livingroom');
+$("#bathroom").toggle(room == 'bathroom');
+ $("#game").toggle(room == 'game');
+ $("#doors").toggle(room == 'game');
+ $("#back").toggle(room != 'game');
+}
+
 $(document).ready(function(){
 
 $("#bedroom_door").click(function() {
-$("#game").hide();
-$("#doors").hide();
-$("#bedroom").show();
-$("#back").show();
+showRoom('bedroom');
 });
 
 $("#kitchen_door").click(function() {
-$("#game").hide();
-$("#doors").hide();
-$("#kitchen").show();
-$("#back").show();
+showRoom('kitchen');
 });
 
 $("#livingroom_door").click(function() {
-$("#game").hide();
-$("#doors").hide();
-$("#livingroom").show();
-$("#back").show();
+showRoom('livingroom');
 });
 
 $("#bathroom_door").click(function() {
-$("#game").hide();
-$("#doors").hide();
-$("#bathroom").show();
-$("#back").show();
+showRoom('bathroom');
 });
 
 $("#back_button").click(function() {
-$("#game").show();
-$("#doors").show();
-$("#back").hide();
-$("#bathroom").hide();
-$("#kitchen").hide();
-$("#livingroom").hide();
-$("#bedroom").hide();
+showRoom('game');
 });
 
 });
 
 </script>
 
-
+<div id="scorebox">
+  <p id="score">Total Score: 0</p>
+</div>
 
 <div id="game">
+  <p id="size">Game Score: 0</p>
+  <canvas id="canvas" width="400" height="400" onclick="gamerun()"
+  style="background-color: black; text-align: center;"></canvas>
   <p>Play a classic game of Snake to get points.</p>
   <p>When instructed by the notification system, complete other tasks
   for alternative <br> sources of points</p>
@@ -74,8 +82,6 @@ $("#bedroom").hide();
   hitting the edges or yourself<br>
   Click to start, pause, or resume. If you navigate to a different
   room, the state of the <br>game will persist.</p>
-  <canvas id="canvas" width="400" height="400" onclick="gamerun()"
-  style="background-color: black; text-align: center;"></canvas>
 </div>
 
 <div id="doors">
@@ -94,7 +100,7 @@ $("#bedroom").hide();
   <button class="roombutton" id="chestright" onClick="choose(1)"></button>
   <button class="roombutton" id="clock_bedroom" onClick="choose(1)"></button>
   <button class="roombutton" id="bed" onClick="choose(1)"></button>
-  <button class="roombutton" id="phone_bedroom" onClick="choose(1)"></button>
+  <button class="roombutton" id="phone_bedroom" onClick="phoneTouched()"></button>
   <button class="roombutton" id="window" onClick="choose(1)"></button>
   <button class="roombutton" id="mirror" onClick="choose(1)"></button>
   <button class="roombutton" id="luggage" onClick="choose(1)"></button>
@@ -109,7 +115,7 @@ $("#bedroom").hide();
   <button class="roombutton" id="freezer" onClick="choose(1)"></button>
   <button class="roombutton" id="flowers" onClick="choose(1)"></button>
   <button class="roombutton" id="microwave" onClick="choose(1)"></button>
-  <button class="roombutton" id="toaster" onClick="choose(1)"></button>
+  <button class="roombutton" id="toaster" onClick="toastTouched()"></button>
   <button class="roombutton" id="kettle" onClick="choose(1)"></button>
   <button class="roombutton" id="sink" onClick="choose(1)"></button>
   <button class="roombutton" id="soap" onClick="choose(1)"></button>
@@ -119,7 +125,7 @@ $("#bedroom").hide();
 
 <div id="livingroom"  class="room">
   <button class="roombutton" id="clock_livingroom" onClick="choose(1)"></button>
-  <button class="roombutton" id="phone_livingroom" onClick="choose(1)"></button>
+  <button class="roombutton" id="phone_livingroom" onClick="phoneTouched()"></button>
   <button class="roombutton" id="fire" onClick="choose(1)"></button>
   <button class="roombutton" id="pictureframe" onClick="choose(1)"></button>
   <button class="roombutton" id="books" onClick="choose(1)"></button>
@@ -128,7 +134,8 @@ $("#bedroom").hide();
 </div>
 
 <div id="bathroom"  class="room">
-  <button class="roombutton" id="toilet" onClick="choose(1)"></button>
+  <button class="roombutton" id="toiletbrush" onClick="toiletbrushTouched()"></button>
+  <button class="roombutton" id="toilet" onClick="toiletTouched()"></button>
   <button class="roombutton" id="shampoo" onClick="choose(1)"></button>
   <button class="roombutton" id="bathtub" onClick="choose(1)"></button>
   <button class="roombutton" id="bathrobe" onClick="choose(1)"></button>

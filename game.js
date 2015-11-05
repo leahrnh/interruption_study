@@ -24,7 +24,7 @@ function step(){
 
 function update() {
   if (!movesnake()) {
-    alert("you are dead. size: " + size);
+      alert("you are dead. Score: " + (size-1));
       die();
       inprogress = false;
   }
