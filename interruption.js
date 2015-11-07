@@ -1,130 +1,126 @@
 var score;
 
-var phone_touched;
-var phone_waiting;
-var toast_touched;
-var toast_waiting;
-var toiletbrush_touched;
-var toiletbrush_waiting;
-var toilet_touched;
-var toilet_waiting;
+//phone task
+var phone = new Object();
+phone.fail = "Too late: the phone stopped ringing.";
+phone.touched = false;
+phone.waiting = false;
+phone.time = 5000;
+phone.next = null;
+phone.last = phone;
 
+
+//toast task
+var toast = new Object();
+toast.fail = "Too late. The toast burned.";
+toast.touched = false;
+toast.waiting = false;
+toast.time = 5000;
+toast.next = null;
+toast.last = toast;
+
+
+//toilet cleaning tast
+var toilet = new Object();
+toilet.fail = null;
+toilet.touched = false;
+toilet.waiting = false;
+toilet.time = null;
+toilet.next = null;
+toilet.last = toilet;
+
+var toiletbrush = new Object();
+toiletbrush.fail = null;
+toiletbrush.touched = false;
+toiletbrush.waiting = false;
+toiletbrush.time = null;
+toiletbrush.next = toilet;
+toiletbrush.last = toilet;
+
+
+//dishwasher task
+var cabinet = new Object();
+cabinet.fail = "Too slow :(";
+cabinet.touched = false;
+cabinet.waiting = false;
+cabinet.time = null;
+cabinet.next = null;
+cabinet.last = cabinet;
+
+var dishwasher = new Object();
+dishwasher.fail = "Too slow :(";
+dishwasher.touched = false;
+dishwasher.waiting = false;
+dishwasher.time = 60000;
+dishwasher.next = cabinet;
+dishwasher.last = cabinet;
+
+
+//call different tasks at the appropriate time, with the appropriate initiation message
 function tasks() {
     score = 0;
-    window.setTimeout(phone, 3000);
-    window.setTimeout(toast, 60000);
-    window.setTimeout(toilet,30000);
+    window.setTimeout(function() {
+	task(phone, "The phone is ringing! Answer it!");
+    }, 3000);
+    window.setTimeout(function() {
+	task(toast, "The toast is ready! Get it before it burns!");
+    }, 20000);
+    window.setTimeout(function() {
+	task(toiletbrush, "At some point, make sure to clean the toilet.");
+    }, 60000);
+    window.setTimeout(function() {
+	task(dishwasher, "In the next minute, empty the dishwasher and put the plates in the cabinet.");
+    }, 120000);
 }
 
-/** Phone task */
-function phone() {
-    alert("The phone is ringing! Answer it!");
-    phone_touched = false;
-    phone_waiting = true;
-    window.setTimeout(checkPhone, 4000);
+//perform a task that begins with an object, using the specified initiation message
+function task(obj, msg) {
+    alert(msg);
+    obj.touched = false;
+    obj.waiting = true;
+    //if the object has a time specified, the task must happen within that amount time. Otherwise, it can happen at any point
+    if (obj.time!=null) {
+	setTimeout(function() {
+	    check(obj);
+	}, obj.time)
+    }
 }
-function phoneTouched() {
-    phone_touched = true;
-    checkPhone();
-}
-function checkPhone() {
-    if (phone_waiting) {
-	phone_waiting = false;
-	if (!phone_touched) {
-	    alert("Out of time to answer the phone");
+
+//basic interaction with an object
+//if it's waiting, then label it "touched"
+function touch(obj) {
+    if (obj.waiting) {
+	obj.touched = true;
+	//if it's has a next object, initiate that one so that it's waiting
+	if (obj.next!=null) {
+	    obj.next.touched = false;
+	    obj.next.waiting = true;
 	} else {
-	    alert("Good job!");
-	    score = score + 10;
-	    $('#canvas').trigger('updateScore', score);
-	    phone_touched = false;
+	    //if it doesn't have a next object, check this one and assign points
+	    check(obj);
 	}
     }
 }
 
-/** Toast task */
-function toast() {
-    alert("The toast is ready! Get it before it burns!");
-    toast_touched = false;
-    toast_waiting = true;
-    window.setTimeout(checkToast, 6000);
-}
-function toastTouched() {
-    toast_touched = true;
-    checkToast();
-}
-function checkToast() {
-    if (toast_waiting) {
-	toast_waiting = false;
-	if (!toast_touched) {
-	    alert("The toast burned.");
+//check an object, either because it's just been touched, or because its time has run out
+function check(obj) {
+    //we only care if it's waiting. otherwise a touch means nothing
+    if (obj.waiting) {
+	obj.waiting = false;
+	//if it's waiting and it's been touched and it has no next, give the player credit
+	if (obj.touched) {
+	    if (obj.next==null) {
+		alert("Good job!");
+		score = score + 10;
+		$('#canvas').trigger('updateScore', score);
+	    } else {
+		//if it has a next, we should check that instead
+		check(obj.next);
+	    }
+	    obj.touched = false;
 	} else {
-	    alert("Good job!");
-	    score = score + 10;
-	    $('#canvas').trigger('updateScore', score);
-	    toast_touched = false;
-	}
-    }
-}
-
-/** Toilet task */
-function toilet() {
-    alert("At some point, make sure to clean the toilet.");
-    toiletbrush_touched = false;
-    toilet_touched = false;
-    toiletbrush_waiting = true;
-    toilet_waiting = false;
-}
-function toiletbrushTouched() {
-    if (toiletbrush_waiting) {
-	toiletbrush_touched = true;
-	toiletbrush_waiting = false;
-	toilet_waiting = true;
-    }
-}
-function toiletTouched() {
-    if (toilet_waiting) {
-	alert("Good job!");
-	score = score + 10;
-	$('#canvas').trigger('updateScore', score);
-	toilet_waiting = false;
-    }
-}
-
-/** Dishwaser task */
-function dishwasher() {
-    alert("In the next couple of minutes, empty the dishwasher and put the plates in the cabinet.");
-    dishwasher_touched = false;
-    plates_touched = false;
-    dishwasher_waiting = true;
-    plates_waiting = false;
-    window.setTimeout(checkDishwasher, 120000);
-}
-function dishwasherTouched() {
-    if (dishwasher_waiting) {
-	dishwasher_touched = true;
-	dishwasher_waiting = false;
-	plates_waiting = true;
-    }
-}
-function platesTouched() {
-    if (plates_waiting) {
-	alert("Good job!");
-	score = score + 10;
-	$('#canvas').trigger('updateScore', score);
-	plates_waiting = false;
-    }
-}
-function checkDishwasher() {
-    
-    if (phone_waiting) {
-	phone_waiting = false;
-	if (!phone_touched) {
-	    alert("Out of time to answer the phone");
-	} else {
-	    alert("Good job!");
-	    score = score + 10;
-	    $('#canvas').trigger('updateScore', score);
-	    phone_touched = false;
+	    //if it's waiting but hasn't been touched, that's a fail
+	    alert (obj.fail);
 	}
     }
 }

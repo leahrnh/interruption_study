@@ -100,14 +100,15 @@ showRoom('game');
   <button class="roombutton" id="chestright" onClick="choose(1)"></button>
   <button class="roombutton" id="clock_bedroom" onClick="choose(1)"></button>
   <button class="roombutton" id="bed" onClick="choose(1)"></button>
-  <button class="roombutton" id="phone_bedroom" onClick="phoneTouched()"></button>
+  <button class="roombutton" id="phone_bedroom" onClick="touch(phone)"></button>
   <button class="roombutton" id="window" onClick="choose(1)"></button>
   <button class="roombutton" id="mirror" onClick="choose(1)"></button>
   <button class="roombutton" id="luggage" onClick="choose(1)"></button>
 </div>
 
 <div id="kitchen"  class="room">
-  <button class="roombutton" id="dishwasher" onClick="choose(1)"></button>
+  <button class="roombutton" id="dishwasher" onClick="touch(dishwasher)"></button>
+  <button class="roombutton" id="cabinet" onClick="touch(cabinet)"></button>
   <button class="roombutton" id="stove" onClick="choose(1)"></button>
   <button class="roombutton" id="cuttingboard" onClick="choose(1)"></button>
   <button class="roombutton" id="knife" onClick="choose(1)"></button>
@@ -115,7 +116,7 @@ showRoom('game');
   <button class="roombutton" id="freezer" onClick="choose(1)"></button>
   <button class="roombutton" id="flowers" onClick="choose(1)"></button>
   <button class="roombutton" id="microwave" onClick="choose(1)"></button>
-  <button class="roombutton" id="toaster" onClick="toastTouched()"></button>
+  <button class="roombutton" id="toaster" onClick="touch(toast)"></button>
   <button class="roombutton" id="kettle" onClick="choose(1)"></button>
   <button class="roombutton" id="sink" onClick="choose(1)"></button>
   <button class="roombutton" id="soap" onClick="choose(1)"></button>
@@ -125,7 +126,7 @@ showRoom('game');
 
 <div id="livingroom"  class="room">
   <button class="roombutton" id="clock_livingroom" onClick="choose(1)"></button>
-  <button class="roombutton" id="phone_livingroom" onClick="phoneTouched()"></button>
+  <button class="roombutton" id="phone_livingroom" onClick="touch(phone)"></button>
   <button class="roombutton" id="fire" onClick="choose(1)"></button>
   <button class="roombutton" id="pictureframe" onClick="choose(1)"></button>
   <button class="roombutton" id="books" onClick="choose(1)"></button>
@@ -134,8 +135,8 @@ showRoom('game');
 </div>
 
 <div id="bathroom"  class="room">
-  <button class="roombutton" id="toiletbrush" onClick="toiletbrushTouched()"></button>
-  <button class="roombutton" id="toilet" onClick="toiletTouched()"></button>
+  <button class="roombutton" id="toiletbrush" onClick="touch(toiletbrush)"></button>
+  <button class="roombutton" id="toilet" onClick="touch(toilet)"></button>
   <button class="roombutton" id="shampoo" onClick="choose(1)"></button>
   <button class="roombutton" id="bathtub" onClick="choose(1)"></button>
   <button class="roombutton" id="bathrobe" onClick="choose(1)"></button>

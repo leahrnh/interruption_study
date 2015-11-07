@@ -261,6 +261,13 @@ body {
     height: 152px;
 }
 
+#cabinet {
+    left: 510px;
+    top: 35px;
+    width: 85px;
+    height: 120px;
+}
+
 #stove {
     left: 355px;
     top: 255px;
