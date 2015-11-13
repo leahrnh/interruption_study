@@ -1,28 +1,29 @@
 var score;
+var goodJob = new Audio('audio/good_job.m4a'); //"Good job"
+var tooLate = new Audio('audio/too_late.m4a'); //"Sorry. You're out of time."
 
 //phone task
 var phone = new Object();
-phone.fail = "Too late: the phone stopped ringing.";
+phone.prompt = new Audio('audio/phonePrompt.m4a'); //"The phone is ringing. Answer it."
 phone.touched = false;
 phone.waiting = false;
-phone.time = 5000;
+phone.time = 10000;
 phone.next = null;
 phone.last = phone;
 
 
 //toast task
 var toast = new Object();
-toast.fail = "Too late. The toast burned.";
+toast.prompt = new Audio('audio/toastPrompt.m4a'); //"The toast is ready! Get it before it burns!"
 toast.touched = false;
 toast.waiting = false;
-toast.time = 5000;
+toast.time = 10000;
 toast.next = null;
 toast.last = toast;
 
 
 //toilet cleaning tast
 var toilet = new Object();
-toilet.fail = null;
 toilet.touched = false;
 toilet.waiting = false;
 toilet.time = null;
@@ -30,7 +31,7 @@ toilet.next = null;
 toilet.last = toilet;
 
 var toiletbrush = new Object();
-toiletbrush.fail = null;
+toiletbrush.prompt = new Audio('audio/toiletPrompt.m4a'); //"At some point, make sure to clean the toilet."
 toiletbrush.touched = false;
 toiletbrush.waiting = false;
 toiletbrush.time = null;
@@ -40,7 +41,6 @@ toiletbrush.last = toilet;
 
 //dishwasher task
 var cabinet = new Object();
-cabinet.fail = "Too slow :(";
 cabinet.touched = false;
 cabinet.waiting = false;
 cabinet.time = null;
@@ -48,34 +48,33 @@ cabinet.next = null;
 cabinet.last = cabinet;
 
 var dishwasher = new Object();
-dishwasher.fail = "Too slow :(";
+dishwasher.prompt = new Audio('audio/dishwasherPrompt.m4a'); //"In the next minute, empty the dishwasher and put the plates in the cabinet."
 dishwasher.touched = false;
 dishwasher.waiting = false;
 dishwasher.time = 60000;
 dishwasher.next = cabinet;
 dishwasher.last = cabinet;
 
-
 //call different tasks at the appropriate time, with the appropriate initiation message
 function tasks() {
     score = 0;
     window.setTimeout(function() {
-	task(phone, "The phone is ringing! Answer it!");
-    }, 3000);
+	task(phone);
+    }, 6000);
     window.setTimeout(function() {
-	task(toast, "The toast is ready! Get it before it burns!");
+	task(toast);
+    }, 40000);
+    window.setTimeout(function() {
+	task(toiletbrush);
     }, 20000);
     window.setTimeout(function() {
-	task(toiletbrush, "At some point, make sure to clean the toilet.");
-    }, 60000);
-    window.setTimeout(function() {
-	task(dishwasher, "In the next minute, empty the dishwasher and put the plates in the cabinet.");
+	task(dishwasher);
     }, 120000);
 }
 
 //perform a task that begins with an object, using the specified initiation message
-function task(obj, msg) {
-    alert(msg);
+function task(obj) {
+    obj.prompt.play();
     obj.touched = false;
     obj.waiting = true;
     //if the object has a time specified, the task must happen within that amount time. Otherwise, it can happen at any point
@@ -110,7 +109,7 @@ function check(obj) {
 	//if it's waiting and it's been touched and it has no next, give the player credit
 	if (obj.touched) {
 	    if (obj.next==null) {
-		alert("Good job!");
+		goodjob.play();
 		score = score + 10;
 		$('#canvas').trigger('updateScore', score);
 	    } else {
@@ -120,7 +119,7 @@ function check(obj) {
 	    obj.touched = false;
 	} else {
 	    //if it's waiting but hasn't been touched, that's a fail
-	    alert (obj.fail);
+	    tooLate.play();
 	}
     }
 }

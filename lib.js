@@ -34,17 +34,18 @@ function calculateScore(num) {
 }
 
 function init() {
-  ctx = $('#canvas')[0].getContext("2d");
-  WIDTH = $("#canvas").width();
-  HEIGHT = $("#canvas").height();
-
-  createsnake();
-  newfood();
-
-  direction = 0;
-  setSize(1);
-
-  id = setInterval(step, 100);
+    ctx = $('#canvas')[0].getContext("2d");
+    WIDTH = $("#canvas").width();
+    HEIGHT = $("#canvas").height();
+    $("#dead").hide();
+    
+    createsnake();
+    newfood();
+    
+    direction = 0;
+    setSize(1);
+    
+    id = setInterval(step, 100);
 }
 
 function onKeyDown(evt) {
@@ -158,6 +159,7 @@ function die() {
     if (id) {
 	clearInterval(id);
 	score = score + (size-1);
+	$('#dead').show();
 	$('#canvas').trigger('updateScore', score);
     }
 }

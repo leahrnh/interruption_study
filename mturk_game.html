@@ -34,9 +34,10 @@ $("#bedroom").toggle(room == 'bedroom');
 $("#kitchen").toggle(room == 'kitchen');
 $("#livingroom").toggle(room == 'livingroom');
 $("#bathroom").toggle(room == 'bathroom');
- $("#game").toggle(room == 'game');
- $("#doors").toggle(room == 'game');
- $("#back").toggle(room != 'game');
+$("#game").toggle(room == 'game');
+$("#doors").toggle(room == 'game');
+$("#instructions").toggle(room == 'game');
+$("#back").toggle(room != 'game');
 }
 
 $(document).ready(function(){
@@ -73,15 +74,36 @@ showRoom('game');
   <p id="size">Game Score: 0</p>
   <canvas id="canvas" width="400" height="400" onclick="gamerun()"
   style="background-color: black; text-align: center;"></canvas>
-  <p>Play a classic game of Snake to get points.</p>
-  <p>When instructed by the notification system, complete other tasks
-  for alternative <br> sources of points</p>
-  <p>Game rules: Click the square to begin the game. Use arrow keys to
-  move the "snake".<br>
-  Try to eat as much "food" as possible without
-  hitting the edges or yourself<br>
-  Click to start, pause, or resume. If you navigate to a different
-  room, the state of the <br>game will persist.</p>
+  <p id="dead">You died! Click to restart.</p>
+</div>
+
+
+<div id="instructions">
+  <h2>Instructions</h2>
+  <p>You will be performing different activities, all of which will
+  contribute to your final Total Score.</p>
+
+  <h3>Snake</h3>
+  <p>Your first job is to play a game of Snake to get points.</p>
+  <p>Click the black box to start, pause, and restart the game. Use
+  the arrow keys to move the "snake". Try to "eat" as much red food as
+  possible without hitting the edges or yourself.</p>
+  <p>If you navigate to a different room, the state of the game will
+  persist even if you can't see it.</p>
+  
+  <h3>Tasks</h3>
+  <p>Every so often, the notification system will instruct you to
+  complete various household tasks. These tasks all involve clicking a
+  button or combination of buttons in the rooms of the
+  house. Completing the tasks will also give you points.</p>
+  <p>For example, if it says "microwave the frozen dinner," you would
+  have to go to the kitchen, click the freezer, and then click the
+  microwave. Part of the challenge if figuring out what to click and
+  in what order.</p>
+  <p>Different tasks will have different time limits. Some must happen
+  right away, some must happen in the next minute, and others can be
+  accomplished at any time. The notification will indicate how much
+  time you have.</p>
 </div>
 
 <div id="doors">

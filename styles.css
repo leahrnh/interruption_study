@@ -15,13 +15,23 @@ body {
 
 #game {
     position: absolute;
-    left: 330px;
+    left: 250px;
     top: 80px;
     width: 800px;
     height: 429px;
 }
 
+#instructions {
+    position: absolute;
+    left: 900px;
+    top: 50px;
+    width: 400px;
+}
+
 #doors {
+    position: absolute;
+    top: 75px;
+    left: 75px;
 }
 
 #back {
@@ -30,7 +40,7 @@ body {
 
 #score {
     position: absolute;
-    left: 330px;
+    left: 250px;
     top: 20px;
     color: #FFFFFF;
     font-size: 15px;
@@ -80,26 +90,31 @@ body {
 }
 
 #bedroom_door {
-    left: 100px;
-    top: 100px;
 }
 
 #kitchen_door {
-    left: 100px;
-    top: 450px;
+    top: 350px;
 }
 
 #livingroom_door {
-    left: 900px;
-    top: 100px;
+    left: 650px;
 }
 
 #bathroom_door {
-    left: 900px;
-    top: 450px;
+    left: 650px;
+    top: 350px;
 }
 
 #score {
+}
+
+#dead {
+    display: none;
+    color: #FF0000;
+    font-weight: bold;
+    position: absolute;
+    left: 100px;
+    top: 100px;
 }
 
 
