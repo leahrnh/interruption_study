@@ -3,67 +3,58 @@ var intro = new Audio('audio/intro.m4a'); //"Welcome! Today you be playing a gam
 var goodJob = new Audio('audio/good_job.m4a'); //"Good job"
 var tooLate = new Audio('audio/too_late.m4a'); //"Sorry. You're out of time."
 
-//phone task
-var phone = new Object();
-phone.prompt = new Audio('audio/phonePrompt.m4a'); //"The phone is ringing. Answer it."
-phone.touched = false;
-phone.waiting = false;
-phone.time = 40000;
-phone.next = null;
-phone.last = phone;
+var Item = function (siblings) {
+    this.touched = false;
+    this.waiting = false;
+    this.siblings = siblings;
+    siblings.push(this);
+}
 
+var dishwasherTaskObjs = [];
+var dishwasher = new Item(dishwasherTaskObjs);
+var cabinet = new Item(dishwasherTaskObjs);
 
-//toast task
-var toast = new Object();
-toast.prompt = new Audio('audio/toastPrompt.m4a'); //"The toast is ready! Get it before it burns!"
-toast.touched = false;
-toast.waiting = false;
-toast.time = 10000;
-toast.next = null;
-toast.last = toast;
+var phoneTaskObjs = [];
+var phone = new Item(phoneTaskObjs);
 
-//dishwasher task
-var cabinet = new Object();
-cabinet.touched = false;
-cabinet.waiting = false;
-cabinet.time = null;
-cabinet.next = null;
-cabinet.last = cabinet;
+var toastTaskObjs = [];
+var toast = new Item(toastTaskObjs);
 
-var dishwasher = new Object();
-dishwasher.prompt = new Audio('audio/dishwasherPrompt.m4a'); //"In the next minute, empty the dishwasher and put the plates in the cabinet."
-dishwasher.touched = false;
-dishwasher.waiting = false;
-dishwasher.time = 60000;
-dishwasher.next = cabinet;
-dishwasher.last = cabinet;
 
 //call different tasks at the appropriate time, with the appropriate initiation message
 function tasks() {
     score = 0;
-    intro.play();
+    //intro.play();
+    //task one: after 60s
     window.setTimeout(function() {
-	task(phone);
+	task(phoneTaskObjs, 20000, new Audio('audio/phonePrompt.m4a'));
+	//"The phone is ringing. Answer it."
+    }, 20000);
+    //task two: after another 40s
+    window.setTimeout(function() {
+	task(dishwasherTaskObjs, 60000, new Audio('audio/dishwasherPrompt.m4a'));
+	//"In the next minute, empty the dishwasher and put the plates in the cabinet."
+    }, 50000);
+    //tast three: after another 80s
+    window.setTimeout(function() {
+	task(toastTaskObjs, 20000, new Audio('audio/toastPrompt.m4a'));
+	//"The toast is ready! Get it before it burns!");
     }, 60000);
-    window.setTimeout(function() {
-	task(dishwasher);
-    }, 100000);
-    window.setTimeout(function() {
-	task(toast);
-    }, 180000);
     
 }
 
-//perform a task that begins with an object, using the specified initiation message
-function task(obj) {
-    obj.prompt.play();
-    obj.touched = false;
-    obj.waiting = true;
-    //if the object has a time specified, the task must happen within that amount time. Otherwise, it can happen at any point
-    if (obj.time!=null) {
+//perform a task that involves "touching" all the objects in the list in the given amount of time
+function task(objList, time, prompt) {
+    prompt.play();
+    for (var i=0; i<objList.length; i++) {
+	objList[i].touched = false;
+	objList[i].waiting = true;
+    }
+    //if there is a time specified, the task must happen within that amount time. Otherwise, it can happen at any point
+    if (time!=null) {
 	setTimeout(function() {
-	    check(obj);
-	}, obj.time)
+	    checkTimeout(objList);
+	}, time)
     }
 }
 
@@ -72,36 +63,39 @@ function task(obj) {
 function touch(obj) {
     if (obj.waiting) {
 	obj.touched = true;
-	//if it's has a next object, initiate that one so that it's waiting
-	if (obj.next!=null) {
-	    obj.next.touched = false;
-	    obj.next.waiting = true;
-	} else {
-	    //if it doesn't have a next object, check this one and assign points
-	    check(obj);
+	checkTouch(obj);
+    }
+}
+
+//check an object because it's been touched
+function checkTouch(obj) {
+    //if it's not waiting, we don't even care
+    if (obj.waiting) {
+	var objList = obj.siblings;
+	for (var i=0;i<objList.length;i++) {
+	    //if any of them were not touched, return and don't worry about going farther
+	    if (!objList[i].touched) {
+		return;
+	    }
+	}
+	//if we get to the end and they were all touched, give the user points, and make them all stop waiting
+	goodJob.play();
+	score = score + 10;
+	$('#canvas').trigger('updateScore', score);
+	for (var i=0;i<objList.length;i++) {
+	    objList[i].waiting = false;
 	}
     }
 }
 
-//check an object, either because it's just been touched, or because its time has run out
-function check(obj) {
-    //we only care if it's waiting. otherwise a touch means nothing
-    if (obj.waiting) {
-	obj.waiting = false;
-	//if it's waiting and it's been touched and it has no next, give the player credit
-	if (obj.touched) {
-	    if (obj.next==null) {
-		goodJob.play();
-		score = score + 10;
-		$('#canvas').trigger('updateScore', score);
-	    } else {
-		//if it has a next, we should check that instead
-		check(obj.next);
-	    }
-	    obj.touched = false;
-	} else {
-	    //if it's waiting but hasn't been touched, that's a fail
-	    tooLate.play();
+//check an object list because time is up
+function checkTimeout(objList) {
+    //if the objects are still waiting, then it means the person was too late
+    //if any are waiting, they should all be waiting
+    if (objList[0].waiting) {
+	tooLate.play();
+	for (var i=0;i<objList.length;i++) {
+	    objList[i].waiting = false;
 	}
     }
 }
