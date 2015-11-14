@@ -1,4 +1,5 @@
 var score;
+var intro = new Audio('audio/intro.m4a'); //"Welcome! Today you be playing a game. I’m here to give you notifications. Go ahead and read the instructions on the right, then get started. Have fun!"
 var goodJob = new Audio('audio/good_job.m4a'); //"Good job"
 var tooLate = new Audio('audio/too_late.m4a'); //"Sorry. You're out of time."
 
@@ -7,7 +8,7 @@ var phone = new Object();
 phone.prompt = new Audio('audio/phonePrompt.m4a'); //"The phone is ringing. Answer it."
 phone.touched = false;
 phone.waiting = false;
-phone.time = 10000;
+phone.time = 40000;
 phone.next = null;
 phone.last = phone;
 
@@ -20,24 +21,6 @@ toast.waiting = false;
 toast.time = 10000;
 toast.next = null;
 toast.last = toast;
-
-
-//toilet cleaning tast
-var toilet = new Object();
-toilet.touched = false;
-toilet.waiting = false;
-toilet.time = null;
-toilet.next = null;
-toilet.last = toilet;
-
-var toiletbrush = new Object();
-toiletbrush.prompt = new Audio('audio/toiletPrompt.m4a'); //"At some point, make sure to clean the toilet."
-toiletbrush.touched = false;
-toiletbrush.waiting = false;
-toiletbrush.time = null;
-toiletbrush.next = toilet;
-toiletbrush.last = toilet;
-
 
 //dishwasher task
 var cabinet = new Object();
@@ -58,18 +41,17 @@ dishwasher.last = cabinet;
 //call different tasks at the appropriate time, with the appropriate initiation message
 function tasks() {
     score = 0;
+    intro.play();
     window.setTimeout(function() {
 	task(phone);
-    }, 6000);
-    window.setTimeout(function() {
-	task(toast);
-    }, 40000);
-    window.setTimeout(function() {
-	task(toiletbrush);
-    }, 20000);
+    }, 60000);
     window.setTimeout(function() {
 	task(dishwasher);
-    }, 120000);
+    }, 100000);
+    window.setTimeout(function() {
+	task(toast);
+    }, 180000);
+    
 }
 
 //perform a task that begins with an object, using the specified initiation message
@@ -109,7 +91,7 @@ function check(obj) {
 	//if it's waiting and it's been touched and it has no next, give the player credit
 	if (obj.touched) {
 	    if (obj.next==null) {
-		goodjob.play();
+		goodJob.play();
 		score = score + 10;
 		$('#canvas').trigger('updateScore', score);
 	    } else {
