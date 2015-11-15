@@ -178,7 +178,7 @@ body {
     height: 260px;
 }
 
-#clock_bedroom {
+#alarmclock {
     left: 300px;
     top: 270px;
     width: 30px;
@@ -194,9 +194,23 @@ body {
 
 #bed {
     left: 340px;
-    top: 220px;
+    top: 310px;
     width: 230px;
-    height: 180px;
+    height: 90px;
+}
+
+#pillow1 {
+    left: 370px;
+    top: 260px;
+    width: 80px;
+    height: 50px;
+}
+
+#pillow2 {
+    left: 460px;
+    top: 260px;
+    width: 80px;
+    height: 50px;
 }
 
 #window {
@@ -223,7 +237,7 @@ body {
 
 /****** LIVING ROOM ******/
 
-#clock_livingroom {
+#grandfatherclock {
     left: 270px;
     top: 100px;
     width: 90px;
@@ -270,6 +284,20 @@ body {
     top: 170px;
     width: 90px;
     height: 40px;
+}
+
+#plant2 {
+    left: 145px;
+    top: 150px;
+    width: 50px;
+    height: 120px;   
+}
+
+#plant3 {
+    left: 995px;
+    top: 225px;
+    width: 55px;
+    height: 60px;
 }
 
 
@@ -325,7 +353,7 @@ body {
     height: 100px;
 }
 
-#flowers {
+#plant1 {
     left: 780px;
     top: 100px;
     width: 110px;
@@ -446,9 +474,30 @@ body {
     height: 40px;
 }
 
-#pills {
+#medicine {
     left: 540px;
     top: 230px;
     width: 20px;
     height: 40px;
+}
+
+#plant4 {
+    left: 50px;
+    top: 120px;
+    width: 60px;
+    height: 70px;
+}
+
+#plant5 {
+    left: 500px;
+    top: 30px;
+    width: 80px;
+    height: 80px;
+}
+
+#plant6 {
+    left: 1005px;
+    top: 85px;
+    width: 60px;
+    height: 70px;
 }

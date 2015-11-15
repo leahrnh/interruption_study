@@ -10,37 +10,81 @@ var Item = function (siblings) {
     siblings.push(this);
 }
 
-var dishwasherTaskObjs = [];
+//1. 1 thing, right now
+var phoneTaskObjs = []; //"The phone is ringing. Answer it."
+var phone = new Item(phoneTaskObjs);
+
+//5. multiple things, right now
+var chopTaskObjs = []; //"It's time get the vegetables from the fridge and chop them, and put them in the pot for dinner"
+var fridge = new Item(chopTaskObjs);
+var cuttingboard = new Item(chopTaskObjs);
+var knife = new Item(chopTaskObjs);
+var littlepot = new Item(chopTaskObjs);
+
+//6. 1 thing, soon
+var medicineTaskObjs = []; //"In the next two minutes, you need to take your medicine."
+var medicine = new Item(medicineTaskObjs);
+
+//3. multiple things, soon
+var dishwasherTaskObjs = []; //"In the next two minutes, empty the dishwasher and put the plates in the cabinet."
 var dishwasher = new Item(dishwasherTaskObjs);
 var cabinet = new Item(dishwasherTaskObjs);
 
-var phoneTaskObjs = [];
-var phone = new Item(phoneTaskObjs);
+//2. 1 thing, whenever
+var clockTaskObjs = []; //"At some point, be sure to wind the grandfather clock."
+var grandfatherclock = new Item(clockTaskObjs);
 
-var toastTaskObjs = [];
-var toast = new Item(toastTaskObjs);
+//4. multiple things, whenever
+var plantsTaskObjs = []; //At some point, make sure to water all the plants. There are 6 of them."
+var plant1 = new Item(plantsTaskObjs);
+var plant2 = new Item(plantsTaskObjs);
+var plant3 = new Item(plantsTaskObjs);
+var plant4 = new Item(plantsTaskObjs);
+var plant5 = new Item(plantsTaskObjs);
+var plant6 = new Item(plantsTaskObjs);
+
+//other future options
+//  Wash your hair, then comb and blowdry it.
+//  "At some point today, be sure to make the bed and fluff the pillows."
+//  "Right now, stoke the fire."
+//  "The toast is ready! Get it before it burns!");
 
 
 //call different tasks at the appropriate time, with the appropriate initiation message
 function tasks() {
     score = 0;
     //intro.play();
-    //task one: after 60s
+    
     window.setTimeout(function() {
 	task(phoneTaskObjs, 20000, new Audio('audio/phonePrompt.m4a'));
 	//"The phone is ringing. Answer it."
-    }, 20000);
-    //task two: after another 40s
-    window.setTimeout(function() {
-	task(dishwasherTaskObjs, 60000, new Audio('audio/dishwasherPrompt.m4a'));
-	//"In the next minute, empty the dishwasher and put the plates in the cabinet."
-    }, 50000);
-    //tast three: after another 80s
-    window.setTimeout(function() {
-	task(toastTaskObjs, 20000, new Audio('audio/toastPrompt.m4a'));
-	//"The toast is ready! Get it before it burns!");
-    }, 60000);
+    }, 3000);
     
+    window.setTimeout(function() {
+	task(chopTaskObjs, 20000, new Audio('audio/chopPrompt.m4a'));
+	//"It's time get the vegetables from the fridge and chop them, and put them in the pot for dinner"
+    }, 3000);
+    
+    window.setTimeout(function() {
+	task(medicineTaskObjs, 20000, new Audio('audio/medicinePrompt.m4a'));
+	//"In the next two minutes, you need to take your medicine."
+    }, 1000);
+    
+    window.setTimeout(function() {
+	task(dishwasherTaskObjs, 20000, new Audio('audio/dishwasherPrompt.m4a'));
+	//"In the next two minutes, empty the dishwasher and put the plates in the cabinet."
+    }, 1000);
+    
+    window.setTimeout(function() {
+	task(clockTaskObjs, 20000, new Audio('audio/clockPrompt.m4a'));
+	//"At some point, be sure to wind the grandfather clock."
+    }, 1000);
+    
+     window.setTimeout(function() {
+	 task(plantsTaskObjs, 20000, new Audio('audio/plantsPrompt.m4a'));
+	 //At some point, make sure to water all the plants. There are 6 of them."
+     }, 1000);
+
 }
 
 //perform a task that involves "touching" all the objects in the list in the given amount of time
