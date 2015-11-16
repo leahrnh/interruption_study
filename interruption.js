@@ -2,6 +2,7 @@ var score;
 var intro = new Audio('audio/intro.m4a'); //"Welcome! Today you be playing a game. I’m here to give you notifications. Go ahead and read the instructions on the right, then get started. Have fun!"
 var goodJob = new Audio('audio/good_job.m4a'); //"Good job"
 var tooLate = new Audio('audio/too_late.m4a'); //"Sorry. You're out of time."
+var almostDone = new Audio('audio/almost_done.m4a'); //"You have 1 more minute to play and finish any last tasks."
 
 var Item = function (siblings) {
     this.touched = false;
@@ -53,38 +54,67 @@ var plant6 = new Item(plantsTaskObjs);
 //call different tasks at the appropriate time, with the appropriate initiation message
 function tasks() {
     score = 0;
-    //intro.play();
+    intro.play();
+    
+    //1 minute for reading instructions and getting started
     
     window.setTimeout(function() {
-	task(phoneTaskObjs, 20000, new Audio('audio/phonePrompt.m4a'));
+	task(phoneTaskObjs, 10000, new Audio('audio/phonePrompt.m4a'));
 	//"The phone is ringing. Answer it."
-    }, 3000);
-    
-    window.setTimeout(function() {
-	task(chopTaskObjs, 20000, new Audio('audio/chopPrompt.m4a'));
-	//"It's time get the vegetables from the fridge and chop them, and put them in the pot for dinner"
-    }, 3000);
-    
-    window.setTimeout(function() {
-	task(medicineTaskObjs, 20000, new Audio('audio/medicinePrompt.m4a'));
-	//"In the next two minutes, you need to take your medicine."
-    }, 1000);
-    
-    window.setTimeout(function() {
-	task(dishwasherTaskObjs, 20000, new Audio('audio/dishwasherPrompt.m4a'));
-	//"In the next two minutes, empty the dishwasher and put the plates in the cabinet."
-    }, 1000);
-    
-    window.setTimeout(function() {
-	task(clockTaskObjs, 20000, new Audio('audio/clockPrompt.m4a'));
-	//"At some point, be sure to wind the grandfather clock."
-    }, 1000);
-    
-     window.setTimeout(function() {
-	 task(plantsTaskObjs, 20000, new Audio('audio/plantsPrompt.m4a'));
-	 //At some point, make sure to water all the plants. There are 6 of them."
-     }, 1000);
+    }, 60000);
 
+    //10s for doing the task
+    //15s for playing the game
+
+    window.setTimeout(function() {
+	task(clockTaskObjs, null, new Audio('audio/clockPrompt.m4a'));
+	//"At some point, be sure to wind the grandfather clock."
+    }, 85000);
+
+    //20s for playing the game
+
+    window.setTimeout(function() {
+	task(dishwasherTaskObjs, 60000, new Audio('audio/dishwasherPrompt.m4a'));
+	//"In the next minute, empty the dishwasher and put the plates in the cabinet."
+    }, 105000);
+
+    //60s for accomplishing this task
+    //10s for transitioning (?)
+
+    window.setTimeout(function() {
+	task(plantsTaskObjs, null, new Audio('audio/plantsPrompt.m4a'));
+	//At some point, make sure to water all the plants. There are 6 of them."
+    }, 175000);
+
+    //15s for playing the game
+    
+    window.setTimeout(function() {
+	task(chopTaskObjs, 10000, new Audio('audio/chopPrompt.m4a'));
+	//"It's time get the vegetables from the fridge and chop them, and put them in the pot for dinner"
+    }, 190000);
+
+    //10s for accomplishing the task
+    //20s for playing the game
+        
+    window.setTimeout(function() {
+	task(medicineTaskObjs, 60000, new Audio('audio/medicinePrompt.m4a'));
+	//"In the next minute, you need to take your medicine."
+    }, 220000);
+
+    //40s buffer
+
+    setTimeout(function() {
+	almostDone.play();
+    }, 260000);
+    
+    //20s till task time is up
+    //40s till game time is up
+    
+    setTimeout(function() {
+	var tot = score + size - 1;
+	alert("Time's up! Final score: " + tot);
+    }, 300000);
+    
 }
 
 //perform a task that involves "touching" all the objects in the list in the given amount of time
