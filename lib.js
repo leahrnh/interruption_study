@@ -74,13 +74,15 @@ function createsnake() {
 
 function collision(n) {
   // are we out of the playground?
-  if (n.x < 0 || n.x > WIDTH - 1 || n.y < 0 || n.y > HEIGHT - 1) {
-    return true;
-  }
-
+    if (n.x < 0 || n.x > WIDTH - 1 || n.y < 0 || n.y > HEIGHT - 1) {
+	_LTracker.push({'session': sessionID,'event': 'hit_edge','score': score,});
+	return true;
+    }
+    
   // are we eating ourselves?
   for (var i = 0; i < snake.length; i++) {
-    if (snake[i].x == n.x && snake[i].y == n.y) {
+      if (snake[i].x == n.x && snake[i].y == n.y) {
+	  _LTracker.push({'session': sessionID,'event': 'hit_self','score': score,});
       return true;
     }
   }
@@ -88,6 +90,7 @@ function collision(n) {
 }
 
 function newfood() {
+    _LTracker.push({'session': sessionID,'event': 'eat','score': score,});
     var wcells = WIDTH/dx;
     var hcells = HEIGHT/dy;
     
@@ -161,6 +164,7 @@ function die() {
 	score = score + (size-1);
 	$('#dead').show();
 	$('#canvas').trigger('updateScore', score);
+	_LTracker.push({'session': sessionID,'event': 'die','score': score,});
     }
 }
 

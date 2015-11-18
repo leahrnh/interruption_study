@@ -12,11 +12,17 @@
 <script type="text/javascript" src="interruption.js"></script>
 <style type="text/css"></style>
 </head>
-
-
 <body>
 
-
+<!-- Logging script -->
+<script type="text/javascript" src="http://cloudfront.loggly.com/js/loggly.tracker-2.1.min.js" async></script>
+<script>
+    var _LTracker = _LTracker || [];
+    _LTracker.push({'logglyKey': '08bf61ef-effa-4909-965a-5793ba2718fd',
+    'sendConsoleErrors' : true,
+    'tag' : 'interruption-study'  });
+</script>
+           
 <script type="text/javascript">
 
 $(document.body).on('updateGameScore', function (e, size) {
@@ -44,22 +50,55 @@ $(document).ready(function(){
 
 $("#bedroom_door").click(function() {
 showRoom('bedroom');
+
+_LTracker.push({
+'session': sessionID,
+'event': 'enter-bedroom',
+'score': score,
+});
 });
 
 $("#kitchen_door").click(function() {
 showRoom('kitchen');
+
+
+_LTracker.push({
+'session': sessionID,
+'event': 'enter-kitchen',
+'score': score,
+});
 });
 
 $("#livingroom_door").click(function() {
 showRoom('livingroom');
+
+_LTracker.push({
+'session': sessionID,
+'event': 'enter-livingroom',
+'score': score,
+});
 });
 
 $("#bathroom_door").click(function() {
 showRoom('bathroom');
+
+
+_LTracker.push({
+'session': sessionID,
+'event': 'enter-bathroom',
+'score': score,
+});
 });
 
 $("#back_button").click(function() {
 showRoom('game');
+
+
+_LTracker.push({
+'session': sessionID,
+'event': 'enter-gameroom',
+'score': score,
+});
 });
 
 });
