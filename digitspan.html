@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+
+<head>
+
+<title>Digitspan Task</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="digitspan_styles.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="jquery-1.8.2.js"></script>
+<script type="text/javascript" src="digitspan.js"></script>
+<script type="text/javascript" src="interruption.js"></script>
+<style type="text/css"></style>
+</head>
+
+<body>
+
+<!-- Logging script -->
+<script type="text/javascript" src="http://cloudfront.loggly.com/js/loggly.tracker-2.1.min.js" async></script>
+<script>
+    var _LTracker = _LTracker || [];
+    _LTracker.push({'logglyKey': '08bf61ef-effa-4909-965a-5793ba2718fd',
+    'sendConsoleErrors' : true,
+    'tag' : 'interruption-study'  });
+</script>
+
+<script type="text/javascript">
+
+$(document.body).on('showDigit', function (e, digit) {
+  $("#digit").text(digit);
+});
+
+$(document.body).on('showIteration', function (e, iteration) {
+  $("#iterText").text("Iteration number: " + iteration);
+});
+
+$(document.body).on('showLength', function (e, length) {
+  $("#lengthText").text("Sequence length: " + length);
+});
+
+$(document.body).on('showResult', function (e, result) {
+  $("#resultText").text(result);
+});
+
+$(document.body).on('changeButton', function (e, buttonName) {
+  $("#startButton").text(buttonName);
+});
+
+initiate();
+
+</script>
+
+<div id="intro">
+  
+<h1>Digit Span Task</h1>
+  <p> Remember the string of numbers and retype it when it's
+  finished. </p>
+  <p id="lengthText"> Sequence length: 3</p>
+  <p id="iterText"> Iteration number: 1 </p>
+  <button id="startButton" onClick="run()">Start</button>
+</div>
+
+<div id="digitDisplay">
+  <p id="digit"> </p>
+</div>
+
+<div id="entry">
+  Enter what you remember:<br>
+  <input type="text" id="guessbox">
+  <button onClick="calc()">Submit</button>
+</div>
+
+<div id="cont">
+  <a href="mturk_game.html" onclick="location.href=this.href+'?session='+sessionID;return false;">Continue</a>
+</div>
+
+
+<address></address>
+</body> </html>

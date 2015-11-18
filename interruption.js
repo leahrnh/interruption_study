@@ -53,14 +53,19 @@ var plant6 = new Item('plant6', plantsTaskObjs);
 //  "The toast is ready! Get it before it burns!");
 
 
+//
+function getSession(){
+    var locate = window.location.toString();
+    var point = locate.indexOf("=");
+    sessionID = locate.substring(point+1,locate.length);
+}
+
 //call different tasks at the appropriate time, with the appropriate initiation message
 function tasks() {
-    sessionID = getRandomInt(100000, 999999);
-    
     score = 0;
     _LTracker.push({
 	'session': sessionID,
-	'event': 'initiate',
+	'event': 'initiate-game',
 	'score': score,
 });
     intro.play();

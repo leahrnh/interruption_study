@@ -33,6 +33,8 @@ $(document.body).on('updateScore', function (e, score) {
   $("#score").text("Total Score: " + score);
 });
 
+getSession();
+
 tasks();
 
 function showRoom(room) {

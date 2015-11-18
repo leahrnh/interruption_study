@@ -1,0 +1,28 @@
+body {
+    position: relative;
+    left: 200px;
+}
+
+#intro {  
+}
+
+#digitdisplay {
+    position: relative;
+    left: 100px;
+    font-size: 20pt;
+    
+}
+
+#entry {
+    display: none;
+}
+
+#result {
+    display: none;
+    position: relative;
+    left: 50px;
+}
+
+#cont {
+    display: none;
+}
