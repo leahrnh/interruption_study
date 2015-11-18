@@ -160,6 +160,12 @@ function touch(obj) {
     }
 }
 
+//clicking on a button that doesn't have an associated object (ie. the wrong one)
+function falseTouch(name) {
+    var s = 'falseTouch_' + name
+    _LTracker.push({'session': sessionID,'event': s,'score': score,});
+}
+
 //check an object because it's been touched
 function checkTouch(obj) {
     //if it's not waiting, we don't even care

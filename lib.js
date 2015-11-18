@@ -54,7 +54,9 @@ function onKeyDown(evt) {
   // only lateral turns are allowed
   // (that is, no u-turns)
   if (newdir != direction && newdir != direction+2 && newdir != direction-2) {
-    direction = newdir;
+      direction = newdir;
+      var dirString = 'newDirection_' + direction;
+      _LTracker.push({'session': sessionID,'event': dirString,'score': score,});
   }
 }
 
