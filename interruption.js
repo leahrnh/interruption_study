@@ -134,7 +134,16 @@ function tasks() {
     setTimeout(function() {
 	_LTracker.push({'session': sessionID,'event': 'endOfSession','score': score,});
 	var tot = score + size - 1;
-	alert("Time's up! Final score: " + tot);
+	$('#game').hide();
+	$('#instructions').hide();
+	$('#doors').hide();
+	$('#back').hide();
+	$('#score').hide();
+	$('#bedroom').hide();
+	$('#kitchen').hide();
+	$('#livingroom').hide();
+	$('#bathroom').hide();
+	alert("Time's up! Thank you for participating. Your final score was " + tot);
     }, 300000);
     
 }
