@@ -28,7 +28,6 @@ function step(){
 function update() {
   if (!movesnake()) {
       die();
-      inprogress = false;
   }
 }
 

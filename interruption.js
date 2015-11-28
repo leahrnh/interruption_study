@@ -9,7 +9,7 @@ var almostDone = new Audio('audio/almost_done.m4a'); //"You have 1 more minute t
 
 var excuseMe = new Audio('audio/excuseMe.m4a'); //Excuse me!
 var preUrgentPrompt = new Audio('audio/urgent.m4a'); //Urgent!
-var preRelaxPrompt = new Audio('audop/relax.m4a'); //When you have a minute
+var preRelaxPrompt = new Audio('audio/relax.m4a'); //When you have a minute
 
 var Item = function (name, prompt_base, prompt_urgent, prompt_relax) {
     this.name = name;
@@ -53,6 +53,75 @@ function getSession(){
     sessionID = locate.substring(point+1,locate.length);
 }
 
+//wipe everything clean for a new round
+function newRound(notice) {
+    die();
+    score = 0;
+    $('#canvas').trigger('updateScore', score);
+    size = 1;
+    $('#size').trigger('updateGameScore', size);
+    $("#dead").hide();
+    $('#eor').show();  
+}
+
+//call different tasks at the appropriate time, with the appropriate initiation message
+function tasks() {
+
+    //init
+    _LTracker.push({'session': sessionID,'event': 'initiate_game','score': score,});
+    intro.play();
+    var time = 0;
+    score = 0;
+    time = time + 60000; //1 minute for reading instructions and getting started (and baseline game score?)
+
+    console.log("starting first task");
+   
+
+    window.setTimeout(function() {
+	alert("End of intro. Initial score: " + (score + size - 1));
+	newRound("Round one");
+	_LTracker.push({'session': sessionID,'event': 'endIntroRound','score': score,});
+	$('#canvas').trigger('updateScore', score);
+	startRound('NoPre', [bed, toaster, television, hairdryer, alarmclock, encyclopedia, stove, bathtub], ['urgent', 'urgent', 'relax', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
+    }, time);
+    
+    time = time + 300000; //5 minutes for a round
+    window.setTimeout(function() {
+	alert("Round Over. Final score " + (score + size - 1));
+	_LTracker.push({'session': sessionID,'event': 'endRound1','score': score,});
+	newRound("Round two");
+	$('#canvas').trigger('updateScore', score);
+	startRound('PreBase', [hairdryer, television, alarmclock, stove, bathtub, toaster, bed, encyclopedia], ['relax', 'relax', 'urgent', 'relax', 'urgent', 'relax', 'urgent', 'urgent']);
+    }, time);
+
+    time = time + 300000; //5 minutes for a round
+    window.setTimeout(function() {
+	alert("Round Over. Final score " + (score + size - 1));
+	_LTracker.push({'session': sessionID,'event': 'endRound2','score': score,});
+	newRound("Round three");
+	startRound('PreUrg', [alarmclock, hairdryer, bathtub, bed, television, toaster, encyclopedia, stove], ['urgent', 'relax', 'urgent', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
+    }, time);
+  
+    time = time + 300000; //5 minutes for a round
+    setTimeout(function() {
+	alert("Round Over. Final score " + (score + size - 1));
+	_LTracker.push({'session': sessionID,'event': 'endRound3','score': score,});
+	var tot = score + size - 1;
+	$('#game').hide();
+	$('#instructions').hide();
+	$('#doors').hide();
+	$('#back').hide();
+	$('#score').hide();
+	$('#bedroom').hide();
+	$('#kitchen').hide();
+	$('#livingroom').hide();
+	$('#bathroom').hide();
+	alert("Time's up! Thank you for participating.);
+    }, time);
+    
+}
+
+
 //start one round, with the appropriate settings
 //the lists should contain one of each object, and even numbers of urgencies (urgent or relaxed)
 function startRound(newMode, objectList, urgencyList) {
@@ -64,57 +133,15 @@ function startRound(newMode, objectList, urgencyList) {
     _LTracker.push({'session': sessionID,'event': status ,'score': score,});
     for (var i=0; i<objectList.length; i++) {
 	time = time + 30000;
-	window.setTimeout(function() {
-	    obj = objectList[i];
-	    urgLevel = urgencyList[i];
-	    task(obj, urgLevel);
-	}, time);
+	var obj = objectList[i];
+	var urgLevel = urgencyList[i];
+	window.setTimeout(task.bind(this, obj, urgLevel), time);
     }
-}
-
-//call different tasks at the appropriate time, with the appropriate initiation message
-function tasks() {
-
-    //init
-    _LTracker.push({'session': sessionID,'event': 'initiate_game','score': score,});
-    intro.play();
-    var time = 0;
-    time = time + 60000; //1 minute for reading instructions and getting started (and baseline game score?)
-
-    window.setTimeout(function() {
-	startRound('NoPre', [bed, toaster, television, hairdryer, alarmclock, encyclopedia, stove, bathtub], ['urgent', 'urgent', 'relax', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
-    }, time);
-    
-    time = time + 300000; //5 minutes for a round
-    window.setTimeout(function() {
-	startRound('PreBase', [hairdryer, television, alarmclock, stove, bathtub, toaster, bed, encyclopedia], ['relax', 'relax', 'urgent', 'relax', 'urgent', 'relax', 'urgent', 'urgent']);
-    }, time);
-
-    time = time + 300000; //5 minutes for a round
-    window.setTimeout(function() {
-	startRound('PreUrg', [alarmclock, hairdryer, bathtub, bed, television, toaster, encyclopedia, stove], ['urgent', 'relax', 'urgent', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
-    }, time);
-  
-    time = time + 300000;
-    setTimeout(function() {
-	_LTracker.push({'session': sessionID,'event': 'endOfSession','score': score,});
-	var tot = score + size - 1;
-	$('#game').hide();
-	$('#instructions').hide();
-	$('#doors').hide();
-	$('#back').hide();
-	$('#score').hide();
-	$('#bedroom').hide();
-	$('#kitchen').hide();
-	$('#livingroom').hide();
-	$('#bathroom').hide();
-	alert("Time's up! Thank you for participating. Your final score was " + tot);
-    }, time);
-    
 }
 
 //perform a task that involves the specified object in the specified amount of time
 function task(obj, urgency) {
+    console.log("task", obj, urgency);
 
     //decide how to play prompt it based on mode and urgency
     if (mode=='NoPre') {
@@ -131,7 +158,7 @@ function task(obj, urgency) {
 	}
 	window.setTimeout(function() {
 	    obj.base.play();
-	}, 10000);
+	}, 3000);
     }
     else if (mode=='PreBase') {
 	excuseMe.play()
@@ -141,24 +168,25 @@ function task(obj, urgency) {
 	    } else if (urgency =='relax') {
 		obj.relax.play();
 	    }
-	}, 10000);
+	}, 3000);
     }
-
 
     obj.waiting = true;
     obj.touched = false;
     
-    //if the task is urgent, it must happen within 30 seconds
+    //if the task is urgent, it must happen within 20 seconds
     if (urgency=='urgent') {
 	setTimeout(function() {
+	    console.log("checking" + obj.name);
 	    check(obj);
-	}, 30000);
+	}, 20000);
     }
 }
 
 //basic interaction with an object
 //if it's waiting, then label it "touched"
 function touch(obj) {
+    console.log("touched " + obj.name);
     var description = 'touch_' + obj.name;
     _LTracker.push({'session': sessionID,'event': description,'score': score,});
     if (obj.waiting) {

@@ -117,6 +117,15 @@ body {
     top: 100px;
 }
 
+#eor {
+    display: none;
+    color: #FF0000;
+    font-weight: bold;
+    position: absolute;
+    left: 100px;
+    top: 100px;
+}
+
 
 /******* ROOM SCREENS (GENERAL) *****/
 
@@ -272,7 +281,7 @@ body {
     height: 100px;
 }
 
-#books {
+#encyclopedia {
     left: 970px;
     top: 155px;
     width: 75px;

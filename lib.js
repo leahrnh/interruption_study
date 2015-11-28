@@ -38,6 +38,7 @@ function init() {
     WIDTH = $("#canvas").width();
     HEIGHT = $("#canvas").height();
     $("#dead").hide();
+    $('#eor').hide();
     
     createsnake();
     newfood();
@@ -168,6 +169,7 @@ function die() {
 	$('#canvas').trigger('updateScore', score);
 	_LTracker.push({'session': sessionID,'event': 'die','score': score,});
     }
+    inprogress = false;
 }
 
 function circle(x,y,r) {
