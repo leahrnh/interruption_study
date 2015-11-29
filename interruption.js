@@ -116,7 +116,7 @@ function tasks() {
 	$('#kitchen').hide();
 	$('#livingroom').hide();
 	$('#bathroom').hide();
-	alert("Time's up! Thank you for participating.);
+	alert("Time's up! Thank you for participating.");
     }, time);
     
 }
