@@ -17,7 +17,6 @@ function run() {
     index = length;
     truth = "";
     $("#startButton").hide();
-    $('#intro').trigger('showIteration', iteration);
     interval = setInterval(function() {
 	nextDigit();
     }, 1000);
@@ -52,18 +51,23 @@ function calc() {
     $("#entry").hide();
     $('#guessbox').val('');
     $("#startButton").show();
-    if (guess!=truth) {
+    /*if (guess!=truth) {
 	wrong++;
 	$('#digitDisplay').trigger('showDigit', "Incorrect. You said " + guess + " but the answer was " + truth);
     } else {
 	$('#digitDisplay').trigger('showDigit', "Correct!");
+	}*/
+    if (guess!=truth) {
+	wrong++;
     }
+    $('#digitDisplay').trigger('showDigit', "");
     truth="";
     if (wrong > 1) {
 	var score = length - 1;
 	var scoreString = 'digitSpanScore_' + score;
 	_LTracker.push({'session': sessionID,'event':scoreString,'score': 0,});
-	$('#digitDisplay').trigger('showDigit', "Your digit span score is: " + score);
+	//$('#digitDisplay').trigger('showDigit', "Your digit span score is: " + score);
+	$('#digitDisplay').trigger('showDigit', "");
 	$("#startButton").hide();
 	$("#cont").show();
     }

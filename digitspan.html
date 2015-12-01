@@ -29,10 +29,6 @@ $(document.body).on('showDigit', function (e, digit) {
   $("#digit").text(digit);
 });
 
-$(document.body).on('showIteration', function (e, iteration) {
-  $("#iterText").text("Iteration number: " + iteration);
-});
-
 $(document.body).on('showLength', function (e, length) {
   $("#lengthText").text("Sequence length: " + length);
 });
@@ -52,10 +48,13 @@ initiate();
 <div id="intro">
   
 <h1>Digit Span Task</h1>
-  <p> Remember the string of numbers and retype it when it's
-  finished. </p>
+  <p> You will be presented with a series of numbers. Remember them as
+  well as possible, and then enter them in the box at the end.</p>
+  <p> Each sequence length will be presented twice before
+  increasing.</p>
+  <p>After you complete this section, hit Continue to move on to the
+  main task.</p>
   <p id="lengthText"> Sequence length: 3</p>
-  <p id="iterText"> Iteration number: 1 </p>
   <button id="startButton" onClick="run()">Start</button>
 </div>
 

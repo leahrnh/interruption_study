@@ -55,7 +55,7 @@ body {
 
 #kitchen {
     display: none;
-    background: url(img/simple_kitchen.png);
+    background: url(img/Simple_Kitchen.png);
 }
 
 #livingroom {
@@ -203,23 +203,9 @@ body {
 
 #bed {
     left: 340px;
-    top: 310px;
+    top: 220px;
     width: 230px;
-    height: 90px;
-}
-
-#pillow1 {
-    left: 370px;
-    top: 260px;
-    width: 80px;
-    height: 50px;
-}
-
-#pillow2 {
-    left: 460px;
-    top: 260px;
-    width: 80px;
-    height: 50px;
+    height: 180px;
 }
 
 #window {

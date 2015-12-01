@@ -36,7 +36,7 @@ $(document.body).on('updateScore', function (e, score) {
 
 getSession();
 
-tasks();
+tasks(['NoPre', 'PreBase', 'PreUrg']);
 
 function showRoom(room) {
 $("#bedroom").toggle(room == 'bedroom');
@@ -133,6 +133,7 @@ _LTracker.push({
   possible without hitting the edges or yourself.</p>
   <p>If you navigate to a different room, the state of the game will
   persist even if you can't see it.</p>
+  <p>NOTE you will also die if you press a button other than the arrow keys.</p>
   
   <h3>Tasks</h3>
   <p>Every so often, the notification system will instruct you to
@@ -169,8 +170,6 @@ _LTracker.push({
   <button class="roombutton" id="chestright" onClick="falseTouch('chestRight')"></button>
   <button class="roombutton" id="alarmclock" onClick="touch(alarmclock)"></button>
   <button class="roombutton" id="bed" onClick="touch(bed)"></button>
-  <button class="roombutton" id="pillow1" onClick="falseTouch('pillow1')"></button>
-  <button class="roombutton" id="pillow2" onClick="falseTouch('pillow2')"></button>
   <button class="roombutton" id="phone_bedroom" onClick="falseTouch('phone')"></button>
   <button class="roombutton" id="window" onClick="falseTouch('window')"></button>
   <button class="roombutton" id="mirror" onClick="falseTouch('mirror')"></button>

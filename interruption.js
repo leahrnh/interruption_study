@@ -55,6 +55,7 @@ function getSession(){
 
 //wipe everything clean for a new round
 function newRound(notice) {
+    alert(notice);
     die();
     score = 0;
     $('#canvas').trigger('updateScore', score);
@@ -65,14 +66,14 @@ function newRound(notice) {
 }
 
 //call different tasks at the appropriate time, with the appropriate initiation message
-function tasks() {
+function tasks(roundList) {
 
     //init
     _LTracker.push({'session': sessionID,'event': 'initiate_game','score': score,});
     intro.play();
     var time = 0;
     score = 0;
-    time = time + 60000; //1 minute for reading instructions and getting started (and baseline game score?)
+    time = time + 120000; //2 minutes for reading instructions and getting started (and baseline game score?)
 
     console.log("starting first task");
    
@@ -82,7 +83,7 @@ function tasks() {
 	newRound("Round one");
 	_LTracker.push({'session': sessionID,'event': 'endIntroRound','score': score,});
 	$('#canvas').trigger('updateScore', score);
-	startRound('NoPre', [bed, toaster, television, hairdryer, alarmclock, encyclopedia, stove, bathtub], ['urgent', 'urgent', 'relax', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
+	startRound(roundList[0], [bed, toaster, television, hairdryer, alarmclock, encyclopedia, stove, bathtub], ['urgent', 'urgent', 'relax', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
     }, time);
     
     time = time + 300000; //5 minutes for a round
@@ -91,7 +92,7 @@ function tasks() {
 	_LTracker.push({'session': sessionID,'event': 'endRound1','score': score,});
 	newRound("Round two");
 	$('#canvas').trigger('updateScore', score);
-	startRound('PreBase', [hairdryer, television, alarmclock, stove, bathtub, toaster, bed, encyclopedia], ['relax', 'relax', 'urgent', 'relax', 'urgent', 'relax', 'urgent', 'urgent']);
+	startRound(roundList[1], [hairdryer, television, alarmclock, stove, bathtub, toaster, bed, encyclopedia], ['relax', 'relax', 'urgent', 'relax', 'urgent', 'relax', 'urgent', 'urgent']);
     }, time);
 
     time = time + 300000; //5 minutes for a round
@@ -99,7 +100,7 @@ function tasks() {
 	alert("Round Over. Final score " + (score + size - 1));
 	_LTracker.push({'session': sessionID,'event': 'endRound2','score': score,});
 	newRound("Round three");
-	startRound('PreUrg', [alarmclock, hairdryer, bathtub, bed, television, toaster, encyclopedia, stove], ['urgent', 'relax', 'urgent', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
+	startRound(roundList[2], [alarmclock, hairdryer, bathtub, bed, television, toaster, encyclopedia, stove], ['urgent', 'relax', 'urgent', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
     }, time);
   
     time = time + 300000; //5 minutes for a round
@@ -141,28 +142,35 @@ function startRound(newMode, objectList, urgencyList) {
 
 //perform a task that involves the specified object in the specified amount of time
 function task(obj, urgency) {
+    var status = 'startTask_' + obj.name + "_" + urgency;
+    _LTracker.push({'session': sessionID,'event': status,'score': score,});
     console.log("task", obj, urgency);
 
     //decide how to play prompt it based on mode and urgency
     if (mode=='NoPre') {
+	_LTracker.push({'session': sessionID,'event': status,'full_notification': score,});
 	if (urgency=='urgent') {
 	    obj.urgent.play();
 	} else if (urgency =='relax') {
 	    obj.relax.play();
 	}
     } else if (mode=='PreUrg') {
+	_LTracker.push({'session': sessionID,'event': status,'pre_notification': score,});
 	if (urgency=='urgent') {
 	    preUrgentPrompt.play();
 	} else {
 	    preRelaxPrompt.play();
 	}
 	window.setTimeout(function() {
+	    _LTracker.push({'session': sessionID,'event': status,'remaining_notification': score,});
 	    obj.base.play();
 	}, 3000);
     }
     else if (mode=='PreBase') {
 	excuseMe.play()
+	_LTracker.push({'session': sessionID,'event': status,'pre_notification': score,});
 	setTimeout(function() {
+	    _LTracker.push({'session': sessionID,'event': status,'remaining_notification': score,});
 	    if (urgency=='urgent') {
 		obj.urgent.play();
 	    } else if (urgency =='relax') {
@@ -179,7 +187,7 @@ function task(obj, urgency) {
 	setTimeout(function() {
 	    console.log("checking" + obj.name);
 	    check(obj);
-	}, 20000);
+	}, 10000);
     }
 }
 
