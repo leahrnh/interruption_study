@@ -117,7 +117,7 @@ function tasks(roundList) {
 	$('#kitchen').hide();
 	$('#livingroom').hide();
 	$('#bathroom').hide();
-	alert("Time's up! Thank you for participating.");
+	$('#survey').show();
     }, time);
     
 }
