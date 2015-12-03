@@ -5,6 +5,8 @@ var interval;
 var length;
 var sessionID;
 
+var testAudio = new Audio('audio/testing.m4a');
+
 function initiate() {
     length = 3;
     iteration = 1;
@@ -69,7 +71,7 @@ function calc() {
 	//$('#digitDisplay').trigger('showDigit', "Your digit span score is: " + score);
 	$('#digitDisplay').trigger('showDigit', "");
 	$("#startButton").hide();
-	$("#cont").show();
+	$("#testAndCont").show();
     }
     iteration++;
     if (iteration > 2) {
