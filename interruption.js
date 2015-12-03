@@ -1,6 +1,7 @@
 var score;
 var sessionID;
 var mode;
+var gameStatus;
 
 var intro = new Audio('audio/intro.m4a'); //"Welcome! Today you be playing a game. I’m here to give you notifications. Go ahead and read the instructions on the right, then get started. Have fun!"
 var goodJob = new Audio('audio/good_job.m4a'); //"Good job"
@@ -21,8 +22,6 @@ var Item = function (name, prompt_base, prompt_urgent, prompt_relax) {
     this.relax = prompt_relax; //ex. "Click the phone at some point"
 }
 
-//TODO recreate/enlarge bed button
-
 //big things
 var bed = new Item('bed', new Audio('audio/bedBase.m4a'),  new Audio('audio/bedUrgent.m4a'),  new Audio('audio/bedRelax.m4a'));
 var television = new Item('television', new Audio('audio/televisionBase.m4a'),  new Audio('audio/televisionUrgent.m4a'),  new Audio('audio/televisionRelax.m4a'));
@@ -32,18 +31,6 @@ var alarmclock = new Item('alarmclock', new Audio('audio/alarmclockBase.m4a'),  
 var encyclopedia = new Item('encyclopedia', new Audio('audio/encyclopediaBase.m4a'),  new Audio('audio/encyclopediaUrgent.m4a'),  new Audio('audio/encyclopediaRelax.m4a'));
 var toaster = new Item('toaster', new Audio('audio/toasterBase.m4a'),  new Audio('audio/toasterUrgent.m4a'),  new Audio('audio/toasterRelax.m4a'));
 var hairdryer = new Item('hairdryer', new Audio('audio/hairdryerBase.m4a'),  new Audio('audio/hairdryerUrgent.m4a'),  new Audio('audio/hairdryerRelax.m4a'));
-
-//other phrase possibilities
-//  Wash your hair, then comb and blowdry it.
-//  "At some point today, be sure to make the bed and fluff the pillows."
-//  "Right now, stoke the fire."
-//  The toast is ready! Get it before it burns!
-//  At some point, make sure to water all the plants. There are 6 of them."
-//  At some point, be sure to wind the grandfather clock."
-//  In the next two minutes, empty the dishwasher and put the plates in the cabinet.
-//  In the next two minutes, you need to take your medicine.
-//  It's time get the vegetables from the fridge and chop them, and put them in the pot for dinner
-//  The phone is ringing. Answer it.
 
 
 //when entering from digit task, get session ID for use in logging
@@ -69,27 +56,29 @@ function newRound(notice) {
 function tasks(roundList) {
 
     //init
-    _LTracker.push({'session': sessionID,'event': 'initiate_game','score': score,});
-    intro.play();
-    var time = 0;
+    gameStatus = 'stopped'
+    mode = 'none'
     score = 0;
-    time = time + 120000; //2 minutes for reading instructions and getting started (and baseline game score?)
+    _LTracker.push({'session': sessionID,'event': 'initiate_game','score': score, 'gameStatus':gameStatus, 'mode':mode});
+    //intro.play();
+    var time = 0;
+    time = time + 20000; //2 minutes for reading instructions and getting started (and baseline game score?)
 
     console.log("starting first task");
    
 
     window.setTimeout(function() {
-	alert("End of intro. Initial score: " + (score + size - 1));
+	alert("End of intro. Initial score: " + score);
 	newRound("Round one");
-	_LTracker.push({'session': sessionID,'event': 'endIntroRound','score': score,});
+	_LTracker.push({'session': sessionID,'event': 'endRound0','score': 0, 'gameStatus':'stopped', 'mode':'none'});
 	$('#canvas').trigger('updateScore', score);
 	startRound(roundList[0], [bed, toaster, television, hairdryer, alarmclock, encyclopedia, stove, bathtub], ['urgent', 'urgent', 'relax', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
     }, time);
     
     time = time + 300000; //5 minutes for a round
     window.setTimeout(function() {
-	alert("Round Over. Final score " + (score + size - 1));
-	_LTracker.push({'session': sessionID,'event': 'endRound1','score': score,});
+	alert("Round Over. Final score " + score);
+	_LTracker.push({'session': sessionID,'event': 'endRound1','score': 0, 'gameStatus':'stopped', 'mode':'none'});
 	newRound("Round two");
 	$('#canvas').trigger('updateScore', score);
 	startRound(roundList[1], [hairdryer, television, alarmclock, stove, bathtub, toaster, bed, encyclopedia], ['relax', 'relax', 'urgent', 'relax', 'urgent', 'relax', 'urgent', 'urgent']);
@@ -97,17 +86,16 @@ function tasks(roundList) {
 
     time = time + 300000; //5 minutes for a round
     window.setTimeout(function() {
-	alert("Round Over. Final score " + (score + size - 1));
-	_LTracker.push({'session': sessionID,'event': 'endRound2','score': score,});
+	alert("Round Over. Final score " + score);
+	_LTracker.push({'session': sessionID,'event': 'endRound2', 'score': score, 'gameStatus':'stopped', 'mode':mode});
 	newRound("Round three");
 	startRound(roundList[2], [alarmclock, hairdryer, bathtub, bed, television, toaster, encyclopedia, stove], ['urgent', 'relax', 'urgent', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
     }, time);
   
     time = time + 300000; //5 minutes for a round
     setTimeout(function() {
-	alert("Round Over. Final score " + (score + size - 1));
-	_LTracker.push({'session': sessionID,'event': 'endRound3','score': score,});
-	var tot = score + size - 1;
+	alert("Round Over. Final score " + score);
+	_LTracker.push({'session': sessionID,'event': 'endRound3', 'score':score, 'gameStatus':'stopped', 'mode':mode});
 	$('#game').hide();
 	$('#instructions').hide();
 	$('#doors').hide();
@@ -131,7 +119,7 @@ function startRound(newMode, objectList, urgencyList) {
     mode = newMode;
     var time = 0;
     var status = 'startRound_' + newMode;
-    _LTracker.push({'session': sessionID,'event': status ,'score': score,});
+    _LTracker.push({'session': sessionID,'event': status, 'score': score, 'gameStatus':gameStatus, 'mode':mode});
     for (var i=0; i<objectList.length; i++) {
 	time = time + 30000;
 	var obj = objectList[i];
@@ -143,34 +131,31 @@ function startRound(newMode, objectList, urgencyList) {
 //perform a task that involves the specified object in the specified amount of time
 function task(obj, urgency) {
     var status = 'startTask_' + obj.name + "_" + urgency;
-    _LTracker.push({'session': sessionID,'event': status,'score': score,});
+    _LTracker.push({'session': sessionID,'event': status, 'score': score, 'gameStatus':gameStatus, 'mode':mode});
     console.log("task", obj, urgency);
 
-    //decide how to play prompt it based on mode and urgency
+    //decide how to play prompt based on mode and urgency
     if (mode=='NoPre') {
-	_LTracker.push({'session': sessionID,'event': status,'full_notification': score,});
 	if (urgency=='urgent') {
 	    obj.urgent.play();
 	} else if (urgency =='relax') {
 	    obj.relax.play();
 	}
     } else if (mode=='PreUrg') {
-	_LTracker.push({'session': sessionID,'event': status,'pre_notification': score,});
 	if (urgency=='urgent') {
 	    preUrgentPrompt.play();
 	} else {
 	    preRelaxPrompt.play();
 	}
 	window.setTimeout(function() {
-	    _LTracker.push({'session': sessionID,'event': status,'remaining_notification': score,});
+	    _LTracker.push({'session': sessionID,'event': 'remaining_notification', 'score':score, 'gameStatus':gameStatus, 'mode':mode});
 	    obj.base.play();
 	}, 3000);
     }
     else if (mode=='PreBase') {
 	excuseMe.play()
-	_LTracker.push({'session': sessionID,'event': status,'pre_notification': score,});
 	setTimeout(function() {
-	    _LTracker.push({'session': sessionID,'event': status,'remaining_notification': score,});
+	    _LTracker.push({'session': sessionID,'event': 'remaining_notification', 'score':score, 'gameStatus':gameStatus, 'mode':mode});
 	    if (urgency=='urgent') {
 		obj.urgent.play();
 	    } else if (urgency =='relax') {
@@ -196,7 +181,7 @@ function task(obj, urgency) {
 function touch(obj) {
     console.log("touched " + obj.name);
     var description = 'touch_' + obj.name;
-    _LTracker.push({'session': sessionID,'event': description,'score': score,});
+    _LTracker.push({'session':sessionID,'event':description, 'score':score, 'gameStatus':gameStatus, 'mode':mode});
     if (obj.waiting) {
 	obj.touched = true;
 	check(obj);
@@ -206,7 +191,7 @@ function touch(obj) {
 //clicking on a button that doesn't have an associated object (ie. the wrong one)
 function falseTouch(name) {
     var s = 'falseTouch_' + name
-    _LTracker.push({'session': sessionID,'event': s,'score': score,});
+    _LTracker.push({'session':sessionID,'event':s, 'score':score, 'gameStatus':gameStatus, 'mode':mode});
 }
 
 //check an object because it's been touched or because time is up
@@ -216,13 +201,13 @@ function check(obj) {
 	//if it's been touched, then you get points
 	if (obj.touched) {
 	    var status = 'completeTask_' + obj.name;
-	    _LTracker.push({'session': sessionID,'event': status,'score': score,});
+	    _LTracker.push({'session':sessionID,'event':status, 'score':score, 'gameStatus':gameStatus, 'mode':mode});
 	    goodJob.play();
 	    score = score + 10;
 	    $('#canvas').trigger('updateScore', score);
 	} else {
 	    var status = 'failTask_' + obj.name;
-	    _LTracker.push({'session': sessionID,'event': status,'score': score,});
+	    _LTracker.push({'session':sessionID,'event':status, 'score':score, 'gameStatus':gameStatus, 'mode':mode});
 	    tooLate.play();
 	}
 	obj.waiting = false;
@@ -235,3 +220,18 @@ function check(obj) {
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
+
+
+
+
+//other phrase possibilities
+//  Wash your hair, then comb and blowdry it.
+//  "At some point today, be sure to make the bed and fluff the pillows."
+//  "Right now, stoke the fire."
+//  The toast is ready! Get it before it burns!
+//  At some point, make sure to water all the plants. There are 6 of them."
+//  At some point, be sure to wind the grandfather clock."
+//  In the next two minutes, empty the dishwasher and put the plates in the cabinet.
+//  In the next two minutes, you need to take your medicine.
+//  It's time get the vegetables from the fridge and chop them, and put them in the pot for dinner
+//  The phone is ringing. Answer it.

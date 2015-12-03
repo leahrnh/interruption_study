@@ -54,54 +54,35 @@ $(document).ready(function(){
 $("#bedroom_door").click(function() {
 showRoom('bedroom');
 
-_LTracker.push({
-'session': sessionID,
-'event': 'enter-bedroom',
-'score': score,
-});
+_LTracker.push({'session': sessionID,'event': 'enter_bedroom','score': score, 'gameStatus':gameStatus, 'mode':mode});
 });
 
 $("#kitchen_door").click(function() {
 showRoom('kitchen');
 
+_LTracker.push({'session': sessionID,'event': 'enter_kitchen','score': score, 'gameStatus':gameStatus, 'mode':mode});
 
-_LTracker.push({
-'session': sessionID,
-'event': 'enter-kitchen',
-'score': score,
-});
 });
 
 $("#livingroom_door").click(function() {
 showRoom('livingroom');
 
-_LTracker.push({
-'session': sessionID,
-'event': 'enter-livingroom',
-'score': score,
-});
+_LTracker.push({'session': sessionID,'event': 'enter_livingroom','score': score, 'gameStatus':gameStatus, 'mode':mode});
+
 });
 
 $("#bathroom_door").click(function() {
 showRoom('bathroom');
 
+_LTracker.push({'session': sessionID,'event': 'enter_bathroom','score': score, 'gameStatus':gameStatus, 'mode':mode});
 
-_LTracker.push({
-'session': sessionID,
-'event': 'enter-bathroom',
-'score': score,
-});
 });
 
 $("#back_button").click(function() {
 showRoom('game');
 
+_LTracker.push({'session': sessionID,'event': 'enter_gameroom','score': score, 'gameStatus':gameStatus, 'mode':mode});
 
-_LTracker.push({
-'session': sessionID,
-'event': 'enter-gameroom',
-'score': score,
-});
 });
 
 });
@@ -123,13 +104,15 @@ _LTracker.push({
 
 <div id="instructions">
   <h2>Instructions</h2>
-  <p>You will be performing different activities, all of which will
-  contribute to your final Total Score.</p>
+  <p>You will be performing different activities, in which you will
+  earn points, all of which will
+  contribute to your final Total Score. Your goal is to maximize your
+  total score.</p>
 
   <h3>Snake</h3>
-  <p>Your first job is to play a game of Snake to get points.</p>
-  <p>Click the black box to start, pause, and restart the game. Use
-  the arrow keys to move the "snake". Try to "eat" as much red food as
+  <p>Your first job is to play a game of Snake.</p>
+  <p>Click the black box to start, <b>pause</b>, and restart the game. Use
+  the arrow keys to move the "snake". Try to "eat" as many red dots as
   possible without hitting the edges or yourself.</p>
   <p>If you navigate to a different room, the state of the game will
   persist even if you can't see it.</p>
@@ -138,16 +121,15 @@ _LTracker.push({
   <h3>Tasks</h3>
   <p>Every so often, the notification system will instruct you to
   click on something in your "house". Find the item in one of the
-  rooms and click it. Completing the tasks will also give you points.</p>
+  rooms and click it. Each successful task will give you <b>10 points</b>.</p>
   <p>Different tasks will have different time limits. Some must happen
-  right away (within 20 seconds), and others can be
+  right away (within 10 seconds), and others can be
   accomplished at any time. The notification will indicate how much
   time you have.</p>
 
   <h3>Rounds</h3>
-  <p>There is an intro round, and three main rounds, each of which has
-  a different notification style. Please complete
-  them all."
+  <p>There is an intro round for you to get used to the game, and <b>three main rounds</b>, each of which has
+  a different notification style. Please complete them all.
 </div>
 
 <div id="doors">

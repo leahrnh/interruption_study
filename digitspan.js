@@ -10,7 +10,7 @@ function initiate() {
     iteration = 1;
     wrong = 0;
     sessionID = '' + getRandomInt(100000, 999999);
-    _LTracker.push({'session': sessionID,'event':'initiate','score': 0,});
+    _LTracker.push({'session': sessionID,'event':'initiate_study','score': 0, 'gameStatus':'none', 'mode':'digitTask'});
 }
 
 function run() {
@@ -65,7 +65,7 @@ function calc() {
     if (wrong > 1) {
 	var score = length - 1;
 	var scoreString = 'digitSpanScore_' + score;
-	_LTracker.push({'session': sessionID,'event':scoreString,'score': 0,});
+	_LTracker.push({'session': sessionID,'event':scoreString,'score': 0, 'gameStatus':'none', 'mode':'digitTask'});
 	//$('#digitDisplay').trigger('showDigit', "Your digit span score is: " + score);
 	$('#digitDisplay').trigger('showDigit', "");
 	$("#startButton").hide();

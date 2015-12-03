@@ -56,8 +56,8 @@ function onKeyDown(evt) {
   // (that is, no u-turns)
   if (newdir != direction && newdir != direction+2 && newdir != direction-2) {
       direction = newdir;
-      var dirString = 'newDirection_' + direction;
-      _LTracker.push({'session': sessionID,'event': dirString,'score': score,});
+      var dirString = 'gameMove_' + direction;
+      //_LTracker.push({'session': sessionID,'event': dirString,'score': score, 'gameStatus':gameStatus, 'mode':mode});
   }
 }
 
@@ -78,14 +78,14 @@ function createsnake() {
 function collision(n) {
   // are we out of the playground?
     if (n.x < 0 || n.x > WIDTH - 1 || n.y < 0 || n.y > HEIGHT - 1) {
-	_LTracker.push({'session': sessionID,'event': 'hit_edge','score': score,});
+	_LTracker.push({'session': sessionID,'event': 'die_edge','score': score, 'gameStatus':gameStatus, 'mode':mode});
 	return true;
     }
     
   // are we eating ourselves?
   for (var i = 0; i < snake.length; i++) {
       if (snake[i].x == n.x && snake[i].y == n.y) {
-	  _LTracker.push({'session': sessionID,'event': 'hit_self','score': score,});
+	  _LTracker.push({'session': sessionID,'event': 'die_self','score': score, 'gameStatus':gameStatus, 'mode':mode});
       return true;
     }
   }
@@ -93,7 +93,6 @@ function collision(n) {
 }
 
 function newfood() {
-    _LTracker.push({'session': sessionID,'event': 'eat','score': score,});
     var wcells = WIDTH/dx;
     var hcells = HEIGHT/dy;
     
@@ -105,6 +104,7 @@ function newfood() {
     food.y = randomy * dy;
     food.r = dr;
     setSize(size + 1);
+    _LTracker.push({'session': sessionID,'event': 'eat','score': score, 'gameStatus':gameStatus, 'mode':mode});
 }
 
 function getSize() {
@@ -147,15 +147,15 @@ function movesnake() {
 
   snake.unshift(n);
 
-  // if there's food there
-  if (meal(n)) {
-    newfood(); // we eat it and another shows up
-    
-  } else {
-    snake.pop();
-    // we only remove the tail if there wasn't food
-    // if there was food, the snake grew
-  }
+    // if there's food there
+    if (meal(n)) {
+	score += 1;
+	newfood(); // we eat it and another shows up
+    } else {
+	snake.pop();
+	// we only remove the tail if there wasn't food
+	// if there was food, the snake grew
+    }
 
   return true;
 
@@ -164,10 +164,10 @@ function movesnake() {
 function die() {
     if (id) {
 	clearInterval(id);
-	score = score + (size-1);
 	$('#dead').show();
 	$('#canvas').trigger('updateScore', score);
-	_LTracker.push({'session': sessionID,'event': 'die','score': score,});
+	gameStatus = 'stopped';
+	_LTracker.push({'session': sessionID,'event': 'die','score': score, 'gameStatus':gameStatus, 'mode':mode});
     }
     inprogress = false;
 }
