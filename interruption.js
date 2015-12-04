@@ -57,12 +57,12 @@ function tasks(roundList) {
 
     //init
     gameStatus = 'stopped'
-    mode = 'none'
+    mode = 'intro'
     score = 0;
-    _LTracker.push({'session': sessionID,'event': 'initiate_game','score': score, 'gameStatus':gameStatus, 'mode':mode});
-    //intro.play();
+    _LTracker.push({'session': sessionID,'event': 'startRound_intro','score': score, 'gameStatus':gameStatus, 'mode':mode});
+    intro.play();
     var time = 0;
-    time = time + 20000; //2 minutes for reading instructions and getting started (and baseline game score?)
+    time = time + 120000; //2 minutes for reading instructions and getting started (and baseline game score?)
 
     console.log("starting first task");
    
@@ -70,7 +70,7 @@ function tasks(roundList) {
     window.setTimeout(function() {
 	alert("End of intro. Initial score: " + score);
 	newRound("Round one");
-	_LTracker.push({'session': sessionID,'event': 'endRound0','score': 0, 'gameStatus':'stopped', 'mode':'none'});
+	_LTracker.push({'session': sessionID,'event': 'endRound0','score': score, 'gameStatus':'stopped', 'mode':mode});
 	$('#canvas').trigger('updateScore', score);
 	startRound(roundList[0], [bed, toaster, television, hairdryer, alarmclock, encyclopedia, stove, bathtub], ['urgent', 'urgent', 'relax', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
     }, time);
@@ -78,7 +78,7 @@ function tasks(roundList) {
     time = time + 300000; //5 minutes for a round
     window.setTimeout(function() {
 	alert("Round Over. Final score " + score);
-	_LTracker.push({'session': sessionID,'event': 'endRound1','score': 0, 'gameStatus':'stopped', 'mode':'none'});
+	_LTracker.push({'session': sessionID,'event': 'endRound1','score': score, 'gameStatus':'stopped', 'mode':mode});
 	newRound("Round two");
 	$('#canvas').trigger('updateScore', score);
 	startRound(roundList[1], [hairdryer, television, alarmclock, stove, bathtub, toaster, bed, encyclopedia], ['relax', 'relax', 'urgent', 'relax', 'urgent', 'relax', 'urgent', 'urgent']);
