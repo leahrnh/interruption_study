@@ -4,6 +4,7 @@ var index;
 var interval;
 var length;
 var sessionID;
+var dsScore;
 
 var testAudio = new Audio('audio/testing.m4a');
 
@@ -65,8 +66,8 @@ function calc() {
     $('#digitDisplay').trigger('showDigit', "");
     truth="";
     if (wrong > 1) {
-	var score = length - 1;
-	var scoreString = 'digitSpanScore_' + score;
+	dsScore = length - 1;
+	var scoreString = 'digitSpanScore_' + dsScore;
 	_LTracker.push({'session': sessionID,'event':scoreString,'score': 0, 'gameStatus':'none', 'mode':'digitTask'});
 	//$('#digitDisplay').trigger('showDigit', "Your digit span score is: " + score);
 	$('#digitDisplay').trigger('showDigit', "");

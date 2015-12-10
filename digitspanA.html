@@ -47,7 +47,18 @@ initiate();
 
 <div id="intro">
   
-<h1>Digit Span Task</h1>
+  <h1>Pilot Study</h1>
+  <p> Thank you for volunteering to participate in this pilot
+  study. It consists of three sections: the digit span task, the main
+  task, and a follow-up survey.</p>
+  <p><b>Requirements:</b> To participate, you must be in a quiet
+  location where you will not be interrupted or disturbed for the
+  duration of the study (30 minutes). You must be able to listen to
+  audio from your computer (either headphones or built-in speakers are
+  fine).
+  <br>If you did not receive this link directly from Leah, please
+  email me to discuss first.</p>
+  <h2> Digit Span Task </h2>
   <p> You will be presented with a series of numbers. Remember them as
   well as possible, and then enter them in the box at the end.</p>
   <p> Each sequence length will be presented twice before
@@ -72,7 +83,7 @@ initiate();
   <p>Please test your speakers to ensure that the audio is working and the volume
   is acceptable.</p>
   <p><button onclick="testAudio.play()">Test</button></p>
-  <a id="cont" href="mturk_gameA.html" onclick="location.href=this.href+'?session='+sessionID;return false;">Continue</a>
+  <a id="cont" href="mturk_gameA.html" onclick="location.href=this.href+'?session='+sessionID+'&ds='+dsScore;return false;">Continue</a>
 </div>
 
 

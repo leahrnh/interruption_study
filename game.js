@@ -3,6 +3,8 @@ function gamerun() {
     if (!inprogress) {
 	gameStatus = 'active'
 	_LTracker.push({'session': sessionID,'event': 'startGame','score': score, 'gameStatus':gameStatus, 'mode':mode});
+	t = new Date().getTime();
+	logString += ("\n" + t + "," + sessionID + "," + "startGame" + ","+ score + "," + gameStatus + "," + mode);
 	inprogress = true;
 	init();
     }
@@ -10,6 +12,8 @@ function gamerun() {
     else if (!paused) {
 	gameStatus = 'paused'
 	_LTracker.push({'session': sessionID,'event': 'pauseGame','score': score, 'gameStatus':gameStatus, 'mode':mode});
+	t = new Date().getTime();
+	logString += ("\n" + t + "," + sessionID + "," + "pauseGame" + ","+ score + "," + gameStatus + "," + mode);
 	clearInterval(id);
 	paused = true;
     }
@@ -17,6 +21,8 @@ function gamerun() {
     else {
 	gameStatus = 'active'
 	_LTracker.push({'session': sessionID,'event': 'restartGame','score': score, 'gameStatus':gameStatus, 'mode':mode});
+	t = new Date().getTime();
+	logString += ("\n" + t + "," + sessionID + "," + "restartGame" + ","+ score + "," + gameStatus + "," + mode);
 	paused = false;
 	id = setInterval(step, 100);
 	step();

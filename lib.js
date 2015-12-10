@@ -79,6 +79,8 @@ function collision(n) {
   // are we out of the playground?
     if (n.x < 0 || n.x > WIDTH - 1 || n.y < 0 || n.y > HEIGHT - 1) {
 	_LTracker.push({'session': sessionID,'event': 'die_edge','score': score, 'gameStatus':gameStatus, 'mode':mode});
+	t = new Date().getTime();
+	logString += ("\n" + t + "," + sessionID + "," + "die_edge" + ","+ score + "," + gameStatus + "," + mode);
 	return true;
     }
     
@@ -86,6 +88,8 @@ function collision(n) {
   for (var i = 0; i < snake.length; i++) {
       if (snake[i].x == n.x && snake[i].y == n.y) {
 	  _LTracker.push({'session': sessionID,'event': 'die_self','score': score, 'gameStatus':gameStatus, 'mode':mode});
+	  t = new Date().getTime();
+	  logString += ("\n" + t + "," + sessionID + "," + "die_self" + ","+ score + "," + gameStatus + "," + mode);
       return true;
     }
   }
@@ -105,6 +109,8 @@ function newfood() {
     food.r = dr;
     setSize(size + 1);
     _LTracker.push({'session': sessionID,'event': 'eat','score': score, 'gameStatus':gameStatus, 'mode':mode});
+    t = new Date().getTime();
+    logString += ("\n" + t + "," + sessionID + "," + "eat" + ","+ score + "," + gameStatus + "," + mode);
 }
 
 function getSize() {
@@ -168,6 +174,8 @@ function die() {
 	$('#canvas').trigger('updateScore', score);
 	gameStatus = 'stopped';
 	_LTracker.push({'session': sessionID,'event': 'die','score': score, 'gameStatus':gameStatus, 'mode':mode});
+	t = new Date().getTime();
+	logString += ("\n" + t + "," + sessionID + "," + "die" + ","+ score + "," + gameStatus + "," + mode);
     }
     inprogress = false;
 }

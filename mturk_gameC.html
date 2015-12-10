@@ -30,6 +30,10 @@ $(document.body).on('updateGameScore', function (e, size) {
   $("#size").text("Game Score: " + (size-1));
 });
 
+$(document.body).on('updateLog', function (e, logString) {
+  $("#logContents").text(logString);
+});
+
 $(document.body).on('updateScore', function (e, score) {
   $("#score").text("Total Score: " + score);
 });
@@ -54,34 +58,53 @@ $(document).ready(function(){
 $("#bedroom_door").click(function() {
 showRoom('bedroom');
 
-_LTracker.push({'session': sessionID,'event': 'enter_bedroom','score': score, 'gameStatus':gameStatus, 'mode':mode});
+_LTracker.push({'session': sessionID,'event': 'enter_bedroom','score':
+score, 'gameStatus':gameStatus, 'mode':mode});
+t = new Date().getTime();
+logString += ("\n" + t + "," + sessionID + "," + "enter_bedroom" + ","+ score + "," + gameStatus + "," + mode);
 });
+
 
 $("#kitchen_door").click(function() {
 showRoom('kitchen');
 
-_LTracker.push({'session': sessionID,'event': 'enter_kitchen','score': score, 'gameStatus':gameStatus, 'mode':mode});
+_LTracker.push({'session': sessionID,'event': 'enter_kitchen','score':
+score, 'gameStatus':gameStatus, 'mode':mode});
+t = new Date().getTime();
+logString += ("\n" + t + "," + sessionID + "," + "enter_kitchen" + ","+ score + "," + gameStatus + "," + mode);
 
 });
 
 $("#livingroom_door").click(function() {
 showRoom('livingroom');
 
-_LTracker.push({'session': sessionID,'event': 'enter_livingroom','score': score, 'gameStatus':gameStatus, 'mode':mode});
+_LTracker.push({'session': sessionID,'event':
+'enter_livingroom','score': score, 'gameStatus':gameStatus,
+'mode':mode});
+t = new Date().getTime();
+logString += ("\n" + t + "," + sessionID + "," + "enter_livingroom" + ","+ score + "," + gameStatus + "," + mode);
 
 });
 
 $("#bathroom_door").click(function() {
 showRoom('bathroom');
 
-_LTracker.push({'session': sessionID,'event': 'enter_bathroom','score': score, 'gameStatus':gameStatus, 'mode':mode});
+_LTracker.push({'session': sessionID,'event':
+'enter_bathroom','score': score, 'gameStatus':gameStatus,
+'mode':mode});
+t = new Date().getTime();
+logString += ("\n" + t + "," + sessionID + "," + "enter_bathroom" + ","+ score + "," + gameStatus + "," + mode);
 
 });
 
 $("#back_button").click(function() {
 showRoom('game');
 
-_LTracker.push({'session': sessionID,'event': 'enter_gameroom','score': score, 'gameStatus':gameStatus, 'mode':mode});
+_LTracker.push({'session': sessionID,'event':
+'enter_gameroom','score': score, 'gameStatus':gameStatus,
+'mode':mode});
+t = new Date().getTime();
+logString += ("\n" + t + "," + sessionID + "," + "enter_gameroom" + ","+ score + "," + gameStatus + "," + mode);
 
 });
 
@@ -205,6 +228,9 @@ _LTracker.push({'session': sessionID,'event': 'enter_gameroom','score': score, '
 </div>
 
 <div id="survey">
+  <p><b>As a backup to the normal data collection system, to ensure it is recorded properly, please copy the
+  contents of this window and email it to Leah.NH@cs.cmu.edu</b><p>
+  <p id="logContents"></p>
   <a id="cont" href="survey.html" onclick="location.href=this.href+'?session='+sessionID;return false;">Continue to Questionnaire</a>
 </div>
 
