@@ -8,11 +8,20 @@ var dsScore;
 
 var testAudio = new Audio('audio/testing.m4a');
 
+//when entering from mturk, get workerID / sessionID
+function getSession(){
+    var locate = window.location.toString();
+    sessionPair = locate.split("=");
+    sessionID = sessionPair[1];
+    console.log("Session: " + sessionID);
+}
+
 function initiate() {
     length = 3;
     iteration = 1;
     wrong = 0;
-    sessionID = '' + getRandomInt(100000, 999999);
+    //sessionID = '' + getRandomInt(100000, 999999);
+    getSession();
     _LTracker.push({'session': sessionID,'event':'initiate_study','score': 0, 'gameStatus':'none', 'mode':'digitTask'});
 }
 
@@ -93,6 +102,6 @@ function calc() {
 // Returns a random integer between min (included) and max (excluded)
 // Using Math.round() will give you a non-uniform distribution!
 // Taken from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-function getRandomInt(min, max) {
+/*function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
-}
+}*/

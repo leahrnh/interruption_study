@@ -86,7 +86,7 @@ function tasks(roundList) {
 	startRound(roundList[0], [bed, toaster, television, hairdryer, alarmclock, encyclopedia, stove, bathtub], ['urgent', 'urgent', 'relax', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
     }, time);
     
-    time = time + 300000; //5 minutes for a round
+    /*time = time + 300000; //5 minutes for a round
     window.setTimeout(function() {
 	alert("Round Over. Final score " + score);
 	_LTracker.push({'session': sessionID,'event': 'endRound1','score': score, 'gameStatus':gameStatus, 'mode':mode});
@@ -107,7 +107,7 @@ function tasks(roundList) {
 	startRound(roundList[2], [alarmclock, hairdryer, bathtub, bed, television, toaster, encyclopedia, stove], ['urgent', 'relax', 'urgent', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
     }, time);
   
-    time = time + 300000; //5 minutes for a round
+    time = time + 300000; //5 minutes for a round*/
 
  setTimeout(function() {
 	alert("Round Over. Final score " + score);
