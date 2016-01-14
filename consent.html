@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<title>Consent form</title>
+<link href="consent.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<script type="text/javascript">
+function OnSubmitForm()
+{
+  if((document.questions.age[1].checked == true) ||
+(document.questions.read[1].checked == true) || (document.questions.participate[1].checked == true))
+  {
+   document.questions.action ="sorry.html";
+  }
+  else
+  {
+    document.questions.action ="info.html";
+  }
+  return true;
+}
+</script>
+
+<h1>Consent Form</h1>
+<hr>
+
+<p>This game is part of a research study conducted by Leah Nicolich-Henkin at Carnegie Mellon University. The purpose of the research is to study people's preferences for different types of notification systems.</p>
+
+<p><b>Procedures</b><br>
+The study involves three parts. First, participants will first complete a basic Digit Span cognitive test. Then they will play a game, including receiving spoken notification instructions for other tasks. Finally, they will complete a survey. The entire study will take approximately 30 minutes.</p>
+
+<p><b>Participant Requirements</b><br>
+Participation in this study is limited to individuals age 18 and older.</p>
+
+<p><b>Risks</b><br>
+The risks and discomfort associated with participation in this study are no greater than those ordinarily encountered in daily life or during other online activities. There is a minor risk of disclosure of personal information.</p>
+
+<p><b>Benefits</b><br>
+There may be no personal benefit from your participation in the study but the knowledge received may be of value to humanity.</p>
+
+<p><b>Compensation & Costs</b><br>
+Participants will be paid $5 for completing the study. There will be no cost to you if you participate in this study.</p>
+
+<p><b>Confidentiality</b><br>
+In some game conditions, the system may record your voice as you respond the dialog system. These audio recordings and your Amazon Mechanical Turk Worker ID are the only personal identifiers collected in the study.</p>
+<p>By participating in this research, you understand and agree that Carnegie Mellon may be required to disclose your consent form, data and other personally identifiable information as required by law, regulation, subpoena or court order.  Otherwise, your confidentiality will be maintained in the following manner:<p>
+<p>Your data and Worker ID will be kept separate. Your ID and any
+recordings will be stored on a secure server on Carnegie Mellon property and will not be disclosed to third parties. Sharing of data with other researchers will only be done in such a manner that you will not be identified.</p>
+<p>By participating, you understand and agree that the data and information gathered during this study may be used by Carnegie Mellon and published and/or disclosed by Carnegie Mellon to others outside of Carnegie Mellon.  However, your name, address, contact information and other direct personal identifiers will not be mentioned in any such publication or dissemination of the research data and/or results by Carnegie Mellon. Note that per regulation all research data must be kept for a minimum of 3 years.</p>
+
+<p><b>Right to Ask Questions & Contact Information</b><br>
+If you have any questions about this study, you should feel free to ask them by contacting the Principal Investigator now at</p>
+
+<p>Leah Nicolich-Henkin, Graduate Research Assistant<br>
+Language Technologies Institute<br>
+5000 Forbes Avenue, Pittsburgh, PA, 15213<br>
+917-576-0221<br>
+leah.nh@cs.cmu.edu</p>
+
+<p>If you have questions later, desire additional information, or wish to withdraw your participation please contact the Principal Investigator by mail, phone or e-mail in accordance with the contact information listed above.</p>
+
+<p>If you have questions pertaining to your rights as a research
+participant; or to report concerns to this study, you should contact
+the Office of Research integrity and Compliance at Carnegie Mellon
+University.<br>
+Email: irb-review@andrew.cmu.edu<br>
+Phone: 412-268-1901 or 412-268-5460.</p>
+
+<p><b>Voluntary Participation</b><br>
+Your participation in this research is voluntary.  You may discontinue participation at any time during the research activity.</p>
+</body> </html>
+
+
+<form name="questions" onsubmit="return OnSubmitForm();">
+<div>
+  <label for="age">I am age 18 or older.</label>
+  <input type="radio" name="age" value="yes" required/>
+  Yes <input type="radio" name="age" value="no" required/> No
+</div>
+
+<div>
+  <label for="read">I have read and understand the information above.</label>
+  <input type="radio" name="read" value="yes" required/>
+  Yes <input type="radio" name="read" value="no" required/> No
+</div>
+
+<div>
+  <label for="participate">I want to participate in this research and continue with the game.</label>
+  <input type="radio" name="participate" value="yes" required/>
+  Yes <input type="radio" name="participate" value="no" required/> No
+</div>
+
+    <div class="button">
+        <button type="submit">Continue</button>
+    </div>
+</form>
