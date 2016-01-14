@@ -24,6 +24,11 @@
 </script>
 
 <script type="text/javascript">
+function OnSubmitForm()
+{
+  document.questions.action ="digitspan.html";
+  return true;
+}
 
 </script>
 
@@ -32,16 +37,24 @@
 <div id="intro">
   <p>Please test your speakers to ensure that the audio is working and the volume
   is acceptable.<br>If it does not work, you will not be able to
-  participate.<br>Enter the words you hear in the box below.</p>
-  <p><button onclick="testAudio.play()">Test</button><input
-  type="text" name="testText" id="testText"></p>
+  participate.</p>
 
-  <p>Enter your Mechanical Turk Worker ID: <input type="text" name="workerID" id="workerID"> </p>
+<form name="questions" onsubmit="return OnSubmitForm();">
 
-<div id="continue">
-  <a id="cont" href="mturk_game.html" onclick="location.href=this.href+'?session='+sessionID+'&ds='+dsScore;return false;">Continue</a>
-</div>
+    <div>
+        <button onclick="testAudio.play()">Test audio</button><br>
+        <label for="words">Enter the words you hear:</label>
+        <input type="text" name="words" required />
+    </div>
 
+    <div>
+        <label for="id">Enter your Mechanical Turk Worker ID:</label>
+        <input type="text" name="id" required />
+    </div>
+
+    <div class="button">
+        <button type="submit">Continue</button>
+    </div>
 
 <address></address>
 </body> </html>
