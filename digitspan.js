@@ -20,7 +20,6 @@ function initiate() {
     wrong = 0;
     //sessionID = '' + getRandomInt(100000, 999999);
     getSessionID();
-    _LTracker.push({'session': workerID,'event':'initiate_study','score': 0, 'gameStatus':'none', 'mode':'digitTask'});
 }
 
 function run() {

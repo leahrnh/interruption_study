@@ -23,16 +23,9 @@
             
 
 <script type="text/javascript">
-var testAudio = new Audio('audio/testing.m4a');
+var testAudio = new Audio('audio/testAudio.m4a');
 var workerID = "";
-var testWords = "";
-
-function OnSubmitForm() {
-
-  
-  document.questions.action ="digitspan.html";
-  return true;
-}
+var testWord = "";
 
 function Continue() {
 location.href='digitspan.html?id='+workerID;return false;
@@ -40,8 +33,8 @@ location.href='digitspan.html?id='+workerID;return false;
 
 function Submit() {
 workerID = document.getElementById('id').value;
-testWords = document.getElementById('words').value;
-var event = 'audioTest_' + testWords;
+testWord = document.getElementById('words').value;
+var event = 'audioTest_' + testWord;
 _LTracker.push({'session': workerID, 'event':event,'score': 0,
 'gameStatus':'none', 'mode':'digitTask'});
 $("#continueButton").show();
@@ -57,22 +50,22 @@ $("#continueButton").show();
   <p>Please test your speakers to ensure that the audio is working and the volume
   is acceptable.<br>If it does not work, you will not be able to
   participate.</p>
-
-    <p>
-        <button onclick="testAudio.play();">Test audio</button><br>
-        <label for="words">Enter the words you hear:</label>
-        <input type="text" name="words" id="words" required />
+  
+  <p>
+  <button onclick="testAudio.play();">Test audio</button><br>
+  <label for="words">Enter the words you hear:</label>
+  <input type="text" name="words" id="words" required />
   </p>
   <p>
-        <label for="id">Enter your Mechanical Turk Worker ID:</label>
+  <label for="id">Enter your Mechanical Turk Worker ID:</label>
   <input type="text" name="id" id="id" required />
   </p>
-    <input type="button"
+  <input type="button"
   onclick="Submit();" value="Submit" />
-
-    <input type="button" id="continueButton"
+  
+  <input type="button" id="continueButton"
   onclick="Continue();" value="Continue" />
-
+  
 </div>
 
 </div>
