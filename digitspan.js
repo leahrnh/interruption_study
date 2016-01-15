@@ -3,17 +3,15 @@ var truth;
 var index;
 var interval;
 var length;
-var sessionID;
+var workerID;
 var dsScore;
 
-var testAudio = new Audio('audio/testing.m4a');
-
-//when entering from mturk, get workerID / sessionID
-function getSession(){
+//when entering from mturk, get workerID / workerID
+function getSessionID(){
     var locate = window.location.toString();
     sessionPair = locate.split("=");
-    sessionID = sessionPair[1];
-    console.log("Session: " + sessionID);
+    workerID = sessionPair[1];
+    console.log("ID: " + workerID);
 }
 
 function initiate() {
@@ -21,8 +19,8 @@ function initiate() {
     iteration = 1;
     wrong = 0;
     //sessionID = '' + getRandomInt(100000, 999999);
-    getSession();
-    _LTracker.push({'session': sessionID,'event':'initiate_study','score': 0, 'gameStatus':'none', 'mode':'digitTask'});
+    getSessionID();
+    _LTracker.push({'session': workerID,'event':'initiate_study','score': 0, 'gameStatus':'none', 'mode':'digitTask'});
 }
 
 function run() {
@@ -77,7 +75,7 @@ function calc() {
     if (wrong > 1) {
 	dsScore = length - 1;
 	var scoreString = 'digitSpanScore_' + dsScore;
-	_LTracker.push({'session': sessionID,'event':scoreString,'score': 0, 'gameStatus':'none', 'mode':'digitTask'});
+	_LTracker.push({'session': workerID,'event':scoreString,'score': 0, 'gameStatus':'none', 'mode':'digitTask'});
 	//$('#digitDisplay').trigger('showDigit', "Your digit span score is: " + score);
 	$('#digitDisplay').trigger('showDigit', "");
 	$("#startButton").hide();
@@ -94,7 +92,7 @@ function calc() {
 }
 
 /*function continue() {
-    //var s = 'mturk_game.html?session=' + sessionID;
+    //var s = 'mturk_game.html?session=' + workerID;
     window.location=mturk_game.html;
 }*/
 

@@ -1,7 +1,13 @@
 body {
     position: relative;
-    left: 200px;
-    width: 650px;
+    left: 100px;
+    width: 750px;
+}
+
+#contents {
+    background-color: #E2E2E2;
+    padding: 10px;
+    height: 350px;
 }
 
 #intro {  

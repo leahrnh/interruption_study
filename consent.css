@@ -1,5 +1,14 @@
 body {
     position: relative;
-    left: 50px;
+    left: 100px;
     width: 750px;
+}
+
+#contents {
+    background-color: #E2E2E2;
+    padding: 10px;
+}
+
+#continueButton {
+    display: none;
 }

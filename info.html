@@ -5,10 +5,8 @@
 
 <title>Introduction</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<link href="digitspan_styles.css" rel="stylesheet" type="text/css">
+<link href="consent.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="jquery-1.8.2.js"></script>
-<script type="text/javascript" src="digitspan.js"></script>
-<script type="text/javascript" src="interruption.js"></script>
 <style type="text/css"></style>
 </head>
 
@@ -20,41 +18,63 @@
     var _LTracker = _LTracker || [];
     _LTracker.push({'logglyKey': '08bf61ef-effa-4909-965a-5793ba2718fd',
     'sendConsoleErrors' : true,
-    'tag' : 'interruption-study'  });
+    'tag' : 'loggly-jslogger'  });
 </script>
+            
 
 <script type="text/javascript">
-function OnSubmitForm()
-{
+var testAudio = new Audio('audio/testing.m4a');
+var workerID = "";
+var testWords = "";
+
+function OnSubmitForm() {
+
+  
   document.questions.action ="digitspan.html";
   return true;
 }
 
+function Continue() {
+location.href='digitspan.html?id='+workerID;return false;
+}
+
+function Submit() {
+workerID = document.getElementById('id').value;
+testWords = document.getElementById('words').value;
+var event = 'audioTest_' + testWords;
+_LTracker.push({'session': workerID, 'event':event,'score': 0,
+'gameStatus':'none', 'mode':'digitTask'});
+$("#continueButton").show();
+}
+
 </script>
 
-<h1>Study introduction</h1>
+<div id="contents">
+  <h1>Study introduction</h1>
+  <hr>
 
 <div id="intro">
   <p>Please test your speakers to ensure that the audio is working and the volume
   is acceptable.<br>If it does not work, you will not be able to
   participate.</p>
 
-<form name="questions" onsubmit="return OnSubmitForm();">
-
-    <div>
-        <button onclick="testAudio.play()">Test audio</button><br>
+    <p>
+        <button onclick="testAudio.play();">Test audio</button><br>
         <label for="words">Enter the words you hear:</label>
-        <input type="text" name="words" required />
-    </div>
-
-    <div>
+        <input type="text" name="words" id="words" required />
+  </p>
+  <p>
         <label for="id">Enter your Mechanical Turk Worker ID:</label>
-        <input type="text" name="id" required />
-    </div>
+  <input type="text" name="id" id="id" required />
+  </p>
+    <input type="button"
+  onclick="Submit();" value="Submit" />
 
-    <div class="button">
-        <button type="submit">Continue</button>
-    </div>
+    <input type="button" id="continueButton"
+  onclick="Continue();" value="Continue" />
 
-<address></address>
+</div>
+
+</div>
+
 </body> </html>

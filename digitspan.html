@@ -44,15 +44,11 @@ $(document.body).on('changeButton', function (e, buttonName) {
 initiate();
 
 </script>
+<div id="contents">
 
 <div id="intro">
-
-
-  <p>Please test your speakers to ensure that the audio is working and the volume
-  is acceptable. If it does not work, you will not be able to participate.</p>
-  <p><button onclick="testAudio.play()">Test</button></p>
-  
   <h2> Digit Span Task </h2>
+  <hr>
   <p> When you hit <i>Start</i>, a series of numbers will flash at the
   bottom of the paragraph. Remember them as
   well as possible, and then enter them in the box at the end.</p>
@@ -75,9 +71,10 @@ initiate();
 </div>
 
 <div id="testAndCont">
-  <a id="cont" href="mturk_game.html" onclick="location.href=this.href+'?session='+sessionID+'&ds='+dsScore;return false;">Continue</a>
+  <input type="button"
+  onclick="location.href='mturk_game.html?session='+workerID+'&ds='+dsScore;return false;" value="Continue" />
 </div>
 
+</div>
 
-<address></address>
 </body> </html>
