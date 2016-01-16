@@ -4,10 +4,18 @@ var mode;
 var gameStatus;
 var logString ="";
 
-var intro = new Audio('audio/intro.m4a'); //"Welcome! Today you be playing a game. I’m here to give you notifications. Go ahead and read the instructions on the right, then get started. Have fun!"
 var goodJob = new Audio('audio/good_job.m4a'); //"Good job"
 var tooLate = new Audio('audio/too_late.m4a'); //"Sorry. You're out of time."
 var almostDone = new Audio('audio/almost_done.m4a'); //"You have 1 more minute to play and finish any last tasks."
+
+var instructions_1 = new Audio('audio/instructions_1.m4a');
+var instructions_2 = new Audio('audio/instructions_2.m4a');
+var instructions_3 = new Audio('audio/instructions_3.m4a');
+var instructions_4 = new Audio('audio/instructions_4.m4a');
+var instructions_5 = new Audio('audio/instructions_5.m4a');
+var instructions_6 = new Audio('audio/instructions_6.m4a');
+var instructions_7 = new Audio('audio/instructions_7.m4a');
+var instructions_8 = new Audio('audio/instructions_8.m4a');
 
 var excuseMe = new Audio('audio/excuseMe.m4a'); //Excuse me!
 var preUrgentPrompt = new Audio('audio/urgent.m4a'); //Urgent!
@@ -23,7 +31,6 @@ var Item = function (name, prompt_base, prompt_urgent, prompt_relax) {
     this.relax = prompt_relax; //ex. "Click the phone at some point"
 }
 
-//big things
 var bed = new Item('bed', new Audio('audio/bedBase.m4a'),  new Audio('audio/bedUrgent.m4a'),  new Audio('audio/bedRelax.m4a'));
 var television = new Item('television', new Audio('audio/televisionBase.m4a'),  new Audio('audio/televisionUrgent.m4a'),  new Audio('audio/televisionRelax.m4a'));
 var stove = new Item('stove', new Audio('audio/stoveBase.m4a'),  new Audio('audio/stoveUrgent.m4a'),  new Audio('audio/stoveRelax.m4a'));
@@ -44,8 +51,6 @@ function getSession(){
     var ds = dsPair[1];
     t = new Date().getTime();
     logString += ("\n" + t + "," + sessionID + "," + "digitSpan_" + ds + "," + score + "," + gameStatus + "," + mode);
-    //var point = locate.indexOf("=");
-    //sessionID = locate.substring(point+1,locate.length);
 }
 
 //wipe everything clean for a new round
@@ -60,24 +65,59 @@ function newRound(notice) {
     $('#eor').show();  
 }
 
-//call different tasks at the appropriate time, with the appropriate initiation message
-function tasks(roundList) {
-
-    //init
-    gameStatus = 'stopped'
-    mode = 'intro'
+function introduction() {
+    gameStatus = 'stopped';
+    mode = 'intro';
     score = 0;
-    _LTracker.push({'session': sessionID,'event': 'startRound_intro','score': score, 'gameStatus':gameStatus, 'mode':mode});
+    _LTracker.push({'session': sessionID,'event': 'startRound_instructions','score': score, 'gameStatus':gameStatus, 'mode':mode});
     t = new Date().getTime();
     logString += ("\n" + t + "," + sessionID + "," + "startRound_intro" + "," + score + "," + gameStatus + "," + mode);
-    intro.play();
     var time = 0;
-    time = time + 120000; //2 minutes for reading instructions and getting started (and baseline game score?)
-    $('#canvas').trigger('updateScore', score);
-    console.log("starting first task");
+    /*instructions_1.play(); //start playing
+    time = time + 18000;
+    window.setTimeout(function() {
+	instructions_2.play(); //this is how you die
+    }, time);
+    time = time + 10000;
+    window.setTimeout(function() {
+	instructions_3.play(); //this is how to get points
+    }, time);
+    time = time + 12000;
+    window.setTimeout(function() {
+	instructions_4.play(); //this is how to pause
+    }, time);
+    time = time + 10000;
+    window.setTimeout(function() {
+	die();
+	score = 0;
+	$('#canvas').trigger('updateScore', score);
+	_LTracker.push({'session': sessionID,'event': 'startRound_practice','score': score, 'gameStatus':gameStatus, 'mode':mode});
+	instructions_5.play(); //practice playing for one minute
+    }, time);
+    time = time + 60000;*/
+    window.setTimeout(function() {
+	_LTracker.push({'session': sessionID,'event': 'endRound_practice','score': score, 'gameStatus':gameStatus, 'mode':mode});
+	die();
+	score = 0;
+	instructions_6.play(); //here are the doors.
+    }, time);
+    time = time + 5500;
+    window.setTimeout(function() {
+	$('#doors').show(); 
+	instructions_7.play(); //Go click on the dishwasher.
+    }, time);    
+}
+
+//call different tasks at the appropriate time, with the appropriate initiation message
+function tasks(roundList) {
+    time = 0;
+    instructions_8.play();
+    time = time + 18000
    
     window.setTimeout(function() {
-	alert("End of intro. Initial score: " + score);
+	alert("End of intro.");
+	$('#canvas').trigger('updateScore', score);
+	console.log("starting first task");
 	newRound("Round one");
 	_LTracker.push({'session': sessionID,'event': 'endRound0','score': score, 'gameStatus':gameStatus, 'mode':mode});
 	t = new Date().getTime();

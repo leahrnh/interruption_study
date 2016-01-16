@@ -26,12 +26,14 @@ body {
     left: 900px;
     top: 50px;
     width: 400px;
+    display: none;
 }
 
 #doors {
     position: absolute;
     top: 75px;
     left: 75px;
+    display: none;
 }
 
 #back {
