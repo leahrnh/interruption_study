@@ -30,10 +30,6 @@ $(document.body).on('updateGameScore', function (e, size) {
   $("#size").text("Game Score: " + (size-1));
 });
 
-$(document.body).on('updateLog', function (e, logString) {
-  $("#logContents").text(logString);
-});
-
 $(document.body).on('updateScore', function (e, score) {
   $("#score").text("Total Score: " + score);
 });
@@ -61,8 +57,6 @@ showRoom('bedroom');
 
 _LTracker.push({'session': sessionID,'event': 'enter_bedroom','score':
 score, 'gameStatus':gameStatus, 'mode':mode});
-t = new Date().getTime();
-logString += ("\n" + t + "," + sessionID + "," + "enter_bedroom" + ","+ score + "," + gameStatus + "," + mode);
 });
 
 
@@ -71,8 +65,6 @@ showRoom('kitchen');
 
 _LTracker.push({'session': sessionID,'event': 'enter_kitchen','score':
 score, 'gameStatus':gameStatus, 'mode':mode});
-t = new Date().getTime();
-logString += ("\n" + t + "," + sessionID + "," + "enter_kitchen" + ","+ score + "," + gameStatus + "," + mode);
 
 });
 
@@ -82,8 +74,6 @@ showRoom('livingroom');
 _LTracker.push({'session': sessionID,'event':
 'enter_livingroom','score': score, 'gameStatus':gameStatus,
 'mode':mode});
-t = new Date().getTime();
-logString += ("\n" + t + "," + sessionID + "," + "enter_livingroom" + ","+ score + "," + gameStatus + "," + mode);
 
 });
 
@@ -93,8 +83,6 @@ showRoom('bathroom');
 _LTracker.push({'session': sessionID,'event':
 'enter_bathroom','score': score, 'gameStatus':gameStatus,
 'mode':mode});
-t = new Date().getTime();
-logString += ("\n" + t + "," + sessionID + "," + "enter_bathroom" + ","+ score + "," + gameStatus + "," + mode);
 
 });
 
@@ -104,8 +92,6 @@ showRoom('game');
 _LTracker.push({'session': sessionID,'event':
 'enter_gameroom','score': score, 'gameStatus':gameStatus,
 'mode':mode});
-t = new Date().getTime();
-logString += ("\n" + t + "," + sessionID + "," + "enter_gameroom" + ","+ score + "," + gameStatus + "," + mode);
 
 });
 

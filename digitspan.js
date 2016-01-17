@@ -11,7 +11,6 @@ function getSessionID(){
     var locate = window.location.toString();
     sessionPair = locate.split("=");
     workerID = sessionPair[1];
-    console.log("ID: " + workerID);
 }
 
 function initiate() {

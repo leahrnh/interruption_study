@@ -2,7 +2,6 @@ var score;
 var sessionID;
 var mode;
 var gameStatus;
-var logString ="";
 
 var goodJob = new Audio('audio/good_job.m4a'); //"Good job"
 var tooLate = new Audio('audio/too_late.m4a'); //"Sorry. You're out of time."
@@ -49,8 +48,6 @@ function getSession(){
     sessionID = sessionPair[1];
     dsPair = vars[1].split("=");
     var ds = dsPair[1];
-    t = new Date().getTime();
-    logString += ("\n" + t + "," + sessionID + "," + "digitSpan_" + ds + "," + score + "," + gameStatus + "," + mode);
 }
 
 //wipe everything clean for a new round
@@ -70,8 +67,6 @@ function introduction() {
     mode = 'intro';
     score = 0;
     _LTracker.push({'session': sessionID,'event': 'startRound_instructions','score': score, 'gameStatus':gameStatus, 'mode':mode});
-    t = new Date().getTime();
-    logString += ("\n" + t + "," + sessionID + "," + "startRound_intro" + "," + score + "," + gameStatus + "," + mode);
     var time = 0;
     instructions_1.play(); //start playing
     time = time + 18000;
@@ -120,8 +115,6 @@ function tasks(roundList) {
 	console.log("starting first task");
 	newRound("Round one");
 	_LTracker.push({'session': sessionID,'event': 'endRound0','score': score, 'gameStatus':gameStatus, 'mode':mode});
-	t = new Date().getTime();
-	logString += ("\n" + t + "," + sessionID + "," + "endRound0" + "," + score + "," + gameStatus + "," + mode);
 	$('#canvas').trigger('updateScore', score);
 	startRound(roundList[0], [bed, toaster, television, hairdryer, alarmclock, telephone, stove, bathtub], ['urgent', 'urgent', 'relax', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
     }, time);
@@ -130,8 +123,6 @@ function tasks(roundList) {
     window.setTimeout(function() {
 	alert("Round Over. Final score " + score);
 	_LTracker.push({'session': sessionID,'event': 'endRound1','score': score, 'gameStatus':gameStatus, 'mode':mode});
-	t = new Date().getTime();
-	logString += ("\n" + t + "," + sessionID + "," + "endRound1" + "," + score + "," + gameStatus + "," + mode);
 	newRound("Round two");
 	$('#canvas').trigger('updateScore', score);
 	startRound(roundList[1], [hairdryer, television, alarmclock, stove, bathtub, toaster, bed, telephone], ['relax', 'relax', 'urgent', 'relax', 'urgent', 'relax', 'urgent', 'urgent']);
@@ -141,8 +132,6 @@ function tasks(roundList) {
     window.setTimeout(function() {
 	alert("Round Over. Final score " + score);
 	_LTracker.push({'session': sessionID,'event': 'endRound2', 'score': score, 'gameStatus':gameStatus, 'mode':mode});
-	t = new Date().getTime();
-	logString += ("\n" + t + "," + sessionID + "," + "endRound2" + "," + score + "," + gameStatus + "," + mode);
 	newRound("Round three");
 	startRound(roundList[2], [alarmclock, hairdryer, bathtub, bed, television, toaster, telephone, stove], ['urgent', 'relax', 'urgent', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
     }, time);
@@ -152,8 +141,6 @@ function tasks(roundList) {
  setTimeout(function() {
 	alert("Round Over. Final score " + score);
 	_LTracker.push({'session': sessionID,'event': 'endRound3', 'score':score, 'gameStatus':gameStatus, 'mode':mode});
-	t = new Date().getTime();
-	logString += ("\n" + t + "," + sessionID + "," + "endRound3" + "," + score + "," + gameStatus + "," + mode);
 	$('#game').hide();
 	$('#instructions').hide();
 	$('#doors').hide();
@@ -163,7 +150,7 @@ function tasks(roundList) {
 	$('#kitchen').hide();
 	$('#livingroom').hide();
      $('#bathroom').hide();
-     $('#canvas').trigger('updateLog', logString);
+     //$('#canvas').trigger('updateLog', logString);
 	$('#continue').show();
     }, time);
     
@@ -179,8 +166,6 @@ function startRound(newMode, objectList, urgencyList) {
     var time = 0;
     var status = 'startRound_' + newMode;
     _LTracker.push({'session': sessionID,'event': status, 'score': score, 'gameStatus':gameStatus, 'mode':mode});
-    t = new Date().getTime();
-    logString += ("\n" + t + "," + sessionID + "," + status + "," + score + "," + gameStatus + "," + mode);
     for (var i=0; i<objectList.length; i++) {
 	time = time + 30000;
 	var obj = objectList[i];
@@ -193,8 +178,6 @@ function startRound(newMode, objectList, urgencyList) {
 function task(obj, urgency) {
     var status = 'startTask_' + obj.name + "_" + urgency;
     _LTracker.push({'session': sessionID,'event': status, 'score': score, 'gameStatus':gameStatus, 'mode':mode});
-    t = new Date().getTime();
-    logString += ("\n" + t + "," + sessionID + "," + status + "," + score + "," + gameStatus + "," + mode);
     console.log("task", obj, urgency);
 
     //decide how to play prompt based on mode and urgency
@@ -212,8 +195,6 @@ function task(obj, urgency) {
 	}
 	window.setTimeout(function() {
 	    _LTracker.push({'session': sessionID,'event': 'remaining_notification', 'score':score, 'gameStatus':gameStatus, 'mode':mode});
-	    t = new Date().getTime();
-	    logString += ("\n" + t + "," + sessionID + "," + "remaining_notification" + "," + score + "," + gameStatus + "," + mode);
 	    obj.base.play();
 	}, 3000);
     }
@@ -221,8 +202,6 @@ function task(obj, urgency) {
 	excuseMe.play()
 	setTimeout(function() {
 	    _LTracker.push({'session': sessionID,'event': 'remaining_notification', 'score':score, 'gameStatus':gameStatus, 'mode':mode});
-	    t = new Date().getTime();
-	    logString += ("\n" + t + "," + sessionID + "," + "remaining_notification" + "," + score + "," + gameStatus + "," + mode);
 	    if (urgency=='urgent') {
 		obj.urgent.play();
 	    } else if (urgency =='relax') {
@@ -249,8 +228,6 @@ function touch(obj) {
     console.log("touched " + obj.name);
     var description = 'touch_' + obj.name;
     _LTracker.push({'session':sessionID,'event':description, 'score':score, 'gameStatus':gameStatus, 'mode':mode});
-    t = new Date().getTime();
-    logString += ("\n" + t + "," + sessionID + "," + description + "," + score + "," + gameStatus + "," + mode);
     if (obj.waiting) {
 	obj.touched = true;
 	check(obj);
@@ -261,8 +238,6 @@ function touch(obj) {
 function falseTouch(name) {
     var s = 'falseTouch_' + name
     _LTracker.push({'session':sessionID,'event':s, 'score':score, 'gameStatus':gameStatus, 'mode':mode});
-    t = new Date().getTime();
-    logString += ("\n" + t + "," + sessionID + "," + s + "," + score + "," + gameStatus + "," + mode);
 }
 
 //check an object because it's been touched or because time is up
@@ -273,16 +248,12 @@ function check(obj) {
 	if (obj.touched) {
 	    var status = 'completeTask_' + obj.name;
 	    _LTracker.push({'session':sessionID,'event':status, 'score':score, 'gameStatus':gameStatus, 'mode':mode});
-	    t = new Date().getTime();
-	    logString += ("\n" + t + "," + sessionID + "," + status + "," + score + "," + gameStatus + "," + mode);
 	    goodJob.play();
 	    score = score + 10;
 	    $('#canvas').trigger('updateScore', score);
 	} else {
 	    var status = 'failTask_' + obj.name;
 	    _LTracker.push({'session':sessionID,'event':status, 'score':score, 'gameStatus':gameStatus, 'mode':mode});
-	    t = new Date().getTime();
-	    logString += ("\n" + t + "," + sessionID + "," + status + "," + score + "," + gameStatus + "," + mode);
 	    tooLate.play();
 	}
 	obj.waiting = false;
