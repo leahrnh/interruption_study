@@ -1,35 +1,78 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
-<html> <head>
-<title></title>
+<html>
+
+<head>
+
+<title>Introduction</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="consent.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="jquery-1.8.2.js"></script>
 <style type="text/css"></style>
 </head>
 
+<body>
+
+<!-- Logging script -->
+<script type="text/javascript" src="http://cloudfront.loggly.com/js/loggly.tracker-2.1.min.js" async></script>
+<script>
+    var _LTracker = _LTracker || [];
+    _LTracker.push({'logglyKey': '08bf61ef-effa-4909-965a-5793ba2718fd',
+    'sendConsoleErrors' : true,
+    'tag' : 'loggly-jslogger'  });
+</script>
+            
+
 <script type="text/javascript">
+var workerID = "";
+var like = "";
+var dislike = "";
 
-function getSession() {
-  var locate = window.location.toString();
-  var point = locate.indexOf("=");
-  sessionID = locate.substring(point +1,locate.length);
-  return sessionID;
+function getSessionID(){
+    var locate = window.location.toString();
+    sessionPair = locate.split("=");
+    workerID = sessionPair[1];
+    console.log("ID: " + workerID);
 }
 
-function changeText(){
-        s = "ID: " + getSession();
-	document.getElementById('session').innerHTML = s;
+function Continue() {
+location.href='end.html?id='+workerID;return false;
 }
 
-setTimeout(function() {
-  changeText();
-}, 0);
+function Submit() {
+like = document.getElementById('like').value;
+var event = 'surveyLike_' + like;
+_LTracker.push({'session': workerID, 'event':event,'score': 0,
+'gameStatus':'none', 'mode':'survey'});
+like = document.getElementById('dislike').value;
+var event = 'surveyDislike_' + dislike;
+_LTracker.push({'session': workerID, 'event':event,'score': 0,
+'gameStatus':'none', 'mode':'survey'});
+$("#continueButton").show();
+}
 
 </script>
-<body style="text-align:center">
-<p id='session'>ID: test</p>
-<iframe
-src="https://docs.google.com/forms/d/1Lf_TlMD4ZYu0uXffyI6Y8OD6cFoX1OGI-CACQzbSWNU/viewform?embedded=true"
-width="760" height="1500" frameborder="0" marginheight="0"
-marginwidth="0">Loading...</iframe>
+
+<div id="contents">
+  <h1>Survey</h1>
+  <hr>
+
+<div id="intro">
+  <p>
+  <label for="words">The different rounds of the game had different types of interruptions. Which did you like the most, and why?</label>
+  <input type="textarea" name="like" id="like" required />
+  </p>
+  <p>
+  <label for="id">Which did you like the least, and why?</label>
+  <input type="textarea" name="dislike" id="dislike" required />
+  </p>
+  <input type="button"
+  onclick="Submit();" value="Submit" />
+  
+  <input type="button" id="continueButton"
+  onclick="Continue();" value="Continue" />
+  
+</div>
+
+</div>
 
 </body> </html>

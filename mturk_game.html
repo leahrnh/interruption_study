@@ -51,7 +51,6 @@ $("#livingroom").toggle(room == 'livingroom');
 $("#bathroom").toggle(room == 'bathroom');
 $("#game").toggle(room == 'game');
 $("#doors").toggle(room == 'game');
-$("#instructions").toggle(room == 'game');
 $("#back").toggle(room != 'game');
 }
 
@@ -176,7 +175,7 @@ logString += ("\n" + t + "," + sessionID + "," + "enter_gameroom" + ","+ score +
   <button class="roombutton" id="chestright" onClick="falseTouch('chestRight')"></button>
   <button class="roombutton" id="alarmclock" onClick="touch(alarmclock)"></button>
   <button class="roombutton" id="bed" onClick="touch(bed)"></button>
-  <button class="roombutton" id="phone_bedroom" onClick="falseTouch('phone')"></button>
+  <button class="roombutton" id="phone_bedroom" onClick="touch(telephone)"></button>
   <button class="roombutton" id="window" onClick="falseTouch('window')"></button>
   <button class="roombutton" id="mirror" onClick="falseTouch('mirror')"></button>
   <button class="roombutton" id="luggage" onClick="falseTouch('luggage')"></button>
@@ -202,10 +201,10 @@ logString += ("\n" + t + "," + sessionID + "," + "enter_gameroom" + ","+ score +
 
 <div id="livingroom"  class="room">
   <button class="roombutton" id="grandfatherclock" onClick="falseTouch('grandfatherclock')"></button>
-  <button class="roombutton" id="phone_livingroom" onClick="falseTouch('phone')"></button>
+  <button class="roombutton" id="phone_livingroom" onClick="touch(telephone)"></button>
   <button class="roombutton" id="fire" onClick="falseTouch('fire')"></button>
   <button class="roombutton" id="pictureframe" onClick="falseTouch('pictureframe')"></button>
-  <button class="roombutton" id="encyclopedia" onClick="touch(encyclopedia)"></button>
+  <button class="roombutton" id="encyclopedia" onClick="falseTouch('encyclopedia')"></button>
   <button class="roombutton" id="speaker" onClick="falseTouch('speaker')"></button>
   <button class="roombutton" id="television" onClick="touch(television)"></button>
   <button class="roombutton" id="plant2" onClick="falseTouch('plant2')"></button>
@@ -228,8 +227,9 @@ logString += ("\n" + t + "," + sessionID + "," + "enter_gameroom" + ","+ score +
   <button class="roombutton" id="plant6" onClick="falseTouch('plant6')"></button>
 </div>
 
-<div id="survey">
-  <p>Thank you! Your completion code is: 380572</p>
+<div id="continue">
+  <input type="button"
+  onclick="location.href='end.html?session='+sessionID+;return false;" value="Continue" />
 </div>
 
 

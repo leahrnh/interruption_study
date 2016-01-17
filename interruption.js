@@ -36,7 +36,7 @@ var television = new Item('television', new Audio('audio/televisionBase.m4a'),  
 var stove = new Item('stove', new Audio('audio/stoveBase.m4a'),  new Audio('audio/stoveUrgent.m4a'),  new Audio('audio/stoveRelax.m4a'));
 var bathtub = new Item('bathtub', new Audio('audio/bathtubBase.m4a'),  new Audio('audio/bathtubUrgent.m4a'),  new Audio('audio/bathtubRelax.m4a'));
 var alarmclock = new Item('alarmclock', new Audio('audio/alarmclockBase.m4a'),  new Audio('audio/alarmclockUrgent.m4a'),  new Audio('audio/alarmclockRelax.m4a'));
-var encyclopedia = new Item('encyclopedia', new Audio('audio/encyclopediaBase.m4a'),  new Audio('audio/encyclopediaUrgent.m4a'),  new Audio('audio/encyclopediaRelax.m4a'));
+var telephone = new Item('telephone', new Audio('audio/telephoneBase.m4a'),  new Audio('audio/telephoneUrgent.m4a'),  new Audio('audio/telephoneRelax.m4a'));
 var toaster = new Item('toaster', new Audio('audio/toasterBase.m4a'),  new Audio('audio/toasterUrgent.m4a'),  new Audio('audio/toasterRelax.m4a'));
 var hairdryer = new Item('hairdryer', new Audio('audio/hairdryerBase.m4a'),  new Audio('audio/hairdryerUrgent.m4a'),  new Audio('audio/hairdryerRelax.m4a'));
 
@@ -73,7 +73,7 @@ function introduction() {
     t = new Date().getTime();
     logString += ("\n" + t + "," + sessionID + "," + "startRound_intro" + "," + score + "," + gameStatus + "," + mode);
     var time = 0;
-    /*instructions_1.play(); //start playing
+    instructions_1.play(); //start playing
     time = time + 18000;
     window.setTimeout(function() {
 	instructions_2.play(); //this is how you die
@@ -94,7 +94,7 @@ function introduction() {
 	_LTracker.push({'session': sessionID,'event': 'startRound_practice','score': score, 'gameStatus':gameStatus, 'mode':mode});
 	instructions_5.play(); //practice playing for one minute
     }, time);
-    time = time + 60000;*/
+    time = time + 60000;
     window.setTimeout(function() {
 	_LTracker.push({'session': sessionID,'event': 'endRound_practice','score': score, 'gameStatus':gameStatus, 'mode':mode});
 	die();
@@ -123,10 +123,10 @@ function tasks(roundList) {
 	t = new Date().getTime();
 	logString += ("\n" + t + "," + sessionID + "," + "endRound0" + "," + score + "," + gameStatus + "," + mode);
 	$('#canvas').trigger('updateScore', score);
-	startRound(roundList[0], [bed, toaster, television, hairdryer, alarmclock, encyclopedia, stove, bathtub], ['urgent', 'urgent', 'relax', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
+	startRound(roundList[0], [bed, toaster, television, hairdryer, alarmclock, telephone, stove, bathtub], ['urgent', 'urgent', 'relax', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
     }, time);
     
-    /*time = time + 300000; //5 minutes for a round
+    time = time + 300000; //5 minutes for a round
     window.setTimeout(function() {
 	alert("Round Over. Final score " + score);
 	_LTracker.push({'session': sessionID,'event': 'endRound1','score': score, 'gameStatus':gameStatus, 'mode':mode});
@@ -134,7 +134,7 @@ function tasks(roundList) {
 	logString += ("\n" + t + "," + sessionID + "," + "endRound1" + "," + score + "," + gameStatus + "," + mode);
 	newRound("Round two");
 	$('#canvas').trigger('updateScore', score);
-	startRound(roundList[1], [hairdryer, television, alarmclock, stove, bathtub, toaster, bed, encyclopedia], ['relax', 'relax', 'urgent', 'relax', 'urgent', 'relax', 'urgent', 'urgent']);
+	startRound(roundList[1], [hairdryer, television, alarmclock, stove, bathtub, toaster, bed, telephone], ['relax', 'relax', 'urgent', 'relax', 'urgent', 'relax', 'urgent', 'urgent']);
     }, time);
 
     time = time + 300000; //5 minutes for a round
@@ -144,10 +144,10 @@ function tasks(roundList) {
 	t = new Date().getTime();
 	logString += ("\n" + t + "," + sessionID + "," + "endRound2" + "," + score + "," + gameStatus + "," + mode);
 	newRound("Round three");
-	startRound(roundList[2], [alarmclock, hairdryer, bathtub, bed, television, toaster, encyclopedia, stove], ['urgent', 'relax', 'urgent', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
+	startRound(roundList[2], [alarmclock, hairdryer, bathtub, bed, television, toaster, telephone, stove], ['urgent', 'relax', 'urgent', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
     }, time);
   
-    time = time + 300000; //5 minutes for a round*/
+    time = time + 300000; //5 minutes for a round
 
  setTimeout(function() {
 	alert("Round Over. Final score " + score);
@@ -164,7 +164,7 @@ function tasks(roundList) {
 	$('#livingroom').hide();
      $('#bathroom').hide();
      $('#canvas').trigger('updateLog', logString);
-	$('#survey').show();
+	$('#continue').show();
     }, time);
     
 }
