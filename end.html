@@ -3,7 +3,7 @@
 
 <head>
 
-<title>Introduction</title>
+<title>Completion Code</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link href="consent.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="jquery-1.8.2.js"></script>
@@ -23,10 +23,16 @@
             
 
 <script type="text/javascript">
-var workerID = getSessionID();
+getSessionID();
 var completionCode = getRandomInt(100000, 999999);
 
-$("#completion").text("Your completion code is: " + completionCode);
+$(document).ready(
+        function()
+        {
+            document.getElementById("completion").innerHTML = "Completion code: " + completionCode;
+        }
+);
+
 _LTracker.push({'session': workerID,'event': 'completion_'+completionCode,'score':
 0, 'gameStatus':'complete', 'mode':'complete'});
 
@@ -43,13 +49,12 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-
 </script>
 
 <div id="contents">
   <h3>Thank you for participating</h3>
   <hr>
-  <p id="completion">Your completion code is: </p>
+  <span id="completion">.</span>
 
 </div>
 
