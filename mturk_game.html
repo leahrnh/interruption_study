@@ -26,12 +26,12 @@
            
 <script type="text/javascript">
 
-$(document.body).on('updateGameScore', function (e, size) {
-  $("#size").text("Game Score: " + (size-1));
+$(document.body).on('updateGameScore', function (e, gs) {
+  $("#size").text("Game Score: " + gs);
 });
 
-$(document.body).on('updateScore', function (e, score) {
-  $("#score").text("Total Score: " + score);
+$(document.body).on('updateScore', function (e, s) {
+  $("#score").text("Total Score: " + s);
 });
 
 getSession();
@@ -56,7 +56,7 @@ $("#bedroom_door").click(function() {
 showRoom('bedroom');
 
 _LTracker.push({'session': sessionID,'event': 'enter_bedroom','score':
-score, 'gameStatus':gameStatus, 'mode':mode});
+totScore, 'gameStatus':gameStatus, 'mode':mode});
 });
 
 
@@ -64,7 +64,7 @@ $("#kitchen_door").click(function() {
 showRoom('kitchen');
 
 _LTracker.push({'session': sessionID,'event': 'enter_kitchen','score':
-score, 'gameStatus':gameStatus, 'mode':mode});
+totScore, 'gameStatus':gameStatus, 'mode':mode});
 
 });
 
@@ -72,7 +72,7 @@ $("#livingroom_door").click(function() {
 showRoom('livingroom');
 
 _LTracker.push({'session': sessionID,'event':
-'enter_livingroom','score': score, 'gameStatus':gameStatus,
+'enter_livingroom','score': totScore, 'gameStatus':gameStatus,
 'mode':mode});
 
 });
@@ -81,7 +81,7 @@ $("#bathroom_door").click(function() {
 showRoom('bathroom');
 
 _LTracker.push({'session': sessionID,'event':
-'enter_bathroom','score': score, 'gameStatus':gameStatus,
+'enter_bathroom','score': totScore, 'gameStatus':gameStatus,
 'mode':mode});
 
 });
@@ -90,7 +90,7 @@ $("#back_button").click(function() {
 showRoom('game');
 
 _LTracker.push({'session': sessionID,'event':
-'enter_gameroom','score': score, 'gameStatus':gameStatus,
+'enter_gameroom','score': totScore, 'gameStatus':gameStatus,
 'mode':mode});
 
 });

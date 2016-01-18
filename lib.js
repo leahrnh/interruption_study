@@ -13,24 +13,48 @@ var dr = 10;
 var direction;
 
 var snake;
-var size = 1;
-var gameScore = 0;
-
 var food;
-
 var id;
+
+var size = 1;
+var gameStatus;
+var gameScore = 0;
+var totScore = 0;
+
+
 
 //monitor whether game is ongoing, paused, etc
 var inprogress = false;
 var paused = false;
 
-function setSize(_size) {
-    size = _size;
-    $('#canvas').trigger('updateGameScore', calculateScore(_size));
+//wipe everything clean for a new round
+function newRound(notice) {
+    alert(notice);
+    die();
+    totScore = 0;
+    $('#canvas').trigger('updateScore', 0);
+    size = 1;
+    $('#size').trigger('updateGameScore', calculateScore(size));
+    $("#dead").hide();
+    $('#eor').show();
 }
 
-function calculateScore(num) {
-    return num;
+function gamePoints() {
+    if (size > 1) {
+        gameScore = gameScore + (size-1);
+        totScore = totScore + (size-1);
+        $('#size').trigger('updateGameScore', gameScore);
+        $('#canvas').trigger('updateScore', totScore);
+    } else {
+        gameScore = 0;
+        $('#size').trigger('updateGameScore', gameScore);
+        $('#canvas').trigger('updateScore', totScore);
+    }
+}
+
+function taskPoints() {
+    totScore = totScore + 10;
+    $('#canvas').trigger('updateScore', totScore);
 }
 
 function init() {
@@ -41,14 +65,28 @@ function init() {
     $('#eor').hide();
     
     createsnake();
+    size = 0;
     newfood();
-    
+
     direction = 0;
-    setSize(1);
     
     id = setInterval(step, 100);
 }
 
+
+function die() {
+    if (id) {
+        clearInterval(id);
+        $('#dead').show();
+        gameStatus = 'stopped';
+        size = 0;
+        gamePoints();
+        _LTracker.push({'session': sessionID,'event': 'die','score': totScore, 'gameStatus':gameStatus, 'mode':mode});
+    }
+    inprogress = false;
+}
+
+//Deal with movements
 function onKeyDown(evt) {
   newdir = evt.keyCode - 37;
 
@@ -57,7 +95,7 @@ function onKeyDown(evt) {
   if (newdir != direction && newdir != direction+2 && newdir != direction-2) {
       direction = newdir;
       var dirString = 'gameMove_' + direction;
-      //_LTracker.push({'session': sessionID,'event': dirString,'score': score, 'gameStatus':gameStatus, 'mode':mode});
+      //_LTracker.push({'session': sessionID,'event': dirString,'totScore': totScore, 'gameStatus':gameStatus, 'mode':mode});
   }
 }
 
@@ -78,14 +116,14 @@ function createsnake() {
 function collision(n) {
   // are we out of the playground?
     if (n.x < 0 || n.x > WIDTH - 1 || n.y < 0 || n.y > HEIGHT - 1) {
-	_LTracker.push({'session': sessionID,'event': 'die_edge','score': score, 'gameStatus':gameStatus, 'mode':mode});
+	_LTracker.push({'session': sessionID,'event': 'die_edge','score': totScore, 'gameStatus':gameStatus, 'mode':mode});
 	return true;
     }
     
   // are we eating ourselves?
   for (var i = 0; i < snake.length; i++) {
       if (snake[i].x == n.x && snake[i].y == n.y) {
-	  _LTracker.push({'session': sessionID,'event': 'die_self','score': score, 'gameStatus':gameStatus, 'mode':mode});
+	  _LTracker.push({'session': sessionID,'event': 'die_self','score': totScore, 'gameStatus':gameStatus, 'mode':mode});
       return true;
     }
   }
@@ -103,12 +141,9 @@ function newfood() {
     food.x = randomx * dx;
     food.y = randomy * dy;
     food.r = dr;
-    setSize(size + 1);
-    _LTracker.push({'session': sessionID,'event': 'eat','score': score, 'gameStatus':gameStatus, 'mode':mode});
-}
-
-function getSize() {
-    return size;
+    size += 1;
+    gamePoints();
+    _LTracker.push({'session': sessionID,'event': 'eat','score': totScore, 'gameStatus':gameStatus, 'mode':mode});
 }
 
 function meal(n) {
@@ -149,10 +184,9 @@ function movesnake() {
 
     // if there's food there
     if (meal(n)) {
-	score += 1;
-	newfood(); // we eat it and another shows up
+	    newfood(); // we eat it and another shows up
     } else {
-	snake.pop();
+	    snake.pop();
 	// we only remove the tail if there wasn't food
 	// if there was food, the snake grew
     }
@@ -161,16 +195,6 @@ function movesnake() {
 
 }
 
-function die() {
-    if (id) {
-	clearInterval(id);
-	$('#dead').show();
-	$('#canvas').trigger('updateScore', score);
-	gameStatus = 'stopped';
-	_LTracker.push({'session': sessionID,'event': 'die','score': score, 'gameStatus':gameStatus, 'mode':mode});
-    }
-    inprogress = false;
-}
 
 function circle(x,y,r) {
   ctx.beginPath();
