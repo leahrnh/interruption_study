@@ -39,15 +39,13 @@ location.href='end.html?id='+workerID;return false;
 }
 
 function Submit() {
-like = document.getElementById('like').value;
-var event = 'surveyLike_' + like;
-_LTracker.push({'session': workerID, 'event':event,'score': 0,
-'gameStatus':'none', 'mode':'survey'});
-like = document.getElementById('dislike').value;
-var event = 'surveyDislike_' + dislike;
-_LTracker.push({'session': workerID, 'event':event,'score': 0,
-'gameStatus':'none', 'mode':'survey'});
-$("#continueButton").show();
+    like = document.getElementById('like').value;
+    var event = 'surveyLike_' + like;
+    _LTracker.push({'session': workerID, 'event':event,'score': 0, 'gameStatus':'none', 'mode':'survey'});
+    dislike = document.getElementById('dislike').value;
+    var event = 'surveyDislike_' + dislike;
+    _LTracker.push({'session': workerID, 'event':event,'score': 0, 'gameStatus':'none', 'mode':'survey'});
+    $("#continueButton").show();
 }
 
 </script>
@@ -59,11 +57,13 @@ $("#continueButton").show();
 <div id="intro">
   <p>
   <label for="words">The different rounds of the game had different types of interruptions. Which did you like the most, and why?</label>
-  <input type="textarea" name="like" id="like" required />
+      <br>
+  <textarea name="like" id="like" cols="40" rows="6" required></textarea>
   </p>
   <p>
   <label for="id">Which did you like the least, and why?</label>
-  <input type="textarea" name="dislike" id="dislike" required />
+      <br>
+  <textarea name="dislike" id="dislike" cols="40" rows="6" required></textarea>
   </p>
   <input type="button"
   onclick="Submit();" value="Submit" />
