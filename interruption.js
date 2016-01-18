@@ -4,14 +4,14 @@ var mode;
 var goodJob = new Audio('audio/good_job.m4a'); //"Good job"
 var tooLate = new Audio('audio/too_late.m4a'); //"Sorry. You're out of time."
 
-var instructions_1 = new Audio('audio/instructions_1.m4a');
-var instructions_2 = new Audio('audio/instructions_2.m4a');
-var instructions_3 = new Audio('audio/instructions_3.m4a');
-var instructions_4 = new Audio('audio/instructions_4.m4a');
-var instructions_5 = new Audio('audio/instructions_5.m4a');
-var instructions_6 = new Audio('audio/instructions_6.m4a');
-var instructions_7 = new Audio('audio/instructions_7.m4a');
-var instructions_8 = new Audio('audio/instructions_8.m4a');
+var instructions_1 = new Audio('audio/instructions_1.m4a'); //"The first part of the game is playing Snake. Click the black box to start right now, then use the arrow keys to turn the snake."
+var instructions_2 = new Audio('audio/instructions_2.m4a'); //"If the snake hits the walls or itself, you die."
+var instructions_3 = new Audio('audio/instructions_3.m4a'); //"Click the box again to pause the game."
+var instructions_4 = new Audio('audio/instructions_4.m4a'); //"To get points, hit the red dots. This also increases the length of the snake. The longer the snake gets, the more points you get for each dot."
+var instructions_5 = new Audio('audio/instructions_5.m4a'); //"Practice playing for a minute."
+var instructions_6 = new Audio('audio/instructions_6.m4a'); //"The second component of the game is a house, with rooms. Here are the doors."
+var instructions_7 = new Audio('audio/instructions_7.m4a'); //"Every so often, I will instruct you to click on something in the house. Right now, go click on the dishwasher."
+var instructions_8 = new Audio('audio/instructions_8.m4a'); //"Good job! You get 10 points for each thing you find. For some, there will be a 10 second time limit, but others have unlimited time. There will be three rounds of the game, each with a different notification system. Time to start the first round."
 
 var excuseMe = new Audio('audio/excuseMe.m4a'); //Excuse me!
 var preUrgentPrompt = new Audio('audio/urgent.m4a'); //Urgent!
@@ -53,7 +53,7 @@ function introduction() {
     totScore = 0;
     _LTracker.push({'session': sessionID,'event': 'startRound_instructions','score': totScore, 'gameStatus':gameStatus, 'mode':mode});
     var time = 0;
-    /*instructions_1.play(); //start playing
+    instructions_1.play(); //start playing
     time = time + 18000;
     window.setTimeout(function() {
         instructions_2.play(); //this is how you die
@@ -81,7 +81,7 @@ function introduction() {
         totScore = 0;
         instructions_6.play(); //here are the doors.
     }, time);
-    time = time + 5500;*/
+    time = time + 5500;
     window.setTimeout(function() {
         $('#doors').show();
         instructions_7.play(); //Go click on the dishwasher.
@@ -94,7 +94,7 @@ function tasks(roundList) {
     instructions_8.play();
     time = time + 18000
    
-    /*window.setTimeout(function() {
+    window.setTimeout(function() {
         alert("End of intro.");
         $('#canvas').trigger('updateScore', totScore);
         console.log("starting first task");
@@ -122,7 +122,6 @@ function tasks(roundList) {
     }, time);
 
     time = time + 300000; //5 minutes for a round
-**/
     setTimeout(function() {
         alert("Round Over. Final score " + totScore);
         _LTracker.push({'session': sessionID,'event': 'endRound3', 'score':totScore, 'gameStatus':gameStatus, 'mode':mode});
