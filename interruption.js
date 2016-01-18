@@ -53,7 +53,7 @@ function introduction() {
     totScore = 0;
     _LTracker.push({'session': sessionID,'event': 'startRound_instructions','score': totScore, 'gameStatus':gameStatus, 'mode':mode});
     var time = 0;
-    instructions_1.play(); //start playing
+    /*instructions_1.play(); //start playing
     time = time + 18000;
     window.setTimeout(function() {
         instructions_2.play(); //this is how you die
@@ -81,7 +81,7 @@ function introduction() {
         totScore = 0;
         instructions_6.play(); //here are the doors.
     }, time);
-    time = time + 5500;
+    time = time + 5500;*/
     window.setTimeout(function() {
         $('#doors').show();
         instructions_7.play(); //Go click on the dishwasher.
@@ -94,7 +94,7 @@ function tasks(roundList) {
     instructions_8.play();
     time = time + 18000
    
-    window.setTimeout(function() {
+    /*window.setTimeout(function() {
         alert("End of intro.");
         $('#canvas').trigger('updateScore', totScore);
         console.log("starting first task");
@@ -106,7 +106,7 @@ function tasks(roundList) {
     
     time = time + 300000; //5 minutes for a round
     window.setTimeout(function() {
-        alert("Round Over. Final totScore " + totScore);
+        alert("Round Over. Final score " + totScore);
         _LTracker.push({'session': sessionID,'event': 'endRound1','score': totScore, 'gameStatus':gameStatus, 'mode':mode});
         newRound("Round two");
         $('#canvas').trigger('updateScore', totScore);
@@ -115,16 +115,16 @@ function tasks(roundList) {
 
     time = time + 300000; //5 minutes for a round
     window.setTimeout(function() {
-        alert("Round Over. Final totScore " + totScore);
+        alert("Round Over. Final score " + totScore);
         _LTracker.push({'session': sessionID,'event': 'endRound2', 'score': totScore, 'gameStatus':gameStatus, 'mode':mode});
         newRound("Round three");
         startRound(roundList[2], [alarmclock, hairdryer, bathtub, bed, television, toaster, telephone, stove], ['urgent', 'relax', 'urgent', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
     }, time);
 
     time = time + 300000; //5 minutes for a round
-
+**/
     setTimeout(function() {
-        alert("Round Over. Final totScore " + totScore);
+        alert("Round Over. Final score " + totScore);
         _LTracker.push({'session': sessionID,'event': 'endRound3', 'score':totScore, 'gameStatus':gameStatus, 'mode':mode});
         $('#game').hide();
 	$('#instructions').hide();

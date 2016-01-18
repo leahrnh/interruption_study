@@ -34,7 +34,7 @@ function newRound(notice) {
     totScore = 0;
     $('#canvas').trigger('updateScore', 0);
     size = 1;
-    $('#size').trigger('updateGameScore', calculateScore(size));
+    //$('#size').trigger('updateGameScore', calculateScore(size));
     $("#dead").hide();
     $('#eor').show();
 }
