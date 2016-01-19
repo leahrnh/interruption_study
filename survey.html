@@ -13,12 +13,13 @@
 <body>
 
 <!-- Logging script -->
-<script type="text/javascript" src="http://cloudfront.loggly.com/js/loggly.tracker-2.1.min.js" async></script>
+<script type="text/javascript" src="loggly.tracker.js" async></script>
 <script>
     var _LTracker = _LTracker || [];
     _LTracker.push({'logglyKey': '08bf61ef-effa-4909-965a-5793ba2718fd',
-    'sendConsoleErrors' : true,
-    'tag' : 'loggly-jslogger'  });
+        'sendConsoleErrors' : true,
+        'tag' : 'loggly-jslogger',
+        'useDomainProxy' : true});
 </script>
             
 
