@@ -4,201 +4,140 @@ var mode;
 var goodJob = new Audio('audio/good_job.m4a'); //"Good job"
 var tooLate = new Audio('audio/too_late.m4a'); //"Sorry. You're out of time."
 
-var instructions_1 = new Audio('audio/instructions_1.m4a'); //"The first part of the game is playing Snake. Click the black box to start right now, then use the arrow keys to turn the snake."
-var instructions_2 = new Audio('audio/instructions_2.m4a'); //"If the snake hits the walls or itself, you die."
-var instructions_3 = new Audio('audio/instructions_3.m4a'); //"Click the box again to pause the game."
-var instructions_4 = new Audio('audio/instructions_4.m4a'); //"To get points, hit the red dots. This also increases the length of the snake. The longer the snake gets, the more points you get for each dot."
-var instructions_5 = new Audio('audio/instructions_5.m4a'); //"Practice playing for a minute."
-var instructions_6 = new Audio('audio/instructions_6.m4a'); //"The second component of the game is a house, with rooms. Here are the doors."
-var instructions_7 = new Audio('audio/instructions_7.m4a'); //"Every so often, I will instruct you to click on something in the house. Right now, go click on the dishwasher."
-var instructions_8 = new Audio('audio/instructions_8.m4a'); //"Good job! You get 10 points for each thing you find. For some, there will be a 10 second time limit, but others have unlimited time. There will be three rounds of the game, each with a different notification system. Time to start the first round."
-
 var excuseMe = new Audio('audio/excuseMe.m4a'); //Excuse me!
 var preUrgentPrompt = new Audio('audio/urgent.m4a'); //Urgent!
 var preRelaxPrompt = new Audio('audio/relax.m4a'); //When you have a minute
 
-var Item = function (name, prompt_base, prompt_urgent, prompt_relax) {
+//Round settings
+var round;
+var code;
+var room;
+var notStyle;
+var urg;
+var obj1;
+var audio1;
+var obj2;
+var audio2;
+
+var Item = function (name) {
     this.name = name;
     this.touched = false;
     this.waiting = false;
-    //audio prompts
-    this.base = prompt_base; //ex. "Click on the phone"
-    this.urgent = prompt_urgent; //ex. "Click the phone right away"
-    this.relax = prompt_relax; //ex. "Click the phone at some point"
 }
 
-var bed = new Item('bed', new Audio('audio/bedBase.m4a'),  new Audio('audio/bedUrgent.m4a'),  new Audio('audio/bedRelax.m4a'));
-var television = new Item('television', new Audio('audio/televisionBase.m4a'),  new Audio('audio/televisionUrgent.m4a'),  new Audio('audio/televisionRelax.m4a'));
-var stove = new Item('stove', new Audio('audio/stoveBase.m4a'),  new Audio('audio/stoveUrgent.m4a'),  new Audio('audio/stoveRelax.m4a'));
-var bathtub = new Item('bathtub', new Audio('audio/bathtubBase.m4a'),  new Audio('audio/bathtubUrgent.m4a'),  new Audio('audio/bathtubRelax.m4a'));
-var alarmclock = new Item('alarmclock', new Audio('audio/alarmclockBase.m4a'),  new Audio('audio/alarmclockUrgent.m4a'),  new Audio('audio/alarmclockRelax.m4a'));
-var telephone = new Item('telephone', new Audio('audio/telephoneBase.m4a'),  new Audio('audio/telephoneUrgent.m4a'),  new Audio('audio/telephoneRelax.m4a'));
-var toaster = new Item('toaster', new Audio('audio/toasterBase.m4a'),  new Audio('audio/toasterUrgent.m4a'),  new Audio('audio/toasterRelax.m4a'));
-var hairdryer = new Item('hairdryer', new Audio('audio/hairdryerBase.m4a'),  new Audio('audio/hairdryerUrgent.m4a'),  new Audio('audio/hairdryerRelax.m4a'));
+//create things
+var telephone = new Item('telephone');
+var alarmclock = new Item('alarmclock');
+var stove = new Item('stove'); //change to soup pot?
+var toaster = new Item('toaster');
+var bathtub = new Item('bathtub');
+var hairdryer = new Item('hairdryer'); //change to soap dispenser?
 
 
-//when entering from digit task, get session ID for use in logging
-function getSession(){
+/**
+ * set up configuration variables
+ * assumes url ends with "?session=ID&code=CODE&round=ROUND"
+ */
+function initiate(){
     var locate = window.location.toString();
     var vars = locate.split("&");
     var sessionPair = vars[0].split("=");
     sessionID = sessionPair[1];
-    var dsPair = vars[1].split("=");
-    var ds = dsPair[1];
+    var codePair = vars[1].split("=");
+    code = codePair[1];
+    var code1 = code.charAt(0); //A, B, C
+    var code2 = code.charAt(1); //A, B, C, D, E, F
+    var roundPair = vars[2].split("=");
+    round = roundPair[1];
+
+
+    if (round=="4") {
+        window.location="http://tts.speech.cs.cmu.edu/lnicolic/dialog/survey.html?session="+sessionID+"&code="+code;
+    } else {
+        //deal with code
+        setNotStyle(round, code1);
+        setUrg(round, code2);
+        setObjs(room, urg);
+        tasks();
+    }
 }
 
-function introduction() {
-    gameStatus = 'stopped';
-    mode = 'intro';
-    totScore = 0;
-    _LTracker.push({'session': sessionID,'event': 'startRound_instructions','score': totScore, 'gameStatus':gameStatus, 'mode':mode});
-    var time = 0;
-    instructions_1.play(); //start playing
-    time = time + 18000;
-    window.setTimeout(function() {
-        instructions_2.play(); //this is how you die
-    }, time);
-    time = time + 10000;
-    window.setTimeout(function() {
-        instructions_3.play(); //this is how to get points
-    }, time);
-    time = time + 12000;
-    window.setTimeout(function() {
-        instructions_4.play(); //this is how to pause
-    }, time);
-    time = time + 10000;
-    window.setTimeout(function() {
-        die();
-        totScore = 0;
-        $('#canvas').trigger('updateScore', totScore);
-        _LTracker.push({'session': sessionID,'event': 'startRound_practice','score': totScore, 'gameStatus':gameStatus, 'mode':mode});
-        instructions_5.play(); //practice playing for one minute
-    }, time);
-    time = time + 60000;
-    window.setTimeout(function() {
-        _LTracker.push({'session': sessionID,'event': 'endRound_practice','score': totScore, 'gameStatus':gameStatus, 'mode':mode});
-        die();
-        totScore = 0;
-        instructions_6.play(); //here are the doors.
-    }, time);
-    time = time + 5500;
-    window.setTimeout(function() {
-        $('#doors').show();
-        instructions_7.play(); //Go click on the dishwasher.
-    }, time);    
-}
-
-//call different tasks at the appropriate time, with the appropriate initiation message
-function tasks(roundList) {
+/**
+ * Controls the pacing of the game and all secondary tasks.
+ */
+function tasks() {
     time = 0;
-    instructions_8.play();
-    time = time + 18000
-   
+    score = 0;
+
+    time = time + 30000;
+
     window.setTimeout(function() {
-        alert("End of intro.");
-        $('#canvas').trigger('updateScore', totScore);
-        console.log("starting first task");
-        newRound("Round one");
-        _LTracker.push({'session': sessionID,'event': 'endRound0','score': totScore, 'gameStatus':gameStatus, 'mode':mode});
-        $('#canvas').trigger('updateScore', totScore);
-        startRound(roundList[0], [bed, toaster, television, hairdryer, alarmclock, telephone, stove, bathtub], ['urgent', 'urgent', 'relax', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
-    }, time);
-    
-    time = time + 300000; //5 minutes for a round
-    window.setTimeout(function() {
-        alert("Round Over. Final score " + totScore);
-        _LTracker.push({'session': sessionID,'event': 'endRound1','score': totScore, 'gameStatus':gameStatus, 'mode':mode});
-        newRound("Round two");
-        $('#canvas').trigger('updateScore', totScore);
-        startRound(roundList[1], [hairdryer, television, alarmclock, stove, bathtub, toaster, bed, telephone], ['relax', 'relax', 'urgent', 'relax', 'urgent', 'relax', 'urgent', 'urgent']);
+        task(obj1, audio1);
     }, time);
 
-    time = time + 300000; //5 minutes for a round
+    time = time + 30000;
+
     window.setTimeout(function() {
-        alert("Round Over. Final score " + totScore);
-        _LTracker.push({'session': sessionID,'event': 'endRound2', 'score': totScore, 'gameStatus':gameStatus, 'mode':mode});
-        newRound("Round three");
-        startRound(roundList[2], [alarmclock, hairdryer, bathtub, bed, television, toaster, telephone, stove], ['urgent', 'relax', 'urgent', 'urgent', 'relax', 'relax', 'urgent', 'relax']);
+        task(obj2, audio2);
     }, time);
 
-    time = time + 300000; //5 minutes for a round
-    setTimeout(function() {
-        alert("Round Over. Final score " + totScore);
-        _LTracker.push({'session': sessionID,'event': 'endRound3', 'score':totScore, 'gameStatus':gameStatus, 'mode':mode});
-        $('#game').hide();
-	$('#instructions').hide();
-        $('#doors').hide();
-        $('#back').hide();
-        $('#totScore').hide();
-        $('#bedroom').hide();
-        $('#kitchen').hide();
-        $('#livingroom').hide();
-        $('#bathroom').hide();
-        //$('#canvas').trigger('updateLog', logString);
-	$('#continue').show();
-    }, time);
+    time = time + 60000;
 
+    window.setTimeout(function() {
+        endRound();
+    }, time);
 }
 
-
-//start one round, with the appropriate settings
-//the lists should contain one of each object, and even numbers of urgencies (urgent or relaxed)
-function startRound(newMode, objectList, urgencyList) {
-    //some alert or something about starting the next round
-    totScore = 0;
-    mode = newMode;
-    var time = 0;
-    var status = 'startRound_' + newMode;
-    _LTracker.push({'session': sessionID,'event': status, 'score': totScore, 'gameStatus':gameStatus, 'mode':mode});
-    for (var i=0; i<objectList.length; i++) {
-        time = time + 30000;
-        var obj = objectList[i];
-        var urgLevel = urgencyList[i];
-        window.setTimeout(task.bind(this, obj, urgLevel), time);
-    }
+/**
+ * Conclude the round and display link to the appropriate next page
+ */
+function endRound() {
+    alert("Round Over. Final score " + totScore);
+    $('#game').hide();
+    $('#instructions').hide();
+    $('#doors').hide();
+    $('#back').hide();
+    $('#totScore').hide();
+    $('#bedroom').hide();
+    $('#kitchen').hide();
+    $('#livingroom').hide();
+    $('#bathroom').hide();
+    $('#continue').show();
+    //TODO make continue go to the correct place
 }
 
-//perform a task that involves the specified object in the specified amount of time
-function task(obj, urgency) {
-    var status = 'startTask_' + obj.name + "_" + urgency;
-    _LTracker.push({'session': sessionID,'event': status, 'score': totScore, 'gameStatus':gameStatus, 'mode':mode});
-    console.log("task", obj, urgency);
-
-    //decide how to play prompt based on mode and urgency
-    if (mode=='NoPre') {
-        if (urgency=='urgent') {
-            obj.urgent.play();
-	} else if (urgency =='relax') {
-	    obj.relax.play();
-	}
-    } else if (mode=='PreUrg') {
-	if (urgency=='urgent') {
-	    preUrgentPrompt.play();
-	} else {
-	    preRelaxPrompt.play();
-	}
-	window.setTimeout(function() {
-	    _LTracker.push({'session': sessionID,'event': 'remaining_notification', 'score':totScore, 'gameStatus':gameStatus, 'mode':mode});
-	    obj.base.play();
-	}, 3000);
-    }
-    else if (mode=='PreBase') {
-	excuseMe.play()
-	setTimeout(function() {
-	    _LTracker.push({'session': sessionID,'event': 'remaining_notification', 'score':totScore, 'gameStatus':gameStatus, 'mode':mode});
-        if (urgency=='urgent') {
-            obj.urgent.play();
-        } else if (urgency =='relax') {
-            obj.relax.play();
+/**
+ * Trigger the start of a specific task, with its associated audio style
+ * @param obj  the object to be touched
+ * @param audio  the audio notification associated with it
+ */
+function task(obj, audio) {
+    //decide how to play prompt based on notification style
+    if (notStyle=="base") {
+        audio.play();
+    } else if (notStyle=="pre") {
+        excuseMe.play();
+        window.setTimeout(function () {
+            audio.play();
+        }, 3000);
+    } else if (notStyle=="urg") {
+        if (urg=='urgent') {
+            preUrgentPrompt.play();
+        } else {
+            preRelaxPrompt.play();
         }
-    }, 3000);
+        window.setTimeout(function () {
+            audio.play();
+        }, 3000);
+    } else {
+        alert("Error: issue with notification style: " + notStyle);
     }
 
     obj.waiting = true;
     obj.touched = false;
     
-    //if the task is urgent, it must happen within 20 seconds
-    if (urgency=='urgent') {
+    //if the task is urgent, it must happen within 10 seconds
+    if (urg=="urgent") {
         setTimeout(function() {
             console.log("checking" + obj.name);
             check(obj);
@@ -206,8 +145,10 @@ function task(obj, urgency) {
     }
 }
 
-//basic interaction with an object
-//if it's waiting, then label it "touched"
+/**
+ * Touch an object in order to complete a task
+ * @param obj
+ */
 function touch(obj) {
     console.log("touched " + obj.name);
     var description = 'touch_' + obj.name;
@@ -218,13 +159,18 @@ function touch(obj) {
     }
 }
 
-//clicking on a button that doesn't have an associated object (ie. the wrong one)
+/**
+ * Touch an object not associated with a task (for logging purposes)
+ * @param name
+ */
 function falseTouch(name) {
     var s = 'falseTouch_' + name
     _LTracker.push({'session':sessionID,'event':s, 'score':totScore, 'gameStatus':gameStatus, 'mode':mode});
 }
 
-//check an object because it's been touched or because time is up
+/**
+ * Check an object because it's been touched or because time is up
+ */
 function check(obj) {
     //if it's not waiting, we don't even care (we also always expect it to be waiting when we check)
     if (obj.waiting) {
@@ -241,5 +187,138 @@ function check(obj) {
 	}
 	obj.waiting = false;
 	obj.touched = false;
+    }
+}
+
+/**
+ * look up and set room and notification style
+ * @param round  round round number: 1, 2, or 3
+ * @param code1  defines room and notification style: A, B, or C
+ */
+function setNotStyle(round, code1) {
+    if (round=="1") {
+        if (code1=="A") {
+            room = "bedroom";
+            notStyle = "base";
+        } else if (code1=="B") {
+            room = "kitchen";
+            notStyle = "urg";
+        } else if (code1=="C") {
+            room = "bathroom";
+            notStyle = "pre"
+        } else {
+            alert("Error: issue with code1: " + code1);
+        }
+    } else if (round=="2") {
+        if (code1=="A") {
+            room = "kitchen";
+            notStyle = "pre";
+        } else if (code1=="B") {
+            room = "bathroom";
+            notStyle = "base";
+        } else if (code1=="C") {
+            room = "bedroom";
+            notStyle = "urg";
+        } else {
+            alert("Error: issue with code1: " + code1);
+        }
+    } else if (round=="3") {
+        if (code1=="A") {
+            room = "bathroom";
+            notStyle = "urg";
+        } else if (code1=="B") {
+            room = "bedroom";
+            notStyle = "pre";
+        } else if (code1=="C") {
+            room = "kitchen";
+            notStyle = "base";
+        } else {
+            alert("Error: issue with code1: " + code1);
+        }
+    } else {
+        alert("Error: issue with round number: " + round);
+    }
+}
+
+/**
+ * look up and set the urgency level
+ * @param round  round number: 1, 2, or 3
+ * @param code2  defines urgency type: A-F
+ */
+function setUrg(round, code2) {
+    if (round=="1") {
+        if (code2 == "A" || code2 == "B" || code2 == "F") {
+            urg = "urgent"
+        } else if (code2 == "C" || code2 == "D" || code2 == "E") {
+            urg = "relax"
+        } else {
+            alert("Error: issue with code2: " + code2);
+        }
+    } else if (round=="2") {
+        if (code2=="A" || code2=="C" || code2=="E") {
+            urg = "urgent"
+        } else if (code2=="B" || code2=="D" || code2=="F") {
+            urg = "relax"
+        } else {
+            alert("Error: issue with code2: " + code2);
+        }
+    } else if (round=="3") {
+        if (code2=="B" || code2=="C" || code2=="D") {
+            urg = "urgent"
+        } else if (code2=="A" || code2=="E" || code2=="F") {
+            urg = "relax"
+        } else {
+            alert("Error: issue with code2: " + code2);
+        }
+    }
+}
+
+/**
+ * Based on room and urgency level, set the objects that need to be clicked, and the associated notification audio
+ * TODO add actual audio files
+ * @param room  room notifications are in for this round
+ * @param urg   urgent or relaxed
+ */
+function setObjs(room, urg) {
+    if (room=="bedroom") {
+        obj1 = alarmclock;
+        obj2 = telephone;
+        if (urg=="urgent") {
+            audio1 = new Audio('audio/alarmclock_urgent.m4a');
+            audio2 = new Audio('audio/telephone_urgent.m4a');
+        } else if (urg=="relax") {
+            audio1 = new Audio('audio/alarmclock_relax.m4a');
+            audio2 = new Audio('audio/telephone_relax.m4a');
+        } else {
+            alert("Error: issue with urgency: " + urg);
+        }
+    } else if (room=="kitchen") {
+        obj1 = toaster;
+        obj2 = stove;
+        if (urg=="urgent") {
+            audio1 = new Audio('audio/toaster_urgent.m4a');
+            audio2 = new Audio('audio/stove_urgent.m4a');
+        } else if (urg=="relax") {
+            audio1 = new Audio('audio/toaster_relax.m4a');
+            audio2 = new Audio('audio/stove_relax.m4a');
+        } else {
+            alert("Error: issue with urgency: " + urg);
+        }
+
+    } else if (room=="bathroom") {
+        obj1 = bathtub;
+        obj2 = hairdryer;
+        if (urg=="urgent") {
+            audio1 = new Audio('audio/bathtub_urgent.m4a');
+            audio2 = new Audio('audio/hairdryer_urgent.m4a');
+        } else if (urg=="relax") {
+            audio1 = new Audio('audio/bathtub_relax.m4a');
+            audio2 = new Audio('audio/hairdryer_relax.m4a');
+        } else {
+            alert("Error: issue with urgency: " + urg);
+        }
+
+    } else {
+        alert("Error: issue with room: " + room);
     }
 }

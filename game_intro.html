@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<head>
+
+<title>MTurk Study</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link href="styles.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="jquery-1.8.2.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> -->
+<script type="text/javascript" src="lib.js"></script>
+<script type="text/javascript" src="game.js"></script>
+<script type="text/javascript" src="interruption_intro.js"></script>
+<style type="text/css"></style>
+</head>
+<body>
+
+<!-- Logging script -->
+<script type="text/javascript" src="loggly.tracker.js" async></script>
+<script>
+  var _LTracker = _LTracker || [];
+  _LTracker.push({'logglyKey': '08bf61ef-effa-4909-965a-5793ba2718fd',
+    'sendConsoleErrors' : true,
+    'tag' : 'loggly-jslogger',
+    'useDomainProxy' : true});
+</script>
+           
+<script type="text/javascript">
+
+$(document.body).on('updateGameScore', function (e, gs) {
+  $("#size").text("Game Score: " + gs);
+});
+
+$(document.body).on('updateScore', function (e, s) {
+  $("#score").text("Total Score: " + s);
+});
+
+getSession();
+
+var roundList = ['NoPre', 'PreBase', 'PreUrg'];
+
+introduction();
+
+function showRoom(room) {
+$("#bedroom").toggle(room == 'bedroom');
+$("#kitchen").toggle(room == 'kitchen');
+$("#livingroom").toggle(room == 'livingroom');
+$("#bathroom").toggle(room == 'bathroom');
+$("#game").toggle(room == 'game');
+$("#doors").toggle(room == 'game');
+$("#back").toggle(room != 'game');
+}
+
+$(document).ready(function(){
+
+$("#bedroom_door").click(function() {
+showRoom('bedroom');
+
+_LTracker.push({'session': sessionID,'event': 'enter_bedroom','score':
+totScore, 'gameStatus':gameStatus, 'mode':mode});
+});
+
+
+$("#kitchen_door").click(function() {
+showRoom('kitchen');
+
+_LTracker.push({'session': sessionID,'event': 'enter_kitchen','score':
+totScore, 'gameStatus':gameStatus, 'mode':mode});
+
+});
+
+$("#livingroom_door").click(function() {
+showRoom('livingroom');
+
+_LTracker.push({'session': sessionID,'event':
+'enter_livingroom','score': totScore, 'gameStatus':gameStatus,
+'mode':mode});
+
+});
+
+$("#bathroom_door").click(function() {
+showRoom('bathroom');
+
+_LTracker.push({'session': sessionID,'event':
+'enter_bathroom','score': totScore, 'gameStatus':gameStatus,
+'mode':mode});
+
+});
+
+$("#back_button").click(function() {
+showRoom('game');
+
+_LTracker.push({'session': sessionID,'event':
+'enter_gameroom','score': totScore, 'gameStatus':gameStatus,
+'mode':mode});
+
+});
+
+});
+
+</script>
+
+<div id="scorebox">
+  <p id="score">Total Score: 0</p>
+</div>
+
+<div id="game">
+  <p id="size">Game Score: 0</p>
+  <canvas id="canvas" width="400" height="400" onclick="gamerun()"
+  style="background-color: black; text-align: center;"></canvas>
+  <p id="dead">You died! Click to restart.</p>
+  <p id="eor">New round! Click to restart.</p>
+</div>
+
+<div id="doors">
+  <button class="door" id="bedroom_door">Bedroom</button>
+  <button class="door" id="kitchen_door">Kitchen</button>
+  <button class="door" id="livingroom_door">Living Room</button>
+  <button class="door" id="bathroom_door">Bathroom</button>
+</div>
+
+<div id="back">
+  <button class="backbutton" id="back_button"
+ >Return to game</button>
+  <p id="artcredit">Art thanks to <a
+  href="https://openclipart.org/user-detail/Viscious-Speed" target="_blank">
+  Viscious-Speed</a></p>
+</div>
+
+<div id="bedroom"  class="room">
+  <button class="roombutton" id="chestleft" onClick="falseTouch('chestLeft')"></button>
+  <button class="roombutton" id="chestright" onClick="falseTouch('chestRight')"></button>
+  <button class="roombutton" id="alarmclock" onClick="falseTouch('alarmclock')"></button>
+  <button class="roombutton" id="bed" onClick="falseTouch('bed')"></button>
+  <button class="roombutton" id="phone_bedroom" onClick="falseTouch('telephone')"></button>
+  <button class="roombutton" id="window" onClick="falseTouch('window')"></button>
+  <button class="roombutton" id="mirror" onClick="falseTouch('mirror')"></button>
+  <button class="roombutton" id="luggage" onClick="falseTouch('luggage')"></button>
+</div>
+
+<div id="kitchen"  class="room">
+  <button class="roombutton" id="dishwasher" onClick="endRound()"></button>
+  <button class="roombutton" id="cabinet" onClick="falseTouch('cabinet')"></button>
+  <button class="roombutton" id="stove" onClick="falseTouch('stove')"></button>
+  <button class="roombutton" id="cuttingboard" onClick="falseTouch('cuttingboard')"></button>
+  <button class="roombutton" id="knife" onClick="falseTouch('knife')"></button>
+  <button class="roombutton" id="fridge" onClick="falseTouch('fridge')"></button>
+  <button class="roombutton" id="freezer" onClick="falseTouch('freezer')"></button>
+  <button class="roombutton" id="plant1" onClick="falseTouch('plant1')"></button>
+  <button class="roombutton" id="microwave" onClick="falseTouch('microwave')"></button>
+  <button class="roombutton" id="toaster" onClick="falseTouch('toaster')"></button>
+  <button class="roombutton" id="kettle" onClick="falseTouch('kettle')"></button>
+  <button class="roombutton" id="sink" onClick="falseTouch('sink')"></button>
+  <button class="roombutton" id="soap" onClick="falseTouch('soap')"></button>
+  <button class="roombutton" id="littlepot" onClick="falseTouch('littlepot')"></button>
+  <button class="roombutton" id="bigpot" onClick="falseTouch('bigpot')"></button>
+</div>
+
+<div id="livingroom"  class="room">
+  <button class="roombutton" id="grandfatherclock" onClick="falseTouch('grandfatherclock')"></button>
+  <button class="roombutton" id="fire" onClick="falseTouch('fire')"></button>
+  <button class="roombutton" id="pictureframe" onClick="falseTouch('pictureframe')"></button>
+  <button class="roombutton" id="encyclopedia" onClick="falseTouch('encyclopedia')"></button>
+  <button class="roombutton" id="speaker" onClick="falseTouch('speaker')"></button>
+  <button class="roombutton" id="television" onClick="falseTouch('television')"></button>
+  <button class="roombutton" id="plant2" onClick="falseTouch('plant2')"></button>
+  <button class="roombutton" id="plant3" onClick="falseTouch('plant3')"></button>
+</div>
+
+<div id="bathroom"  class="room">
+  <button class="roombutton" id="toiletbrush" onClick="falseTouch('toiletbrush')"></button>
+  <button class="roombutton" id="toilet" onClick="falseTouch('toilet')"></button>
+  <button class="roombutton" id="shampoo" onClick="falseTouch('shampoo')"></button>
+  <button class="roombutton" id="bathtub" onClick="falseTouch('bathtub')"></button>
+  <button class="roombutton" id="bathrobe" onClick="falseTouch('bathrobe')"></button>
+  <button class="roombutton" id="toothbrush" onClick="falseTouch('toothbrush')"></button>
+  <button class="roombutton" id="hairdryer" onClick="falseTouch('hairdryer')"></button>
+  <button class="roombutton" id="leftsink" onClick="falseTouch('leftsink')"></button>
+  <button class="roombutton" id="rightsink" onClick="falseTouch('rightsink')"></button>
+  <button class="roombutton" id="medicine" onClick="falseTouch('medicine')"></button>
+  <button class="roombutton" id="plant4" onClick="falseTouch('plant4')"></button>
+  <button class="roombutton" id="plant5" onClick="falseTouch('plant5')"></button>
+  <button class="roombutton" id="plant6" onClick="falseTouch('plant6')"></button>
+</div>
+
+<div id="continue">
+  <input type="button" class="continueButton"
+  onclick="location.href='game_round.html?session='+sessionID+'&code=AA&round=1';return false;" value="Continue" />
+</div>
+
+
+
+</body></html>
