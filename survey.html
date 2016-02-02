@@ -27,12 +27,39 @@
 var workerID = "";
 var like = "";
 var dislike = "";
+var code1 = "";
 
 function getSessionID(){
     var locate = window.location.toString();
-    sessionPair = locate.split("=");
+    var vars = locate.split("&");
+    var sessionPair = vars[0].split("=");
     workerID = sessionPair[1];
-    console.log("ID: " + workerID);
+    var codePair = vars[1].split("=");
+    var code = codePair[1];
+    code1 = code.charAt(0); //A, B, C
+    if (code1=="A") {
+        document.getElementById("r1l").innerHTML="Round 1 (Bedroom)";
+        document.getElementById("r1d").innerHTML="Round 1 (Bedroom)";
+        document.getElementById("r2l").innerHTML="Round 2 (Kitchen)";
+        document.getElementById("r2d").innerHTML="Round 2 (Kitchen)";
+        document.getElementById("r3l").innerHTML="Round 3 (Bathroom)";
+        document.getElementById("r3d").innerHTML="Round 3 (Bathroom)";
+    } else if (code1=="B") {
+        document.getElementById("r1l").innerHTML="Round 1 (Kitchen)";
+        document.getElementById("r1d").innerHTML="Round 1 (Kitchen)";
+        document.getElementById("r2l").innerHTML="Round 2 (Bathroom)";
+        document.getElementById("r2d").innerHTML="Round 2 (Bathroom)";
+        document.getElementById("r3l").innerHTML="Round 3 (Bedroom)";
+        document.getElementById("r3d").innerHTML="Round 3 (Bedroom)";
+    } else {
+        document.getElementById("r1l").innerHTML="Round 1 (Bathroom)";
+        document.getElementById("r1d").innerHTML="Round 1 (Bathroom)";
+        document.getElementById("r2l").innerHTML="Round 2 (Bedroom)";
+        document.getElementById("r2d").innerHTML="Round 2 (Bedroom)";
+        document.getElementById("r3l").innerHTML="Round 3 (Kitchen)";
+        document.getElementById("r3d").innerHTML="Round 3 (Kitchen)";
+
+    }
 }
 
 function Continue() {
@@ -40,16 +67,31 @@ location.href='end.html?id='+workerID;return false;
 }
 
 function Submit() {
+    var event;
+    var likeChoice = $('input[name="likeChoice"]:checked').val();
+    event = 'surveyLikeChoice_' + likeChoice;
+    _LTracker.push({'session': workerID, 'event':event,'score': 0, 'gameStatus':'survey', 'mode':'survey'});
     like = document.getElementById('like').value;
-    var event = 'surveyLike_' + like;
+    event = 'surveyLike_' + like;
+    _LTracker.push({'session': workerID, 'event':event,'score': 0, 'gameStatus':'survey', 'mode':'survey'});
+    var dislikeChoice = $('input[name="dislikeChoice"]:checked').val();
+    event = 'surveyDislikeChoice_' + dislikeChoice;
     _LTracker.push({'session': workerID, 'event':event,'score': 0, 'gameStatus':'survey', 'mode':'survey'});
     dislike = document.getElementById('dislike').value;
-    var event = 'surveyDislike_' + dislike;
+    event = 'surveyDislike_' + dislike;
+    _LTracker.push({'session': workerID, 'event':event,'score': 0, 'gameStatus':'survey', 'mode':'survey'});
+    age = document.getElementById('age').value;
+    event = 'surveyAge_' + age;
+    _LTracker.push({'session': workerID, 'event':event,'score': 0, 'gameStatus':'survey', 'mode':'survey'});
+    gender = document.getElementById('gender').value;
+    event = 'surveyGender_' + gender;
     _LTracker.push({'session': workerID, 'event':event,'score': 0, 'gameStatus':'survey', 'mode':'survey'});
     $("#continueButton").show();
 }
 
-getSessionID();
+window.onload = function() {
+    getSessionID();
+}
 
 </script>
 
@@ -58,15 +100,29 @@ getSessionID();
   <hr>
 
 <div id="intro">
-  <p>
-  <label>The different rounds of the game had different types of interruptions. Which did you like the most, and why?</label>
+    <p>Comparing the different notification styles, which did you like most?<br>
+    <input type="radio" name="likeChoice" value="Round1"> <span id="r1l">Round 1</span><br>
+    <input type="radio" name="likeChoice" value="Round2"> <span id="r2l">Round 2</span><br>
+    <input type="radio" name="likeChoice" value="Round3"> <span id="r3l">Round 3</span><br>
+  <label>What did you like about it?</label>
       <br>
   <textarea name="like" id="like" cols="40" rows="6" required></textarea>
   </p>
     <p>
-  <label>Which did you like the least, and why?</label>
+  <label>Which did you like the least?</label><br>
+        <input type="radio" name="dislikeChoice" value="Round1"> <span id="r1d">Round 1</span><br>
+        <input type="radio" name="dislikeChoice" value="Round2"> <span id="r2d">Round 2</span><br>
+        <input type="radio" name="dislikeChoice" value="Round3"> <span id="r3d">Round 3</span><br>
+        <label>Which did you dislike about it?</label>
       <br>
   <textarea name="dislike" id="dislike" cols="40" rows="6" required></textarea>
+    </p>
+    <p>
+        <label>How old are you?</label>
+        <input type="text" name="age" id="age" required></input>
+        <br>
+        <label>What is your gender?</label>
+        <input type="text" name="gender" id="gender" required></input>
     </p>
   <input type="button"
   onclick="Submit();" value="Submit" />
