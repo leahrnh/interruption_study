@@ -53,7 +53,7 @@ function gamePoints() {
 }
 
 function taskPoints() {
-    totScore = totScore + 10;
+    totScore = totScore + 20;
     $('#canvas').trigger('updateScore', totScore);
 }
 
