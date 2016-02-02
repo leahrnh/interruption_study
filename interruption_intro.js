@@ -45,32 +45,35 @@ function introduction() {
     gameStatus = 'stopped';
     mode = 'intro';
     totScore = 0;
-    _LTracker.push({'session': sessionID,'event': 'startRound_instructions','score': totScore, 'gameStatus':gameStatus, 'mode':mode});
+    _LTracker.push({'session': sessionID, 'event': 'instructions_start', 'score': totScore, 'gameStatus': gameStatus});
     var time = 0;
     instructions_1.play(); //start playing
     time = time + 14000;
     window.setTimeout(function() {
         instructions_2.play(); //this is how you die
+        _LTracker.push({'session': sessionID, 'event': 'instructions_die', 'score': totScore, 'gameStatus': gameStatus});
     }, time);
     time = time + 6000;
     window.setTimeout(function() {
         instructions_3.play(); //this is how to get points
+        _LTracker.push({'session': sessionID, 'event': 'instructions_points', 'score': totScore, 'gameStatus': gameStatus});
     }, time);
     time = time + 14000;
     window.setTimeout(function() {
         instructions_4.play(); //this is how to pause
+        _LTracker.push({'session': sessionID, 'event': 'instructions_pause', 'score': totScore, 'gameStatus': gameStatus});
     }, time);
     time = time + 10000;
     window.setTimeout(function() {
         die();
         totScore = 0;
         $('#canvas').trigger('updateScore', totScore);
-        _LTracker.push({'session': sessionID,'event': 'startRound_practice','score': totScore, 'gameStatus':gameStatus, 'mode':mode});
+        _LTracker.push({'session': sessionID, 'event': 'practice_start', 'score': totScore, 'gameStatus': gameStatus});
         instructions_5.play(); //practice playing for one minute
     }, time);
     time = time + 60000;
     window.setTimeout(function() {
-        _LTracker.push({'session': sessionID,'event': 'endRound_practice','score': totScore, 'gameStatus':gameStatus, 'mode':mode});
+        _LTracker.push({'session': sessionID, 'event': 'practice_end', 'score': totScore, 'gameStatus': gameStatus});
         die();
         totScore = 0;
         instructions_6.play(); //here are the doors.
@@ -85,6 +88,7 @@ function introduction() {
 
 function touchTheFire() {
   if (fireWaiting) {
+      _LTracker.push({'session': sessionID, 'event': 'touch_fire', 'score': totScore, 'gameStatus': gameStatus});
       instructions_8.play();
       fireWaiting = false;
       tvWaiting = true;
@@ -101,6 +105,7 @@ function touchTheFire() {
 
 function touchTelevision() {
     if (tvWaiting) {
+        _LTracker.push({'session': sessionID, 'event': 'touch_television', 'score': totScore, 'gameStatus': gameStatus});
         good_job.play();
         window.setTimeout(function() {
             endRound();
@@ -112,6 +117,7 @@ function endRound() {
     tvWaiting = false;
     instructions_9.play();
     window.setTimeout(function() {
+        _LTracker.push({'session': sessionID, 'event': 'end_intro', 'score': totScore, 'gameStatus': gameStatus});
         $('#game').hide();
         $('#instructions').hide();
         $('#doors').hide();
@@ -128,6 +134,6 @@ function endRound() {
 
 //clicking on a button that doesn't have an associated object (ie. the wrong one)
 function falseTouch(name) {
-    var s = 'falseTouch_' + name
-    _LTracker.push({'session':sessionID,'event':s, 'score':totScore, 'gameStatus':gameStatus, 'mode':mode});
+    var event = 'falseTouch_' + name
+    _LTracker.push({'session': sessionID, 'event': event, 'score': totScore, 'gameStatus': gameStatus});
 }

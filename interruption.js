@@ -33,6 +33,8 @@ var pot = new Item('pot');
 var bathtub = new Item('bathtub');
 var sink = new Item('sink');
 
+var event = '';
+
 
 /**
  * set up configuration variables
@@ -59,6 +61,16 @@ function initiate(){
         setUrg(round, code2);
         setObjs(room, urg);
         tasks();
+        event = 'initiateRound';
+        _LTracker.push({'session':sessionID,'event':event, 'score':totScore, 'gameStatus':gameStatus});
+        event = "round_" + round;
+        _LTracker.push({'session':sessionID,'event':event, 'score':totScore, 'gameStatus':gameStatus});
+        event = "notificationStyle_" + notStyle;
+        _LTracker.push({'session':sessionID,'event':event, 'score':totScore, 'gameStatus':gameStatus});
+        event = "room_" + room;
+        _LTracker.push({'session':sessionID,'event':event, 'score':totScore, 'gameStatus':gameStatus});
+        event = "urg_" + urg;
+        _LTracker.push({'session':sessionID,'event':event, 'score':totScore, 'gameStatus':gameStatus});
     }
 }
 
@@ -66,7 +78,7 @@ function initiate(){
  * Controls the pacing of the game and all secondary tasks.
  */
 function tasks() {
-    time = 0;
+    var time = 0;
     score = 0;
 
     time = time + 30000;
@@ -92,6 +104,8 @@ function tasks() {
  * Conclude the round and display link to the appropriate next page
  */
 function endRound() {
+    event = "endRound";
+    _LTracker.push({'session':sessionID,'event':event, 'score':totScore, 'gameStatus':gameStatus});
     alert("Round Over. Final score " + totScore);
     $('#game').hide();
     $('#instructions').hide();
@@ -103,7 +117,6 @@ function endRound() {
     $('#livingroom').hide();
     $('#bathroom').hide();
     $('#continue').show();
-    //TODO make continue go to the correct place
 }
 
 /**
@@ -114,19 +127,28 @@ function endRound() {
 function task(obj, audio) {
     //decide how to play prompt based on notification style
     if (notStyle=="base") {
+        event = 'startTask_' + obj.name;
+        _LTracker.push({'session':sessionID,'event':event, 'score':totScore, 'gameStatus':gameStatus});
         audio.play();
     } else if (notStyle=="pre") {
+        _LTracker.push({'session':sessionID,'event':'interrupt', 'score':totScore, 'gameStatus':gameStatus});
         excuseMe.play();
         window.setTimeout(function () {
+            event = 'startTask_' + obj.name;
+            _LTracker.push({'session':sessionID,'event':event, 'score':totScore, 'gameStatus':gameStatus});
             audio.play();
         }, 3000);
     } else if (notStyle=="urg") {
         if (urg=='urgent') {
+            _LTracker.push({'session':sessionID,'event':'interrupt', 'score':totScore, 'gameStatus':gameStatus});
             preUrgentPrompt.play();
         } else {
+            _LTracker.push({'session':sessionID,'event':'interrupt', 'score':totScore, 'gameStatus':gameStatus});
             preRelaxPrompt.play();
         }
         window.setTimeout(function () {
+            event = 'startTask_' + obj.name;
+            _LTracker.push({'session':sessionID,'event':event, 'score':totScore, 'gameStatus':gameStatus});
             audio.play();
         }, 3000);
     } else {
@@ -150,12 +172,11 @@ function task(obj, audio) {
  * @param obj
  */
 function touch(obj) {
-    console.log("touched " + obj.name);
-    var description = 'touch_' + obj.name;
-    _LTracker.push({'session':sessionID,'event':description, 'score':totScore, 'gameStatus':gameStatus, 'mode':mode});
+    event = 'touch_' + obj.name;
+    _LTracker.push({'session':sessionID,'event':event, 'score':totScore, 'gameStatus':gameStatus});
     if (obj.waiting) {
-	obj.touched = true;
-	check(obj);
+	    obj.touched = true;
+	    check(obj);
     }
 }
 
@@ -164,8 +185,8 @@ function touch(obj) {
  * @param name
  */
 function falseTouch(name) {
-    var s = 'falseTouch_' + name
-    _LTracker.push({'session':sessionID,'event':s, 'score':totScore, 'gameStatus':gameStatus, 'mode':mode});
+    event = 'falseTouch_' + name;
+    _LTracker.push({'session':sessionID,'event':event, 'score':totScore, 'gameStatus':gameStatus});
 }
 
 /**
@@ -174,19 +195,19 @@ function falseTouch(name) {
 function check(obj) {
     //if it's not waiting, we don't even care (we also always expect it to be waiting when we check)
     if (obj.waiting) {
-	//if it's been touched, then you get points
-	if (obj.touched) {
-	    var status = 'completeTask_' + obj.name;
-	    _LTracker.push({'session':sessionID,'event':status, 'score':totScore, 'gameStatus':gameStatus, 'mode':mode});
-	    goodJob.play();
-	    taskPoints();
-	} else {
-	    var status = 'failTask_' + obj.name;
-	    _LTracker.push({'session':sessionID,'event':status, 'score':totScore, 'gameStatus':gameStatus, 'mode':mode});
-	    tooLate.play();
-	}
-	obj.waiting = false;
-	obj.touched = false;
+	    //if it's been touched, then you get points
+	    if (obj.touched) {
+            event = 'completeTask_' + obj.name;
+            _LTracker.push({'session':sessionID,'event':event, 'score':totScore, 'gameStatus':gameStatus});
+	        goodJob.play();
+	        taskPoints();
+	    } else {
+            event = 'failTask_' + obj.name;
+            _LTracker.push({'session':sessionID,'event':event, 'score':totScore, 'gameStatus':gameStatus});
+	        tooLate.play();
+	    }
+	    obj.waiting = false;
+	    obj.touched = false;
     }
 }
 

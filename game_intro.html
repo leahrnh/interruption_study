@@ -51,50 +51,32 @@ $("#doors").toggle(room == 'game');
 $("#back").toggle(room != 'game');
 }
 
-$(document).ready(function(){
+$(document).ready(function() {
 
-$("#bedroom_door").click(function() {
-showRoom('bedroom');
+  $("#bedroom_door").click(function () {
+    showRoom('bedroom');
+    _LTracker.push({'session': sessionID, 'event': 'enter_bedroom', 'score': totScore, 'gameStatus': gameStatus});
+  });
 
-_LTracker.push({'session': sessionID,'event': 'enter_bedroom','score':
-totScore, 'gameStatus':gameStatus, 'mode':mode});
-});
+  $("#kitchen_door").click(function () {
+    showRoom('kitchen');
+    _LTracker.push({'session': sessionID, 'event': 'enter_kitchen', 'score': totScore, 'gameStatus': gameStatus});
+  });
 
+  $("#livingroom_door").click(function () {
+    showRoom('livingroom');
+    _LTracker.push({'session': sessionID, 'event': 'enter_livingroom', 'score': totScore, 'gameStatus': gameStatus});
+  });
 
-$("#kitchen_door").click(function() {
-showRoom('kitchen');
+  $("#bathroom_door").click(function () {
+    showRoom('bathroom');
+    _LTracker.push({'session': sessionID, 'event': 'enter_bathroom', 'score': totScore, 'gameStatus': gameStatus});
+  });
 
-_LTracker.push({'session': sessionID,'event': 'enter_kitchen','score':
-totScore, 'gameStatus':gameStatus, 'mode':mode});
-
-});
-
-$("#livingroom_door").click(function() {
-showRoom('livingroom');
-
-_LTracker.push({'session': sessionID,'event':
-'enter_livingroom','score': totScore, 'gameStatus':gameStatus,
-'mode':mode});
-
-});
-
-$("#bathroom_door").click(function() {
-showRoom('bathroom');
-
-_LTracker.push({'session': sessionID,'event':
-'enter_bathroom','score': totScore, 'gameStatus':gameStatus,
-'mode':mode});
-
-});
-
-$("#back_button").click(function() {
-showRoom('game');
-
-_LTracker.push({'session': sessionID,'event':
-'enter_gameroom','score': totScore, 'gameStatus':gameStatus,
-'mode':mode});
-
-});
+  $("#back_button").click(function () {
+    showRoom('game');
+    _LTracker.push({'session': sessionID, 'event': 'enter_gameroom', 'score': totScore, 'gameStatus': gameStatus});
+  });
 
 });
 

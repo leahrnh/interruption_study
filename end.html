@@ -34,8 +34,8 @@ $(document).ready(
         }
 );
 
-_LTracker.push({'session': workerID,'event': 'completion_'+completionCode,'score':
-0, 'gameStatus':'complete', 'mode':'complete'});
+event = 'completion_'+completionCode;
+_LTracker.push({'session': sessionID, 'event': event, 'score': 0, 'gameStatus': 'complete'});
 
 function getSessionID(){
     var locate = window.location.toString();

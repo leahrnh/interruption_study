@@ -70,22 +70,22 @@ function Submit() {
     var event;
     var likeChoice = $('input[name="likeChoice"]:checked').val();
     event = 'surveyLikeChoice_' + likeChoice;
-    _LTracker.push({'session': workerID, 'event':event,'score': 0, 'gameStatus':'survey', 'mode':'survey'});
+    _LTracker.push({'session': sessionID, 'event': event, 'score': 0, 'gameStatus': 'survey'});
     like = document.getElementById('like').value;
     event = 'surveyLike_' + like;
-    _LTracker.push({'session': workerID, 'event':event,'score': 0, 'gameStatus':'survey', 'mode':'survey'});
+    _LTracker.push({'session': sessionID, 'event': event, 'score': 0, 'gameStatus': 'survey'});
     var dislikeChoice = $('input[name="dislikeChoice"]:checked').val();
     event = 'surveyDislikeChoice_' + dislikeChoice;
-    _LTracker.push({'session': workerID, 'event':event,'score': 0, 'gameStatus':'survey', 'mode':'survey'});
+    _LTracker.push({'session': sessionID, 'event': event, 'score': 0, 'gameStatus': 'survey'});
     dislike = document.getElementById('dislike').value;
     event = 'surveyDislike_' + dislike;
-    _LTracker.push({'session': workerID, 'event':event,'score': 0, 'gameStatus':'survey', 'mode':'survey'});
-    age = document.getElementById('age').value;
+    _LTracker.push({'session': sessionID, 'event': event, 'score': 0, 'gameStatus': 'survey'});
+    var age = document.getElementById('age').value;
     event = 'surveyAge_' + age;
-    _LTracker.push({'session': workerID, 'event':event,'score': 0, 'gameStatus':'survey', 'mode':'survey'});
-    gender = document.getElementById('gender').value;
+    _LTracker.push({'session': sessionID, 'event': event, 'score': 0, 'gameStatus': 'survey'});
+    var gender = document.getElementById('gender').value;
     event = 'surveyGender_' + gender;
-    _LTracker.push({'session': workerID, 'event':event,'score': 0, 'gameStatus':'survey', 'mode':'survey'});
+    _LTracker.push({'session': sessionID, 'event': event, 'score': 0, 'gameStatus': 'survey'});
     $("#continueButton").show();
 }
 
