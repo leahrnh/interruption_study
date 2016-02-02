@@ -15,6 +15,7 @@ var too_late = new Audio('audio/too_late.m4a');
 
 var fireWaiting = false;
 var tvWaiting = false;
+var code;
 
 //when entering from digit task, get session ID for use in logging
 function getSession(){
@@ -24,6 +25,17 @@ function getSession(){
     sessionID = sessionPair[1];
     var dsPair = vars[1].split("=");
     var ds = dsPair[1];
+    getCode();
+}
+
+//decide on code based on a text file on the server. Goal is to evenly distribute people across settings
+function getCode() {
+    //the problem is writing to the server. Andrew says:
+    // Maybe python
+    // Mod_wsgi for Apache plus flask, maybe
+    // http://flask.pocoo.org/docs/0.10/deploying/mod_wsgi/
+    // http://flask.pocoo.org/docs/0.10/quickstart/#a-minimal-application
+    code = "BC";
 }
 
 function introduction() {

@@ -126,7 +126,7 @@ _LTracker.push({'session': sessionID,'event':
 <div id="bedroom"  class="room">
   <button class="roombutton" id="chestleft" onClick="falseTouch('chestLeft')"></button>
   <button class="roombutton" id="chestright" onClick="falseTouch('chestRight')"></button>
-  <button class="roombutton" id="alarmclock" onClick="touch(alarmclock)"></button>
+  <button class="roombutton" id="alarmclock" onClick="falseTouch('alarmclock')"></button>
   <button class="roombutton" id="bed" onClick="touch(bed)"></button>
   <button class="roombutton" id="phone_bedroom" onClick="touch(telephone)"></button>
   <button class="roombutton" id="window" onClick="falseTouch('window')"></button>
@@ -137,7 +137,7 @@ _LTracker.push({'session': sessionID,'event':
 <div id="kitchen"  class="room">
   <button class="roombutton" id="dishwasher" onClick="falseTouch('dishwasher')"></button>
   <button class="roombutton" id="cabinet" onClick="falseTouch('cabinet')"></button>
-  <button class="roombutton" id="stove" onClick="touch(stove)"></button>
+  <button class="roombutton" id="stove" onClick="falseTouch('stove')"></button>
   <button class="roombutton" id="cuttingboard" onClick="falseTouch('cuttingboard')"></button>
   <button class="roombutton" id="knife" onClick="falseTouch('knife')"></button>
   <button class="roombutton" id="fridge" onClick="falseTouch('fridge')"></button>
@@ -148,7 +148,7 @@ _LTracker.push({'session': sessionID,'event':
   <button class="roombutton" id="kettle" onClick="falseTouch('kettle')"></button>
   <button class="roombutton" id="sink" onClick="falseTouch('sink')"></button>
   <button class="roombutton" id="soap" onClick="falseTouch('soap')"></button>
-  <button class="roombutton" id="littlepot" onClick="falseTouch('littlepot')"></button>
+  <button class="roombutton" id="littlepot" onClick="touch(pot)"></button>
   <button class="roombutton" id="bigpot" onClick="falseTouch('bigpot')"></button>
 </div>
 
@@ -170,9 +170,9 @@ _LTracker.push({'session': sessionID,'event':
   <button class="roombutton" id="bathtub" onClick="touch(bathtub)"></button>
   <button class="roombutton" id="bathrobe" onClick="falseTouch('bathrobe')"></button>
   <button class="roombutton" id="toothbrush" onClick="falseTouch('toothbrush')"></button>
-  <button class="roombutton" id="hairdryer" onClick="touch(hairdryer)"></button>
-  <button class="roombutton" id="leftsink" onClick="falseTouch('leftsink')"></button>
-  <button class="roombutton" id="rightsink" onClick="falseTouch('rightsink')"></button>
+  <button class="roombutton" id="hairdryer" onClick="falseTouch('hairdryer')"></button>
+  <button class="roombutton" id="leftsink" onClick="touch(sink)"></button>
+  <button class="roombutton" id="rightsink" onClick="touch(sink)"></button>
   <button class="roombutton" id="medicine" onClick="falseTouch('medicine')"></button>
   <button class="roombutton" id="plant4" onClick="falseTouch('plant4')"></button>
   <button class="roombutton" id="plant5" onClick="falseTouch('plant5')"></button>

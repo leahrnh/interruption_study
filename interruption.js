@@ -27,11 +27,11 @@ var Item = function (name) {
 
 //create things
 var telephone = new Item('telephone');
-var alarmclock = new Item('alarmclock');
-var stove = new Item('stove'); //change to soup pot?
+var bed = new Item('alarmclock');
 var toaster = new Item('toaster');
+var pot = new Item('pot');
 var bathtub = new Item('bathtub');
-var hairdryer = new Item('hairdryer'); //change to soap dispenser?
+var sink = new Item('sink');
 
 
 /**
@@ -281,39 +281,39 @@ function setUrg(round, code2) {
  */
 function setObjs(room, urg) {
     if (room=="bedroom") {
-        obj1 = alarmclock;
-        obj2 = telephone;
+        obj1 = telehone;
+        obj2 = bed;
         if (urg=="urgent") {
-            audio1 = new Audio('audio/alarmclock_urgent.m4a');
-            audio2 = new Audio('audio/telephone_urgent.m4a');
+            audio1 = new Audio('audio/telephone_urgent.m4a');
+            audio2 = new Audio('audio/bed.m4a');
         } else if (urg=="relax") {
-            audio1 = new Audio('audio/alarmclock_relax.m4a');
-            audio2 = new Audio('audio/telephone_relax.m4a');
+            audio1 = new Audio('audio/telephone_relax.m4a');
+            audio2 = new Audio('audio/bed.m4a');
         } else {
             alert("Error: issue with urgency: " + urg);
         }
     } else if (room=="kitchen") {
         obj1 = toaster;
-        obj2 = stove;
+        obj2 = pot;
         if (urg=="urgent") {
             audio1 = new Audio('audio/toaster_urgent.m4a');
-            audio2 = new Audio('audio/stove_urgent.m4a');
+            audio2 = new Audio('audio/pot_urgent.m4a');
         } else if (urg=="relax") {
             audio1 = new Audio('audio/toaster_relax.m4a');
-            audio2 = new Audio('audio/stove_relax.m4a');
+            audio2 = new Audio('audio/pot_relax.m4a');
         } else {
             alert("Error: issue with urgency: " + urg);
         }
 
     } else if (room=="bathroom") {
         obj1 = bathtub;
-        obj2 = hairdryer;
+        obj2 = sink;
         if (urg=="urgent") {
             audio1 = new Audio('audio/bathtub_urgent.m4a');
-            audio2 = new Audio('audio/hairdryer_urgent.m4a');
+            audio2 = new Audio('audio/sink_urgent.m4a');
         } else if (urg=="relax") {
             audio1 = new Audio('audio/bathtub_relax.m4a');
-            audio2 = new Audio('audio/hairdryer_relax.m4a');
+            audio2 = new Audio('audio/sink_relax.m4a');
         } else {
             alert("Error: issue with urgency: " + urg);
         }
