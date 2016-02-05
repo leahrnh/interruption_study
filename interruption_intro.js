@@ -30,12 +30,21 @@ function getSession(){
 
 //decide on code based on a text file on the server. Goal is to evenly distribute people across settings
 function getCode() {
-    //the problem is writing to the server. Andrew says:
-    // Maybe python
-    // Mod_wsgi for Apache plus flask, maybe
-    // http://flask.pocoo.org/docs/0.10/deploying/mod_wsgi/
-    // http://flask.pocoo.org/docs/0.10/quickstart/#a-minimal-application
-    code = "BC";
+    var httpRequest = new XMLHttpRequest();
+    if (!httpRequest) {
+        alert('Giving up :( Cannot create an XMLHTTP instance');
+        return false;
+    }
+    code = "AA";
+    httpRequest.onreadystatechange = function(){
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            if (httpRequest.status === 200) {
+                code = httpRequest.responseText;
+            }
+        }
+    };
+    httpRequest.open('GET', 'http://tts.speech.cs.cmu.edu/lnicolic/dialog/codes.php', false);
+    httpRequest.send(null);
 }
 
 function introduction() {
@@ -43,7 +52,6 @@ function introduction() {
         document.getElementById("doors").style.display = 'none';
     }
     gameStatus = 'stopped';
-    mode = 'intro';
     totScore = 0;
     _LTracker.push({'session': sessionID, 'event': 'instructions_start', 'score': totScore, 'gameStatus': gameStatus});
     var time = 0;

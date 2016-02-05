@@ -24,8 +24,9 @@
             
 
 <script type="text/javascript">
-getSessionID();
-var completionCode = getRandomInt(1000000, 9999999);
+    var sessionID;
+    getSessionID();
+    var completionCode = getRandomInt(1000000, 9999999);
 
 $(document).ready(
         function()
@@ -40,8 +41,8 @@ _LTracker.push({'session': sessionID, 'event': event, 'score': 0, 'gameStatus': 
 function getSessionID(){
     var locate = window.location.toString();
     sessionPair = locate.split("=");
-    workerID = sessionPair[1];
-    console.log("ID: " + workerID);
+    sessionID = sessionPair[1];
+    console.log("ID: " + sessionID);
 }
 
 // Returns a random integer between min (included) and max (excluded)

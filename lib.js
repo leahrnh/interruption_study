@@ -126,8 +126,8 @@ function collision(n) {
             _LTracker.push({'session': sessionID, 'event': 'die_self', 'score': totScore, 'gameStatus': gameStatus});
             return true;
         }
-        return false;
     }
+    return false;
 }
 
 function newfood() {

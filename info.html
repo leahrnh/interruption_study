@@ -36,8 +36,7 @@ function Submit() {
 workerID = document.getElementById('id').value;
 testWord = document.getElementById('words').value;
 var event = 'audioTest_' + testWord;
-_LTracker.push({'session': workerID, 'event':event,'score': 0,
-'gameStatus':'none', 'mode':'digitTask'});
+_LTracker.push({'session': workerID, 'event':event,'score': 0, 'gameStatus':'audioTest'});
 $("#continueButton").show();
 }
 

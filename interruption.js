@@ -61,7 +61,10 @@ function initiate(){
         setUrg(round, code2);
         setObjs(room, urg);
         tasks();
+        gameStatus = "stopped";
         event = 'initiateRound';
+        _LTracker.push({'session':sessionID,'event':event, 'score':totScore, 'gameStatus':gameStatus});
+        event = 'code_' + code;
         _LTracker.push({'session':sessionID,'event':event, 'score':totScore, 'gameStatus':gameStatus});
         event = "round_" + round;
         _LTracker.push({'session':sessionID,'event':event, 'score':totScore, 'gameStatus':gameStatus});
@@ -302,14 +305,14 @@ function setUrg(round, code2) {
  */
 function setObjs(room, urg) {
     if (room=="bedroom") {
-        obj1 = telehone;
+        obj1 = telephone;
         obj2 = bed;
         if (urg=="urgent") {
             audio1 = new Audio('audio/telephone_urgent.m4a');
-            audio2 = new Audio('audio/bed.m4a');
+            audio2 = new Audio('audio/bed_urgent.m4a');
         } else if (urg=="relax") {
             audio1 = new Audio('audio/telephone_relax.m4a');
-            audio2 = new Audio('audio/bed.m4a');
+            audio2 = new Audio('audio/bed_relax.m4a');
         } else {
             alert("Error: issue with urgency: " + urg);
         }

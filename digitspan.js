@@ -73,7 +73,7 @@ function calc() {
     if (wrong > 1) {
 	dsScore = length - 1;
 	var scoreString = 'digitSpanScore_' + dsScore;
-	_LTracker.push({'session': workerID,'event':scoreString,'score': 0, 'gameStatus':'none', 'mode':'digitTask'});
+	_LTracker.push({'session': workerID,'event':scoreString,'score': 0, 'gameStatus':'digitspan'});
 	//$('#digitDisplay').trigger('showDigit', "Your digit span totScore is: " + totScore);
 	$('#digitDisplay').trigger('showDigit', "");
 	$("#startButton").hide();
