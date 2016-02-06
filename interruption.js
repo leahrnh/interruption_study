@@ -27,7 +27,7 @@ var Item = function (name) {
 
 //create things
 var telephone = new Item('telephone');
-var bed = new Item('alarmclock');
+var bed = new Item('bed');
 var toaster = new Item('toaster');
 var pot = new Item('pot');
 var bathtub = new Item('bathtub');
